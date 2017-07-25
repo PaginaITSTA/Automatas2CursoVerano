@@ -11,8 +11,11 @@ public class AFD {
     private int contadorGeneral, linea;
     private char cadenaGeneral[];
     private String rows[];
-    private final String[] palabrasReservadas = {"class", "String", "Int", "Boolean", "Float", "char", "double", "void",
-        "protected", "private", "public", "false", "true"};
+    private final String[][] palabrasReservadas
+            = {{"class", "String", "Int", "Boolean", "Float", "char", "double", "void", "protected", "private",
+                "public", "false", "true"}, 
+                {"Class", "String", "Int", "Boolean", "Float", "Char", "Double", "Void", "protected", "Private",
+                "Public", "False", "True"}};
     private ArrayList<String> listaTokens, listaErrores;
 
     public AFD(String cadena) {
