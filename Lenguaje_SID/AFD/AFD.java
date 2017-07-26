@@ -150,7 +150,7 @@ public class AFD {
     }
 
     private void q1() {
-        listaTokens.add("llaveApartura");
+        listaTokens.add("llaveApertura");
         contadorGeneral++;
     }
 
@@ -255,7 +255,7 @@ public class AFD {
 
     private void q14() {
         if (contadorGeneral < (cadenaGeneral.length - 1)) {
-            if (cadenaGeneral[(contadorGeneral + 1)] == '+') {
+            if (cadenaGeneral[(contadorGeneral + 1)] == '-') {
                 listaTokens.add("operadorDecremento");
                 contadorGeneral = contadorGeneral + 2;
             } else {

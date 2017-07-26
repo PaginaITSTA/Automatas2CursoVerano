@@ -17,11 +17,25 @@ public class analizadorSintactico {
     }
 
     public void exp(){
+        //anexar a nodo raiz
+        //-> Programa
+        
+        inicioPrograma();
+        cuerpoCódigo();
+        finPrograma();
         
     }
     
     private void inicioPrograma(){
-        
+        //anexa a nodo
+        //-> Inicio programa
+        anexaHojas();
+    }
+    
+    private void anexaHojas(){
+        /*
+        diponibilidad clas identificador {
+        */
     }
     
     private void cuerpoCódigo(){
