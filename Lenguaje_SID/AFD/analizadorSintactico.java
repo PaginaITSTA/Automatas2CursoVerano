@@ -8,46 +8,48 @@ import java.util.ArrayList;
  */
 public class analizadorSintactico {
 
-    //Listas con las que se va a trabajar en el proyecto de clase
-    private ArrayList<String> listaTokens, listaErrores, arbol;
+    //Listas de errores
+    private ArrayList<String> listaErrores;
+    //Lista en la cual se guardan la lista de simbolos obtenidos en esta análisis
+    private ArrayList<listaSimbolos> listaSimbolos;
+    //Lista de tokens obtenido en el análisis léxico
+    private ArrayList<token> listaTokens;
 
-    public void analizadorSemantico(ArrayList<String> lista) {
+    public void analizadorSemantico(ArrayList<token> lista) {
         this.listaTokens = lista;
         this.listaErrores = new ArrayList<>();
+        listaSimbolos = new ArrayList<>();
     }
 
-    public void exp(){
+    public void Programa() {
         //anexar a nodo raiz
-        //-> Programa
-        
-        inicioPrograma();
-        cuerpoCódigo();
-        finPrograma();
-        
+        // -> PROGRAMA -> Inicio_programa -> cuerpo_codigo -> }
+
+        inicio_Programa();
+        cuerpo_Código();
+
     }
-    
-    private void inicioPrograma(){
+
+    private void inicio_Programa() {
         //anexa a nodo
-        //-> Inicio programa
-        anexaHojas();
+        // -> INICIO_PROGRAMA -> disponibilidad -> class -> identificador -> {
+
+        comprobarInicio();
     }
-    
-    private void anexaHojas(){
+
+    private void comprobarInicio() {
         /*
         diponibilidad clas identificador {
-        */
+         */
+        if (listaTokens.get(0).equals("")) {
+
+        }
     }
-    
-    private void cuerpoCódigo(){
-        
+
+    private void cuerpo_Código() {
+
     }
-    
-    private void finPrograma(){
-        
-    }
-    
-    
-    
+
     //método para obtener errores en el analisis sintactico
     public ArrayList<String> getListaErrores() {
         return this.listaErrores;
