@@ -13,10 +13,11 @@ public class AFD {
     private String rows[];
     private final String[][] palabrasReservadas
             = {{"class", "String", "Int", "Boolean", "Float", "char", "double", "void", "protected", "private",
-                "public", "false", "true"}, 
-                {"Class", "String", "Int", "Boolean", "Float", "Char", "Double", "Void", "protected", "Private",
+                "public", "false", "true", "if", "Do", "While", "For", "Print"},
+            {"Class", "String", "Int", "Boolean", "Float", "Char", "Double", "Void", "protected", "Private",
                 "Public", "False", "True"}};
-    private ArrayList<String> listaTokens, listaErrores;
+    private ArrayList<token> listaTokens;
+    private ArrayList<String> listaErrores;
 
     public AFD(String cadena) {
         this.rows = cadena.split("\n");
@@ -150,17 +151,17 @@ public class AFD {
     }
 
     private void q1() {
-        listaTokens.add("llaveApertura");
+        listaTokens.add(new token("llaveApertura", "{", contadorGeneral));
         contadorGeneral++;
     }
 
     private void q2() {
-        listaTokens.add("llaveFin");
+        listaTokens.add(new token("llaveFin", "}", contadorGeneral));
         contadorGeneral++;
     }
 
     private void q3() {
-        listaTokens.add("corcheteInicio");
+        listaTokens.add(new token("corcheteInicio", "[", contadorGeneral));
         contadorGeneral++;
     }
 
@@ -373,6 +374,7 @@ public class AFD {
     }
 
     private void q23() {
+        int valorTemporal = contadorGeneral;
         String temp = "";
         boolean diferent = false, digit = false;
 
@@ -394,7 +396,7 @@ public class AFD {
         boolean reservada = isReserved(temp);
 
         if (digit) {
-            listaTokens.add("identificador");
+            listaTokens.add(new token("identificador", temp, valorTemporal));
         } else if (reservada) {
             listaTokens.add("palabraReservada");
         } else {

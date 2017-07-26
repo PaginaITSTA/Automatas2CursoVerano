@@ -12,7 +12,7 @@ public class probandoCuatrupla {
 
     public static void main(String[] args) {
         lista = new ArrayList<>();
-        
+
         //a := b*-c+b*-c
         lista.add(new cuadrupla('-', "c", "", "t1"));
         lista.add(new cuadrupla('*', "b", "t1", "t2"));
@@ -24,10 +24,6 @@ public class probandoCuatrupla {
         for (int i = 0; i < lista.size(); i++) {
             System.out.println("op -> " + lista.get(i).getOp() + "\t\targ1-> " + lista.get(i).getArg1() + "\targ2-> " + lista.get(i).getArg2() + "\t\tresultado-> " + lista.get(i).getResultado());
         }
-        
-        
-        
-        
-        
+
     }
 }
