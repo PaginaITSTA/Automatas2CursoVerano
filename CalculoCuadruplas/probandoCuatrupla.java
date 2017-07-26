@@ -24,8 +24,8 @@ public class probandoCuatrupla {
         for (int i = 0; i < lista.size(); i++) {
             System.out.println("op -> " + lista.get(i).getOp() + "\t\targ1-> " + lista.get(i).getArg1() + "\targ2-> " + lista.get(i).getArg2() + "\t\tresultado-> " + lista.get(i).getResultado());
         }
-        
-         */
+        */
+         
         
         
         
