@@ -41,7 +41,7 @@ public class analizadorSintactico {
         /*
         diponibilidad clas identificador {
          */
-        if (listaTokens.get(0).equals("")) {
+        if (listaTokens.get(0).getToken().equals("public")) {
 
         }
     }
@@ -55,8 +55,4 @@ public class analizadorSintactico {
         return this.listaErrores;
     }
 
-    //método para optener el arbol creado por el análisis del código
-    public ArrayList<String> getArbol() {
-        return this.arbol;
-    }
 }
