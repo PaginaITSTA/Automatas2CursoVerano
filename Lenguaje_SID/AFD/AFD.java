@@ -12,10 +12,10 @@ public class AFD {
     private char cadenaGeneral[];
     private String rows[];
     private final String[][] palabrasReservadas
-            = {{"class", "String", "Int", "Boolean", "float", "char", "double", "void", "protected", "private",
-                "public", "false", "true", "if", "do", "while", "for", "print"},
-            {"Class", "String", "Int", "Boolean", "Float", "Char", "Double", "Void", "protected", "Private",
-                "Public", "False", "True", "IF", "Do", "While", "For", "Print"}};
+            = {{"Class", "String", "Int", "Boolean", "Float", "Char", "double", "Void", "Protected", "Private",
+                "Public", "False", "True", "If", "Do", "While", "For", "Print","Else"},
+            {"class", "string", "int", "boolean", "float", "char", "double", "void", "protected", "private",
+                "public", "false", "true", "if", "do", "while", "for", "print","Else"}};
     private ArrayList<token> listaTokens;
     private ArrayList<String> listaErrores;
 
@@ -151,54 +151,54 @@ public class AFD {
     }
 
     private void q1() {
-        listaTokens.add(new token("llaveApertura", "{", contadorGeneral));
+        listaTokens.add(new token("llaveApertura", "{", linea, contadorGeneral));
         contadorGeneral++;
     }
 
     private void q2() {
-        listaTokens.add(new token("llaveFin", "}", contadorGeneral));
+        listaTokens.add(new token("llaveFin", "}", linea, contadorGeneral));
         contadorGeneral++;
     }
 
     private void q3() {
-        listaTokens.add(new token("corcheteInicio", "[", contadorGeneral));
+        listaTokens.add(new token("corcheteInicio", "[", linea, contadorGeneral));
         contadorGeneral++;
     }
 
     private void q4() {
-        listaTokens.add(new token("CorcheteFin", "]", contadorGeneral));
+        listaTokens.add(new token("CorcheteFin", "]", linea, contadorGeneral));
         contadorGeneral++;
     }
 
     private void q5() {
-        listaTokens.add(new token("ParentesisInicio", "(", contadorGeneral));
+        listaTokens.add(new token("ParentesisInicio", "(", linea, contadorGeneral));
         contadorGeneral++;
     }
 
     private void q6() {
-        listaTokens.add(new token("ParentesisFin", ")", contadorGeneral));
+        listaTokens.add(new token("ParentesisFin", ")", linea, contadorGeneral));
         contadorGeneral++;
     }
 
     private void q7() {
-        listaTokens.add(new token("Punto", ".", contadorGeneral));
+        listaTokens.add(new token("Punto", ".", linea, contadorGeneral));
         contadorGeneral++;
     }
 
     private void q8() {
-        listaTokens.add(new token("Delimitador", "$", contadorGeneral));
+        listaTokens.add(new token("Delimitador", "$", linea, contadorGeneral));
         contadorGeneral++;
     }
 
     private void q9() {
-        listaTokens.add(new token("Porcentaje", "%", contadorGeneral));
+        listaTokens.add(new token("Porcentaje", "%", linea, contadorGeneral));
         contadorGeneral++;
     }
 
     private void q10() {
         if (contadorGeneral < (cadenaGeneral.length - 1)) {
             if (cadenaGeneral[contadorGeneral + 1] == '#') {
-                listaTokens.add(new token("ComentarioSimple", "##", contadorGeneral));
+                listaTokens.add(new token("ComentarioSimple", "##", linea, contadorGeneral));
                 cambiaLinea();
             } else {
                 listaErrores.add("Esperado: # en la linea: " + linea + ", en la columna: " + contadorGeneral + 1);
@@ -228,7 +228,7 @@ public class AFD {
                     band = false;
                 } else if (cadenaGeneral[contadorGeneral] == '"') {
 
-                    listaTokens.add(new token("CadenaDeTexto", cadenatemp.substring(1, cadenatemp.length()), contadorGeneral));
+                    listaTokens.add(new token("CadenaDeTexto", cadenatemp.substring(1, cadenatemp.length()), linea, contadorGeneral));
                     contadorGeneral++;
                     band = false;
                 } else {
@@ -244,14 +244,14 @@ public class AFD {
     private void q13() {
         if (contadorGeneral < (cadenaGeneral.length - 1)) {
             if (cadenaGeneral[(contadorGeneral + 1)] == '+') {
-                listaTokens.add(new token("OperadorIncremento", "++", contadorGeneral));
+                listaTokens.add(new token("OperadorIncremento", "++", linea, contadorGeneral));
                 contadorGeneral = contadorGeneral + 2;
             } else {
-                listaTokens.add(new token("OperadorSuma", "+", contadorGeneral));
+                listaTokens.add(new token("OperadorSuma", "+", linea, contadorGeneral));
                 contadorGeneral++;
             }
         } else {
-            listaTokens.add(new token("OperadorSuma", "+", contadorGeneral));
+            listaTokens.add(new token("OperadorSuma", "+", linea, contadorGeneral));
             contadorGeneral++;
         }
     }
@@ -259,39 +259,39 @@ public class AFD {
     private void q14() {
         if (contadorGeneral < (cadenaGeneral.length - 1)) {
             if (cadenaGeneral[(contadorGeneral + 1)] == '-') {
-                listaTokens.add(new token("OperadorDecremento", "--", contadorGeneral));
+                listaTokens.add(new token("OperadorDecremento", "--", linea, contadorGeneral));
                 contadorGeneral = contadorGeneral + 2;
             } else {
-                listaTokens.add(new token("OperadorResta", "-", contadorGeneral));
+                listaTokens.add(new token("OperadorResta", "-", linea, contadorGeneral));
                 contadorGeneral++;
             }
         } else {
-            listaTokens.add(new token("OperadorResta", "-", contadorGeneral));
+            listaTokens.add(new token("OperadorResta", "-", linea, contadorGeneral));
             contadorGeneral++;
         }
     }
 
     private void q15() {
-        listaTokens.add(new token("OperadorMultiplicacion", "*", contadorGeneral));
+        listaTokens.add(new token("OperadorMultiplicacion", "*", linea, contadorGeneral));
         contadorGeneral++;
     }
 
     private void q16() {
-        listaTokens.add(new token("OperadorDivision", "/", contadorGeneral));
+        listaTokens.add(new token("OperadorDivision", "/", linea, contadorGeneral));
         contadorGeneral++;
     }
 
     private void q17() {
         if (contadorGeneral < (cadenaGeneral.length - 1)) {
             if (cadenaGeneral[(contadorGeneral + 1)] == '=') {
-                listaTokens.add(new token("OperadorMenorOIgualQue", "<=", contadorGeneral));
+                listaTokens.add(new token("OperadorMenorOIgualQue", "<=", linea, contadorGeneral));
                 contadorGeneral = contadorGeneral + 2;
             } else {
-                listaTokens.add(new token("OperadorMenorQue", "<", contadorGeneral));
+                listaTokens.add(new token("OperadorMenorQue", "<", linea, contadorGeneral));
                 contadorGeneral++;
             }
         } else {
-            listaTokens.add(new token("OperadorMenorQue", "<", contadorGeneral));
+            listaTokens.add(new token("OperadorMenorQue", "<", linea, contadorGeneral));
             contadorGeneral++;
         }
     }
@@ -299,14 +299,14 @@ public class AFD {
     private void q18() {
         if (contadorGeneral < (cadenaGeneral.length - 1)) {
             if (cadenaGeneral[(contadorGeneral + 1)] == '=') {
-                listaTokens.add(new token("OperadorMayorOIgualQue", ">=", contadorGeneral));
+                listaTokens.add(new token("OperadorMayorOIgualQue", ">=", linea, contadorGeneral));
                 contadorGeneral = contadorGeneral + 2;
             } else {
-                listaTokens.add(new token("OperadorMayorQue", ">", contadorGeneral));
+                listaTokens.add(new token("OperadorMayorQue", ">", linea, contadorGeneral));
                 contadorGeneral++;
             }
         } else {
-            listaTokens.add(new token("OperadorMayorQue", ">", contadorGeneral));
+            listaTokens.add(new token("OperadorMayorQue", ">", linea, contadorGeneral));
             contadorGeneral++;
         }
     }
@@ -315,7 +315,7 @@ public class AFD {
     private void q19() {
         if (contadorGeneral < (cadenaGeneral.length - 1)) {
             if (cadenaGeneral[(contadorGeneral + 1)] == '&') {
-                listaTokens.add(new token("operadorAnd", "&", contadorGeneral));
+                listaTokens.add(new token("operadorAnd", "&", linea, contadorGeneral));
                 contadorGeneral = contadorGeneral + 2;
             } else {
                 listaErrores.add("Esperado: & en la linea: " + linea + ", en la columna" + contadorGeneral);
@@ -331,7 +331,7 @@ public class AFD {
     private void q20() {
         if (contadorGeneral < (cadenaGeneral.length - 1)) {
             if (cadenaGeneral[(contadorGeneral + 1)] == '|') {
-                listaTokens.add(new token("OperadorOr", "||", contadorGeneral));
+                listaTokens.add(new token("OperadorOr", "||", linea, contadorGeneral));
                 contadorGeneral = contadorGeneral + 2;
             } else {
                 listaErrores.add("Esperado: | en la linea: " + linea + ", en la columna" + contadorGeneral);
@@ -347,14 +347,14 @@ public class AFD {
     private void q21() {
         if (contadorGeneral < (cadenaGeneral.length - 1)) {
             if (cadenaGeneral[(contadorGeneral + 1)] == '=') {
-                listaTokens.add(new token("OperadorDesigual", "!=", contadorGeneral));
+                listaTokens.add(new token("OperadorDesigual", "!=", linea, contadorGeneral));
                 contadorGeneral = contadorGeneral + 2;
             } else {
-                listaTokens.add(new token("operadorDeNegacion", "!", contadorGeneral));
+                listaTokens.add(new token("operadorDeNegacion", "!", linea, contadorGeneral));
                 contadorGeneral++;
             }
         } else {
-            listaTokens.add(new token("operadorDeNegacion", "!", contadorGeneral));
+            listaTokens.add(new token("operadorDeNegacion", "!", linea, contadorGeneral));
             contadorGeneral++;
         }
     }
@@ -363,14 +363,14 @@ public class AFD {
     private void q22() {
         if (contadorGeneral < (cadenaGeneral.length - 1)) {
             if (cadenaGeneral[(contadorGeneral + 1)] == '=') {
-                listaTokens.add(new token("operadorIgualIgual", "==", contadorGeneral));
+                listaTokens.add(new token("operadorIgualIgual", "==", linea, contadorGeneral));
                 contadorGeneral = contadorGeneral + 2;
             } else {
-                listaTokens.add(new token("operadorDeAsignacion", "=", contadorGeneral));
+                listaTokens.add(new token("operadorDeAsignacion", "=", linea, contadorGeneral));
                 contadorGeneral++;
             }
         } else {
-            listaTokens.add(new token("operadorDeAsignacion", "=", contadorGeneral));
+            listaTokens.add(new token("operadorDeAsignacion", "=", linea, contadorGeneral));
             contadorGeneral++;
         }
     }
@@ -398,12 +398,12 @@ public class AFD {
         boolean reservada = isReserved(temp);
 
         if (digit) {
-            listaTokens.add(new token("Identificador", temp, valorTemporal));
+            listaTokens.add(new token("Identificador", temp, linea, valorTemporal));
         } else if (reservada) {
-            listaTokens.add(new token("PalabraReservada", guaradaEnLista(temp), contadorGeneral));
+            listaTokens.add(new token("PalabraReservada", guaradaEnLista(temp), linea, contadorGeneral));
 
         } else {
-            listaTokens.add(new token("Identificador", temp, valorTemporal));
+            listaTokens.add(new token("Identificador", temp, linea, valorTemporal));
         }
     }
 
@@ -428,9 +428,9 @@ public class AFD {
         }
 
         if (decimal) {
-            listaTokens.add(new token("NumeroDecimal", numero, contadorGeneral));
+            listaTokens.add(new token("NumeroDecimal", numero, linea, contadorGeneral));
         } else {
-            listaTokens.add(new token("NumeroEntero", numero, contadorGeneral));
+            listaTokens.add(new token("NumeroEntero", numero, linea, contadorGeneral));
         }
     }
 
