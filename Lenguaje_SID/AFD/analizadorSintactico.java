@@ -14,11 +14,14 @@ public class analizadorSintactico {
     private ArrayList<listaSimbolos> listaSimbolos;
     //Lista de tokens obtenido en el análisis léxico
     private ArrayList<token> listaTokens;
+    //Contador, para avanzar en la lista de tokens
+    private int contadorLista;
 
     public void analizadorSemantico(ArrayList<token> lista) {
         this.listaTokens = lista;
         this.listaErrores = new ArrayList<>();
         listaSimbolos = new ArrayList<>();
+        contadorLista = 0;
     }
 
     public void Programa() {
@@ -41,13 +44,36 @@ public class analizadorSintactico {
         /*
         diponibilidad clas identificador {
          */
-        if (listaTokens.get(0).getToken().equals("public")) {
-
+        if (listaTokens.get(contadorLista).getToken().equals("public") && listaTokens.get(contadorLista + 1).getToken().equals("Class") && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")) {
+            listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 2).getValor(), "", "", listaTokens.get(contadorLista).getValor()));
         }
     }
 
     private void cuerpo_Código() {
+        /*
+        CUERPO_CODIGO -> declaración método
+         */
+    }
+    
+    private void declaración(){
+        /*
+        DECLARACION ->  declVE declaración | declVD declaración | declVB declaración | declVE | declVD | declVB
+        */
+    }
+    
+    private void metodo(){
+        /*
+        METODO -> disponibilidad  identificador () { función}
+        */
+    }
 
+    /*
+    ***********************************************************************************************************
+    **************************Area de extraccion de infomación del programa************************************
+    ***********************************************************************************************************
+    */
+    public ArrayList getListaSimbolos() {
+        return listaSimbolos;
     }
 
     //método para obtener errores en el analisis sintactico

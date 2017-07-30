@@ -12,10 +12,10 @@ public class AFD {
     private char cadenaGeneral[];
     private String rows[];
     private final String[][] palabrasReservadas
-            = {{"class", "String", "Int", "Boolean", "Float", "char", "double", "void", "protected", "private",
-                "public", "false", "true", "if", "Do", "While", "For", "Print"},
+            = {{"class", "String", "Int", "Boolean", "float", "char", "double", "void", "protected", "private",
+                "public", "false", "true", "if", "do", "while", "for", "print"},
             {"Class", "String", "Int", "Boolean", "Float", "Char", "Double", "Void", "protected", "Private",
-                "Public", "False", "True"}};
+                "Public", "False", "True", "IF", "Do", "While", "For", "Print"}};
     private ArrayList<token> listaTokens;
     private ArrayList<String> listaErrores;
 
@@ -228,7 +228,7 @@ public class AFD {
                     band = false;
                 } else if (cadenaGeneral[contadorGeneral] == '"') {
 
-                    listaTokens.add(new token("CadenaDeTexto", cadenatemp.substring(1, cadenatemp.length() - 1), contadorGeneral));
+                    listaTokens.add(new token("CadenaDeTexto", cadenatemp.substring(1, cadenatemp.length()), contadorGeneral));
                     contadorGeneral++;
                     band = false;
                 } else {
@@ -400,22 +400,26 @@ public class AFD {
         if (digit) {
             listaTokens.add(new token("Identificador", temp, valorTemporal));
         } else if (reservada) {
-            listaTokens.add(new token("PalabraReservada",guaradaEnLista(temp), contadorGeneral));
+            listaTokens.add(new token("PalabraReservada", guaradaEnLista(temp), contadorGeneral));
 
         } else {
-            listaTokens.add(new token("Identificador",temp, valorTemporal));
+            listaTokens.add(new token("Identificador", temp, valorTemporal));
         }
     }
 
+    //Este método es para identificar a los números 
     private void q24() {
+        String numero = "";
         boolean decimal = false;
 
         while (contadorGeneral < cadenaGeneral.length) {
             if (cadenaGeneral[contadorGeneral] == ' ') {
                 break;
             } else if (AFD.isNumeric(cadenaGeneral[contadorGeneral])) {
+                numero = numero + cadenaGeneral[contadorGeneral];
                 contadorGeneral++;
             } else if (cadenaGeneral[contadorGeneral] == '.') {
+                numero = numero + cadenaGeneral[contadorGeneral];
                 decimal = true;
                 contadorGeneral++;
             } else {
@@ -424,21 +428,21 @@ public class AFD {
         }
 
         if (decimal) {
-            listaTokens.add(new token("NumeroDecimal","",contadorGeneral));            
+            listaTokens.add(new token("NumeroDecimal", numero, contadorGeneral));
         } else {
-            listaTokens.add(new token("NumeroEntero","", contadorGeneral));            
+            listaTokens.add(new token("NumeroEntero", numero, contadorGeneral));
         }
     }
 
-        private String guaradaEnLista(String preservada) {
-        for (int i = 0; i <= palabrasReservadas.length; i++) {            
+    private String guaradaEnLista(String preservada) {
+        for (int i = 0; i <= palabrasReservadas.length; i++) {
             if (preservada.equals(palabrasReservadas[0][i])) {
-                return palabrasReservadas[1][i];                
+                return palabrasReservadas[1][i];
             }
         }
         return "";
     }
-    
+
     private static boolean isNumeric(char numero) {
         String cadena = numero + "";
         try {
@@ -459,8 +463,8 @@ public class AFD {
     private boolean isReserved(String valor) {
         int contadorTemporal = 0;
         boolean band = false;
-        while (contadorTemporal < palabrasReservadas.length) {            
-            if (valor.equals(palabrasReservadas[contadorTemporal])) {
+        while (contadorTemporal < palabrasReservadas.length) {
+            if (valor.equals(palabrasReservadas[0][contadorTemporal])) {
                 return true;
             }
             contadorTemporal++;
@@ -481,5 +485,9 @@ public class AFD {
 
     public ArrayList getListaTokens() {
         return listaTokens;
+    }
+
+    public ArrayList getListaErrores() {
+        return listaErrores;
     }
 }
