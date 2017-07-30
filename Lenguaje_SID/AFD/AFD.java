@@ -12,10 +12,10 @@ public class AFD {
     private char cadenaGeneral[];
     private String rows[];
     private final String[][] palabrasReservadas
-            = {{"Class", "String", "Int", "Boolean", "Float", "Char", "double", "Void", "Protected", "Private",
-                "Public", "False", "True", "If", "Do", "While", "For", "Print","Else"},
-            {"class", "string", "int", "boolean", "float", "char", "double", "void", "protected", "private",
-                "public", "false", "true", "if", "do", "while", "for", "print","Else"}};
+            = {{"class", "String", "Int", "Boolean", "float", "char", "double", "void", "protected", "private",
+                "public", "false", "true", "if", "do", "while", "for", "print", "Else"},
+            {"class", "String", "Int", "Boolean", "Float", "Char", "Double", "Void", "protected", "Private", 
+                "public", "False", "True", "IF", "Do", "While", "For", "Print","else"}};
     private ArrayList<token> listaTokens;
     private ArrayList<String> listaErrores;
 
@@ -228,7 +228,7 @@ public class AFD {
                     band = false;
                 } else if (cadenaGeneral[contadorGeneral] == '"') {
 
-                    listaTokens.add(new token("CadenaDeTexto", cadenatemp.substring(1, cadenatemp.length()), linea, contadorGeneral));
+                    listaTokens.add(new token("CadenaDeTexto", cadenatemp.substring(0, cadenatemp.length()), linea, contadorGeneral));
                     contadorGeneral++;
                     band = false;
                 } else {
