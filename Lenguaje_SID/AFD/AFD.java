@@ -14,8 +14,9 @@ public class AFD {
     private final String[][] palabrasReservadas
             = {{"class", "String", "Int", "Boolean", "float", "char", "double", "void", "protected", "private",
                 "public", "false", "true", "if", "do", "while", "for", "print", "Else"},
-            {"class", "String", "Int", "Boolean", "Float", "Char", "Double", "Void", "protected", "Private", 
-                "public", "False", "True", "IF", "Do", "While", "For", "Print","else"}};
+            {"class", "String", "Int", "Boolean", "Float", "Char", "Double", "Void", "protected", "Private",
+                "public", "False", "True", "IF", "Do", "While", "For", "Print", "else"}};
+
     private ArrayList<token> listaTokens;
     private ArrayList<String> listaErrores;
 
