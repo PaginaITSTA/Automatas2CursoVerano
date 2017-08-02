@@ -293,14 +293,18 @@ public class GUIAFD extends javax.swing.JFrame {
 
         boolean verdad = listaTokens.isEmpty();
 
-        while (cont < listaTokens.size()) {
-            if (listaTokens.get(cont).getToken().equals("llaveApertura") || listaTokens.get(cont).getToken().equals("Delimitador")) {
-                jTextArea2.append(" -> " + listaTokens.get(cont).getToken() + "(" + listaTokens.get(cont).getValor() + ", En la linea " + listaTokens.get(cont).getLinea() + ")");
-                jTextArea2.append("\n");
-                cont++;
-            } else {
-                jTextArea2.append(" -> " + listaTokens.get(cont).getToken() + "(" + listaTokens.get(cont).getValor() + ", En la linea " + listaTokens.get(cont).getLinea() + ")");
-                cont++;
+        if (jTextArea1.getText().length() == 0) {
+            JOptionPane.showMessageDialog(null, "No se encontro contenido");
+        } else {
+            while (cont < listaTokens.size()) {
+                if (listaTokens.get(cont).getToken().equals("llaveApertura") || listaTokens.get(cont).getToken().equals("Delimitador")) {
+                    jTextArea2.append(" -> " + listaTokens.get(cont).getToken() + "(" + listaTokens.get(cont).getValor() + ", En la linea " + listaTokens.get(cont).getLinea() + " En la columna " + listaTokens.get(cont).getColumna() + ")");
+                    jTextArea2.append("\n");
+                    cont++;
+                } else {
+                    jTextArea2.append(" -> " + listaTokens.get(cont).getToken() + "(" + listaTokens.get(cont).getValor() + ", En la linea " + listaTokens.get(cont).getLinea() + " En la columna " + listaTokens.get(cont).getColumna() + ")");
+                    cont++;
+                }
             }
         }
 

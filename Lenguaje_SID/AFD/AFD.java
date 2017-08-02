@@ -8,14 +8,12 @@ import java.util.ArrayList;
  */
 public class AFD {
 
-    private int contadorGeneral, linea;
+      private int contadorGeneral, linea;
     private char cadenaGeneral[];
     private String rows[];
-    private final String[][] palabrasReservadas
-            = {{"class", "String", "Int", "Boolean", "float", "char", "double", "void", "protected", "private",
-                "public", "false", "true", "if", "do", "while", "for", "print", "Else"},
-            {"class", "String", "Int", "Boolean", "Float", "Char", "Double", "Void", "protected", "Private",
-                "public", "False", "True", "IF", "Do", "While", "For", "Print", "else"}};
+    private final String[] palabrasReservadas
+            = {"public", "private", "class", "String", "Int", "Boolean", "float", "double", "void", "false", "true",
+                "if", "while", "do", "else", "for", "Print"};
 
     private ArrayList<token> listaTokens;
     private ArrayList<String> listaErrores;
@@ -26,7 +24,7 @@ public class AFD {
         listaTokens = new ArrayList<>();
         listaErrores = new ArrayList<>();
         this.contadorGeneral = 0;
-        this.linea = 0;
+        this.linea = 0;       
     }
 
     public void estadoInicial() {
@@ -36,12 +34,12 @@ public class AFD {
 
     private void q0() {
         boolean entro;
-        while (linea <= rows.length) {
+        while (linea <= rows.length) {           
             System.out.println("linea =" + linea);
             if (contadorGeneral < cadenaGeneral.length) {
                 System.out.println("Caracter -> " + cadenaGeneral[contadorGeneral]);
                 entro = false;
-                //System.out.println("cadena[contador] = " + cadena[contador]);
+                //System.out.println("cadena[contador] = " + cadenaGeneral[contadorGeneral]);
                 switch (cadenaGeneral[contadorGeneral]) {
                     case ' ':
                         entro = true;
@@ -138,9 +136,9 @@ public class AFD {
 
                 }
 
-                if (entro == false && AFD.isLetter(cadenaGeneral[contadorGeneral])) {
+                if (entro == false && isLetter(cadenaGeneral[contadorGeneral])) {
                     q23();
-                } else if (entro == false && AFD.isNumeric(cadenaGeneral[contadorGeneral])) {
+                } else if (entro == false && isNumeric(cadenaGeneral[contadorGeneral])) {
                     q24();
                 } else if (entro == false) {
                     contadorGeneral++;
@@ -379,6 +377,7 @@ public class AFD {
     private void q23() {
         int valorTemporal = contadorGeneral;
         String temp = "";
+
         boolean diferent = false, digit = false;
 
         while (contadorGeneral < cadenaGeneral.length && diferent == false) {
@@ -395,18 +394,33 @@ public class AFD {
                 diferent = true;
             }
         }
-
-        boolean reservada = isReserved(temp);
-
-        if (digit) {
-            listaTokens.add(new token("Identificador", temp, linea, valorTemporal));
-        } else if (reservada) {
-            listaTokens.add(new token("PalabraReservada", guaradaEnLista(temp), linea, contadorGeneral));
-
-        } else {
-            listaTokens.add(new token("Identificador", temp, linea, valorTemporal));
+//        boolean reservada = isReserved(temp);
+//        
+//
+//        if (digit) {
+//            listaTokens.add(new token("Identificador", temp, linea, valorTemporal));
+//        } else if (reservada) {
+//            listaTokens.add(new token("PalabraReservada", temp, linea, contadorGeneral));
+//
+//        } else {
+//            listaTokens.add(new token("Identificador", temp, linea, valorTemporal));
+//        }
+        
+        boolean reservada = true;
+        for (int i = 0; i < palabrasReservadas.length; i++) {
+            if (temp.equals(palabrasReservadas[i])) {
+                listaTokens.add(new token("PalabraReservada", temp, linea, contadorGeneral));
+                reservada = false;
+                break;
+            }            
         }
+        if (reservada) {
+            listaTokens.add(new token("Identificador", temp, linea, valorTemporal));
+            
+        }
+        
     }
+    
 
     //Este método es para identificar a los números 
     private void q24() {
@@ -435,14 +449,14 @@ public class AFD {
         }
     }
 
-    private String guaradaEnLista(String preservada) {
-        for (int i = 0; i <= palabrasReservadas.length; i++) {
-            if (preservada.equals(palabrasReservadas[0][i])) {
-                return palabrasReservadas[1][i];
-            }
-        }
-        return "";
-    }
+//    private String guaradaEnLista(String preservada) {
+//        for (int i = 0; i <= palabrasReservadas.length; i++) {
+//            if (preservada.equals(palabrasReservadas[0][i])) {
+//                return palabrasReservadas[1][i];
+//            }
+//        }
+//        return "";
+//    }
 
     private static boolean isNumeric(char numero) {
         String cadena = numero + "";
@@ -454,6 +468,7 @@ public class AFD {
         }
     }
 
+   
     private static boolean isLetter(char letra) {
         if ((letra >= 'a' && letra <= 'z') || (letra >= 'A' && letra <= 'Z')) {
             return true;
@@ -461,18 +476,18 @@ public class AFD {
         return false;
     }
 
-    private boolean isReserved(String valor) {
-        int contadorTemporal = 0;
-        boolean band = false;
-        while (contadorTemporal < palabrasReservadas.length) {
-            if (valor.equals(palabrasReservadas[0][contadorTemporal])) {
-                return true;
-            }
-            contadorTemporal++;
-        }
-
-        return false;
-    }
+//    private boolean isReserved(String valor) {
+//        int contadorTemporal = 0;
+//        boolean band = false;
+//        while (contadorTemporal < palabrasReservadas.length) {
+//
+//            if (valor.equals(palabrasReservadas[0][contadorTemporal])) {
+//                return band = true;
+//            }
+//            contadorTemporal++;
+//        }
+//        return band;
+//    }
 
     private void cambiaLinea() {
         if (linea < rows.length) {
@@ -483,6 +498,8 @@ public class AFD {
             linea++;
         }
     }
+    
+  
 
     public ArrayList getListaTokens() {
         return listaTokens;
