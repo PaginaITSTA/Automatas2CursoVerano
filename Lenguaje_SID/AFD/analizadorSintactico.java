@@ -43,9 +43,15 @@ public class analizadorSintactico {
     private void comprobarInicio() {
         /*
         diponibilidad clas identificador {
+        
+        Aquí, quizá se podría separar el if, para poder detectar algun error
          */
-        if (listaTokens.get(contadorLista).getToken().equals("public") && listaTokens.get(contadorLista + 1).getToken().equals("Class") && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")) {
+        if (listaTokens.get(contadorLista).getToken().equals("public") && listaTokens.get(contadorLista + 1).getToken().equals("Class")
+                && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
+                && listaTokens.get(contadorLista + 3).getToken().equals("llaveApertura")) {
+
             listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 2).getValor(), "", "", listaTokens.get(contadorLista).getValor()));
+            contadorLista = contadorLista + 3;
         }
     }
 
@@ -53,25 +59,124 @@ public class analizadorSintactico {
         /*
         CUERPO_CODIGO -> declaración método
          */
+        if (declaración()) {
+            System.out.println("Entro en la parte de declaración\n");
+        } else if (metodo()) {
+            System.out.println("Entro en la parte de método\n");
+        }
     }
-    
-    private void declaración(){
+
+    private boolean declaración() {
         /*
         DECLARACION ->  declVE declaración | declVD declaración | declVB declaración | declVE | declVD | declVB
-        */
+         */
+        if (declVE()) {
+            declaración();
+        } else if (declVD()) {
+            declaración();
+        } else if (declVB()) {
+            declaración();
+        } else {
+            return true;
+        }
+        return false;
     }
-    
-    private void metodo(){
+
+    private boolean declVE() {
+        /*
+        declVE -> Int identificador $ | Int identificador = num $ | Int identificador = Exp;
+         */
+        if (listaTokens.get(contadorLista).getToken().equals("Int")
+                && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
+                && listaTokens.get(contadorLista + 2).getToken().equals("Delimitador")) {
+            listaSimbolos.add(new listaSimbolos("", listaTokens.get(contadorLista).getValor(), "Int", "", ""));
+            contadorLista = contadorLista + 2;
+            return true;
+        } else if (listaTokens.get(contadorLista).getToken().equals("Int")
+                && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
+                && listaTokens.get(contadorLista + 2).getToken().equals("operadorDeAsignacion")
+                && listaTokens.get(contadorLista + 3).getToken().equals("NumeroEntero")
+                && listaTokens.get(contadorLista + 4).getToken().equals("Delimitador")) {
+            listaSimbolos.add(new listaSimbolos("", listaTokens.get(contadorLista).getValor(), "Int", listaTokens.get(contadorLista).getValor(), ""));
+            contadorLista = contadorLista + 4;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void Exp() {
+        /*
+        Exp -> Exp + Term | Exp – Term | Term
+         */
+    }
+
+    private void Term() {
+        /*
+        Term -> Term * Factor | Term / Factor | Factor
+         */
+    }
+
+    private void factor() {
+        /*
+        Factor -> Exp | digito | identificador
+         */
+    }
+
+    private boolean declVD() {
+        /*
+        declVD -> float identificador $ | float identificador = num.num $
+         */
+        if (listaTokens.get(contadorLista).getToken().equals("Float")
+                && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
+                && listaTokens.get(contadorLista + 2).getToken().equals("Delimitador")) {
+            contadorLista = contadorLista + 2;
+            return true;
+        } else if (listaTokens.get(contadorLista).getToken().equals("Float")
+                && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
+                && listaTokens.get(contadorLista + 2).getToken().equals("operadorDeAsignacion")
+                && listaTokens.get(contadorLista + 3).getToken().equals("NumeroDecimal")
+                && listaTokens.get(contadorLista + 4).getToken().equals("Delimitador")) {
+            contadorLista = contadorLista + 4;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean declVB() {
+        /*
+        declVB -> bool identificador $ | bool identificador = valorbool $
+         */
+        if (listaTokens.get(contadorLista).getToken().equals("Float")
+                && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
+                && listaTokens.get(contadorLista + 2).getToken().equals("Delimitador")) {
+            contadorLista = contadorLista + 2;
+            return true;
+        } else if (listaTokens.get(contadorLista).getToken().equals("Float")
+                && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
+                && listaTokens.get(contadorLista + 2).getToken().equals("operadorDeAsignacion")
+                && listaTokens.get(contadorLista + 3).getToken().equals("NumeroDecimal")
+                && listaTokens.get(contadorLista + 4).getToken().equals("Delimitador")) {
+            contadorLista = contadorLista + 4;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean metodo() {
         /*
         METODO -> disponibilidad  identificador () { función}
-        */
+         */
+        return false;
     }
 
     /*
     ***********************************************************************************************************
     **************************Area de extraccion de infomación del programa************************************
     ***********************************************************************************************************
-    */
+     */
     public ArrayList getListaSimbolos() {
         return listaSimbolos;
     }
