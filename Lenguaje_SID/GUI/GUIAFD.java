@@ -1,5 +1,6 @@
 package Lenguaje_SID.GUI;
 
+import A03_Analisis_lexico_sintactico_Semantico.analisisSintactico;
 import Lenguaje_SID.AFD.AFD;
 import Lenguaje_SID.AFD.token;
 import java.io.BufferedReader;
@@ -16,12 +17,24 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class GUIAFD extends javax.swing.JFrame {
 
+    /*
+    Importaciones para las partes del analisis del código
+     */
     private AFD analisisLexico;
-    private boolean aceptado;
+    private analisisSintactico analizadorSintactico;
+
+    /*
+    Listas de arreglos para distintos propositos
+     */
     private ArrayList<token> listaTokens;
     private ArrayList<String> listaErroresAnalisisLexico;
+
+    //Variable para leer los archivos desde codigo
     private File archivo_guardado;
+
+    //Variables para llevar el control de las cosas
     protected boolean modificaciones = false, fileSaved = false;
+    private boolean aceptado;
 
     public GUIAFD() {
         initComponents();
@@ -280,7 +293,7 @@ public class GUIAFD extends javax.swing.JFrame {
 
     /*
     ***********************************************************************************************************
-    **************************Ejecuta el analisis lexico del código escritoo***********************************
+    **************************Ejecuta el analisis lexico del código escrito***********************************
     ***********************************************************************************************************
      */
     private void ejecutarCodigo(String texto) {
@@ -310,11 +323,16 @@ public class GUIAFD extends javax.swing.JFrame {
 
     }
 
+    /*
+    ***********************************************************************************************************
+    **************************Ejecuta el analisis sintactico del código escrito***********************************
+    ***********************************************************************************************************
+     */
     private void ejecutaAnalisisSintactico() {
         listaErroresAnalisisLexico = analisisLexico.getListaErrores();
         boolean vacio = listaErroresAnalisisLexico.isEmpty();
         if (!vacio) {
-
+            analizadorSintactico = new analisisSintactico(listaTokens);
         } else {
             JOptionPane.showMessageDialog(this, "Tal parece que se encontraron algunos errores en el análisis léxico", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
         }
