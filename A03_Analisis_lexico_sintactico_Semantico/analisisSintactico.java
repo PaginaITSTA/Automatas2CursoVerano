@@ -10,7 +10,7 @@ public class analisisSintactico {
 
     private int contadorGeneral;
     private ArrayList<String> listaTokens, listaErrores, arbol;
-    private final String[][] palabraReservada = {{"int", "float"},
+    private final String[][] palabraReservada = {{"Int", "float"},
     {"palabraReservadaInt", "palabraReservadaFloat"}};
 
     public analisisSintactico(ArrayList listaTokens) {

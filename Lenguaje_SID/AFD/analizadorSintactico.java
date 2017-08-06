@@ -17,7 +17,7 @@ public class analizadorSintactico {
     //Contador, para avanzar en la lista de tokens
     private int contadorLista;
 
-    public void analizadorSemantico(ArrayList<token> lista) {
+    public  analizadorSintactico(ArrayList<token> lista) {
         this.listaTokens = lista;
         this.listaErrores = new ArrayList<>();
         listaSimbolos = new ArrayList<>();
