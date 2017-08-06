@@ -42,7 +42,7 @@ public class analizadorSintactico {
 
     private void comprobarInicio() {
         /*
-        diponibilidad clas identificador {
+        diponibilidad class identificador {
         
         Aquí, quizá se podría separar el if, para poder detectar algun error
          */
