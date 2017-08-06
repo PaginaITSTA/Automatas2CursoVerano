@@ -46,7 +46,7 @@ public class analizadorSintactico {
         
         Aquí, quizá se podría separar el if, para poder detectar algun error
          */
-        if (listaTokens.get(contadorLista).getToken().equals("public") && listaTokens.get(contadorLista + 1).getToken().equals("Class")
+        if (listaTokens.get(contadorLista).getToken().equals("public")/*||listaTokens.get(contadorLista).getToken().equals("private")*/ && listaTokens.get(contadorLista + 1).getToken().equals("Class")
                 && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
                 && listaTokens.get(contadorLista + 3).getToken().equals("llaveApertura")) {
 
@@ -98,6 +98,7 @@ public class analizadorSintactico {
                 && listaTokens.get(contadorLista + 3).getToken().equals("NumeroEntero")
                 && listaTokens.get(contadorLista + 4).getToken().equals("Delimitador")) {
             listaSimbolos.add(new listaSimbolos("", listaTokens.get(contadorLista).getValor(), "Int", listaTokens.get(contadorLista).getValor(), ""));
+            //                               Identificador , a , Int , 10 , ---, Identificador , b , Int , 5, --- , Identificador , c, Int, ---, ---
             contadorLista = contadorLista + 4;
             return true;
         } else {
