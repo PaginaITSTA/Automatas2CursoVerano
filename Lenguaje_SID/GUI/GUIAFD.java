@@ -331,8 +331,9 @@ public class GUIAFD extends javax.swing.JFrame {
     private void ejecutaAnalisisSintactico() {
         listaErroresAnalisisLexico = analisisLexico.getListaErrores();
         boolean vacio = listaErroresAnalisisLexico.isEmpty();
-        if (!vacio) {
+        if (vacio) {
             analizadorSintactico = new analisisSintactico(listaTokens);
+            analizadorSintactico.iniciaProceso();
         } else {
             JOptionPane.showMessageDialog(this, "Tal parece que se encontraron algunos errores en el análisis léxico", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
         }

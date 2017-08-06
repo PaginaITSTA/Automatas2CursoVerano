@@ -13,11 +13,13 @@ public class analisisSintactico {
     private final String[][] palabraReservada = {{"int", "float"},
     {"palabraReservadaInt", "palabraReservadaFloat"}};
 
+    //Solo el contructor que resive la lista de tokens que produce el analizador lexico
     public analisisSintactico(ArrayList listaTokens) {
         this.listaTokens = listaTokens;
         this.arbol = new ArrayList<>();
     }
 
+    //Si no es llamado este método, no se iniciara el analisis
     public void iniciaProceso() {
         contadorGeneral = 0;
         declaracion();
