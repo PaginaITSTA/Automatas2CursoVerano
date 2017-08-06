@@ -35,9 +35,9 @@ public class AFD {
     private void q0() {
         boolean entro;
         while (linea <= rows.length) {           
-            System.out.println("linea =" + linea);
+            //System.out.println("linea =" + linea);
             if (contadorGeneral < cadenaGeneral.length) {
-                System.out.println("Caracter -> " + cadenaGeneral[contadorGeneral]);
+                //System.out.println("Caracter -> " + cadenaGeneral[contadorGeneral]);
                 entro = false;
                 //System.out.println("cadena[contador] = " + cadenaGeneral[contadorGeneral]);
                 switch (cadenaGeneral[contadorGeneral]) {

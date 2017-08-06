@@ -1,6 +1,7 @@
 package Lenguaje_SID.AFD;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,7 +18,7 @@ public class analizadorSintactico {
     //Contador, para avanzar en la lista de tokens
     private int contadorLista;
 
-    public  analizadorSintactico(ArrayList<token> lista) {
+    public analizadorSintactico(ArrayList<token> lista) {
         this.listaTokens = lista;
         this.listaErrores = new ArrayList<>();
         listaSimbolos = new ArrayList<>();
@@ -46,13 +47,18 @@ public class analizadorSintactico {
         
         Aquí, quizá se podría separar el if, para poder detectar algun error
          */
-        if (listaTokens.get(contadorLista).getToken().equals("public")/*||listaTokens.get(contadorLista).getToken().equals("private")*/ && listaTokens.get(contadorLista + 1).getToken().equals("Class")
-                && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
-                && listaTokens.get(contadorLista + 3).getToken().equals("llaveApertura")) {
+        if (contadorLista < listaTokens.size()) {
+            if (listaTokens.get(contadorLista).getToken().equals("public")/*||listaTokens.get(contadorLista).getToken().equals("private")*/ && listaTokens.get(contadorLista + 1).getToken().equals("Class")
+                    && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
+                    && listaTokens.get(contadorLista + 3).getToken().equals("llaveApertura")) {
 
-            listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 2).getValor(), "", "", listaTokens.get(contadorLista).getValor()));
-            contadorLista = contadorLista + 3;
+                listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 2).getValor(), "", "", listaTokens.get(contadorLista).getValor()));
+                contadorLista = contadorLista + 3;
+            }
+        } else {
+            System.out.println("No entro en el inicio del programa");
         }
+
     }
 
     private void cuerpo_Código() {
@@ -86,13 +92,16 @@ public class analizadorSintactico {
         /*
         declVE -> Int identificador $ | Int identificador = num $ | Int identificador = Exp;
          */
+        if ((contadorLista + 2) < listaSimbolos.size()) {
+            if (listaTokens.get(contadorLista).getToken().equals("Int")
+                    && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
+                    && listaTokens.get(contadorLista + 2).getToken().equals("Delimitador")) {
+                listaSimbolos.add(new listaSimbolos("", listaTokens.get(contadorLista).getValor(), "Int", "", ""));
+                contadorLista = contadorLista + 2;
+                return true;
+            }
+        }
         if (listaTokens.get(contadorLista).getToken().equals("Int")
-                && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
-                && listaTokens.get(contadorLista + 2).getToken().equals("Delimitador")) {
-            listaSimbolos.add(new listaSimbolos("", listaTokens.get(contadorLista).getValor(), "Int", "", ""));
-            contadorLista = contadorLista + 2;
-            return true;
-        } else if (listaTokens.get(contadorLista).getToken().equals("Int")
                 && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
                 && listaTokens.get(contadorLista + 2).getToken().equals("operadorDeAsignacion")
                 && listaTokens.get(contadorLista + 3).getToken().equals("NumeroEntero")
