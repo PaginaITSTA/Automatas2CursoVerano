@@ -3,6 +3,7 @@ package Lenguaje_SID.GUI;
 //Importando la carpeta AFD dentro del desarrollo del lenguaje
 import Lenguaje_SID.AFD.analizadorSintactico;
 import Lenguaje_SID.AFD.AFD;
+import Lenguaje_SID.AFD.listaSimbolos;
 import Lenguaje_SID.AFD.token;
 
 import java.io.BufferedReader;
@@ -30,6 +31,7 @@ public class GUIAFD extends javax.swing.JFrame {
      */
     private ArrayList<token> listaTokens;
     private ArrayList<String> listaErroresAnalisisLexico;
+    private ArrayList<listaSimbolos> listaSimbolos;
 
     //Variable para leer los archivos desde codigo
     private File archivo_guardado;
@@ -333,6 +335,20 @@ public class GUIAFD extends javax.swing.JFrame {
         if (vacio) {
             analizadorSintactico = new analizadorSintactico(listaTokens);
             analizadorSintactico.Programa();
+            listaSimbolos = analizadorSintactico.getListaSimbolos();
+
+            if (!listaSimbolos.isEmpty()) {
+                jTextArea2.append("\n\nLista de simbolos");
+                for (int i = 0; i < listaSimbolos.size(); i++) {
+                    jTextArea2.append("Clase ->" + listaSimbolos.get(i).getClase() + "\tDisponibilidad ->"
+                            + listaSimbolos.get(i).getDisponibilidad() + "\tvalor ->"
+                            + listaSimbolos.get(i).getNombreValor() + "\tTipo de dato ->"
+                            + listaSimbolos.get(i).getTipoDeDato() + "\tValor ->"
+                            + listaSimbolos.get(i).getValor());
+                }
+
+            }
+
         } else {
             JOptionPane.showMessageDialog(this, "Tal parece que se encontraron algunos errores en el análisis léxico", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
         }
