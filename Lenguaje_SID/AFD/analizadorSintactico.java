@@ -78,8 +78,7 @@ public class analizadorSintactico {
          */
         if (declaración()) {
             System.out.println("Entro en la parte de declaración\n");
-        }
-        if (metodo()) {
+        } else if (metodo()) {
             System.out.println("Entro en la parte de método\n");
         }
     }
@@ -88,7 +87,7 @@ public class analizadorSintactico {
         /*
         DECLARACION ->  declVE declaración | declVD declaración | declVB declaración | declVE | declVD | declVB
          */
-        System.out.println("Entro en la linea 79");
+        System.out.println("Entro en la linea 90");
         if (declVE()) {
             declaración();
         } else if (declVD()) {
@@ -111,26 +110,31 @@ public class analizadorSintactico {
         /*
         declVE -> Int identificador $ | Int identificador = num $ | Int identificador = Exp;
          */
-        if (listaTokens.get(contadorLista + 1).getValor().equals("Int")
-                && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
-                && listaTokens.get(contadorLista + 3).getToken().equals("operadorDeAsignacion")
-                && listaTokens.get(contadorLista + 4).getToken().equals("NumeroEntero")
-                && listaTokens.get(contadorLista + 5).getToken().equals("Delimitador")) {
-            listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 4).getValor(), ""));
+        if ((contadorLista + 5) < listaTokens.size()) {
+            if (listaTokens.get(contadorLista + 1).getValor().equals("Int")
+                    && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
+                    && listaTokens.get(contadorLista + 3).getToken().equals("operadorDeAsignacion")
+                    && listaTokens.get(contadorLista + 4).getToken().equals("NumeroEntero")
+                    && listaTokens.get(contadorLista + 5).getToken().equals("Delimitador")) {
+                listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 4).getValor(), ""));
 
-            contadorLista = contadorLista + 5;
-            return true;
-        } else if (listaTokens.get(contadorLista + 1).getValor().equals("Int")
-                && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
-                && listaTokens.get(contadorLista + 3).getToken().equals("Delimitador")) {
-            listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), "Int", "0", ""));
-            contadorLista = contadorLista + 3;
-            return true;
+                contadorLista = contadorLista + 5;
+                return true;
+            }
+        }
+        if ((contadorLista + 3) < listaTokens.size()) {
+            if (listaTokens.get(contadorLista + 1).getValor().equals("Int")
+                    && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
+                    && listaTokens.get(contadorLista + 3).getToken().equals("Delimitador")) {
+                listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), "Int", "0", ""));
+                contadorLista = contadorLista + 3;
+                return true;
+            }
         } else {
             listaErrores.add("Sintaxis de Declaracion incorrecta en la Linea " + listaTokens.get(contadorLista).getLinea() + "");
             return false;
         }
-
+        return false;
     }
 
     private void Exp() {
@@ -155,21 +159,25 @@ public class analizadorSintactico {
         /*
         declVD -> float identificador $ | float identificador = num.num $
          */
-        if (listaTokens.get(contadorLista).getToken().equals("Float")
-                && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
-                && listaTokens.get(contadorLista + 2).getToken().equals("Delimitador")) {
-            contadorLista = contadorLista + 2;
-            return true;
-        } else if (listaTokens.get(contadorLista).getToken().equals("Float")
-                && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
-                && listaTokens.get(contadorLista + 2).getToken().equals("operadorDeAsignacion")
-                && listaTokens.get(contadorLista + 3).getToken().equals("NumeroDecimal")
-                && listaTokens.get(contadorLista + 4).getToken().equals("Delimitador")) {
-            contadorLista = contadorLista + 4;
-            return true;
-        } else {
-            return false;
+        if ((contadorLista + 2) < listaTokens.size()) {
+            if (listaTokens.get(contadorLista).getToken().equals("Float")
+                    && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
+                    && listaTokens.get(contadorLista + 2).getToken().equals("Delimitador")) {
+                contadorLista = contadorLista + 2;
+                return true;
+            }
+        } else if ((contadorLista + 4) < listaTokens.size()) {
+            if (listaTokens.get(contadorLista).getToken().equals("Float")
+                    && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
+                    && listaTokens.get(contadorLista + 2).getToken().equals("operadorDeAsignacion")
+                    && listaTokens.get(contadorLista + 3).getToken().equals("NumeroDecimal")
+                    && listaTokens.get(contadorLista + 4).getToken().equals("Delimitador")) {
+                contadorLista = contadorLista + 4;
+                return true;
+            }
         }
+        return false;
+
     }
 
     private boolean declVB() {
@@ -197,19 +205,34 @@ public class analizadorSintactico {
         /*
         METODO -> disponibilidad  identificador () { función}
          */
-        comprobarMetodo();
+        System.out.println("Entro en el método");
+        if (comprobarMetodo()) {
+            return true;
+        }
         return false;
     }
 
     private boolean comprobarMetodo() {
+        //METODO -> disponibilidad  identificador () { función }
+        //String clase, String nombreValor, String tipoDeDato, String valor, String disponibilidad
+        System.out.println("Entro en la parte de comprobar método");
         if ((contadorLista + 4) < listaTokens.size()) {
             if (listaTokens.get(contadorLista).getToken().equals("public")
                     && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
                     && listaTokens.get(contadorLista + 2).getToken().equals("ParentesisInicio")
                     && listaTokens.get(contadorLista + 3).getToken().equals("ParentesisFin")
                     && listaTokens.get(contadorLista + 4).getToken().equals("llaveApertura")) {
-                
+                listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), "Int", "0", ""));
                 contadorLista = contadorLista + 4;
+
+                //En éste punto se debe de comprobar si tiene alguna funcion a dentro o concluye con una llave
+                if ((contadorLista + 1) < listaTokens.size()) {
+                    if (listaTokens.get(contadorLista).getToken().equals("llaveFin")) {
+                        System.out.println("Llego al final del método");
+                    } else {
+                        System.out.println("Lista de errores debe de adherir que faltaba una un token de cierre de llave");
+                    }
+                }
                 return true;
 
             } else {
