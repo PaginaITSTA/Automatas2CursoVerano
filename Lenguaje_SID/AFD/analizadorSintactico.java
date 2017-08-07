@@ -79,7 +79,7 @@ public class analizadorSintactico {
         if (declaración()) {
             System.out.println("Entro en la parte de declaración\n");
         } else if (metodo()) {
-            System.out.println("Entro en la parte de método\n");
+            System.out.println("Salio del método");
         }
     }
 
@@ -130,7 +130,15 @@ public class analizadorSintactico {
                 contadorLista = contadorLista + 3;
                 return true;
             }
-        } else {
+        } /*
+        if () {
+            if (listaTokens.get(contadorLista + 1).getValor().equals("Identificador")
+                    && listaTokens.get(contadorLista + 2).getToken().equals("operadorDeAsignacion")
+                    && listaTokens.get(contadorLista + 3).getToken().equals("Delimitador")) {
+
+            }
+        } 
+         */ else {
             listaErrores.add("Sintaxis de Declaracion incorrecta en la Linea " + listaTokens.get(contadorLista).getLinea() + "");
             return false;
         }
@@ -216,17 +224,26 @@ public class analizadorSintactico {
         //METODO -> disponibilidad  identificador () { función }
         //String clase, String nombreValor, String tipoDeDato, String valor, String disponibilidad
         System.out.println("Entro en la parte de comprobar método");
+        contadorLista++;
         if ((contadorLista + 4) < listaTokens.size()) {
-            if (listaTokens.get(contadorLista).getToken().equals("public")
+            System.out.println("Inteto identificar si es un método");
+
+            System.out.println("El siguiente token que se espera es un public y lo que se da es: "
+                    + listaTokens.get(contadorLista).getValor());
+
+            if ((listaTokens.get(contadorLista).getValor().equals("public") || listaTokens.get(contadorLista).getValor().equals("private"))
                     && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
                     && listaTokens.get(contadorLista + 2).getToken().equals("ParentesisInicio")
                     && listaTokens.get(contadorLista + 3).getToken().equals("ParentesisFin")
                     && listaTokens.get(contadorLista + 4).getToken().equals("llaveApertura")) {
-                listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), "Int", "0", ""));
-                contadorLista = contadorLista + 4;
+                listaSimbolos.add(new listaSimbolos("Metodo", listaTokens.get(contadorLista + 1).getValor(), "", "", listaTokens.get(contadorLista).getValor()));
+                contadorLista = contadorLista + 5;
+
+                System.out.println("Comprobó que sea la primera parte del método");
 
                 //En éste punto se debe de comprobar si tiene alguna funcion a dentro o concluye con una llave
                 if ((contadorLista + 1) < listaTokens.size()) {
+                    System.out.println("Entro a buscar la llave de cierre");
                     if (listaTokens.get(contadorLista).getToken().equals("llaveFin")) {
                         System.out.println("Llego al final del método");
                     } else {
