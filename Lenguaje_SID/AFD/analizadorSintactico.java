@@ -76,6 +76,7 @@ public class analizadorSintactico {
         /*
         DECLARACION ->  declVE declaración | declVD declaración | declVB declaración | declVE | declVD | declVB
          */
+        System.out.println("Entro en la linea 79");
         if (declVE()) {
             declaración();
         } else if (declVD()) {
@@ -100,19 +101,21 @@ public class analizadorSintactico {
                 contadorLista = contadorLista + 2;
                 return true;
             }
+        } else if ((contadorLista + 4) < listaSimbolos.size()) {
+            if (listaTokens.get(contadorLista).getToken().equals("Int")
+                    && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
+                    && listaTokens.get(contadorLista + 2).getToken().equals("operadorDeAsignacion")
+                    && listaTokens.get(contadorLista + 3).getToken().equals("NumeroEntero")
+                    && listaTokens.get(contadorLista + 4).getToken().equals("Delimitador")) {
+                listaSimbolos.add(new listaSimbolos("", listaTokens.get(contadorLista).getValor(), "Int", listaTokens.get(contadorLista).getValor(), ""));
+                //                               Identificador , a , Int , 10 , ---, Identificador , b , Int , 5, --- , Identificador , c, Int, ---, ---
+                contadorLista = contadorLista + 4;
+                return true;
+            } else {
+                return false;
+            }
         }
-        if (listaTokens.get(contadorLista).getToken().equals("Int")
-                && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
-                && listaTokens.get(contadorLista + 2).getToken().equals("operadorDeAsignacion")
-                && listaTokens.get(contadorLista + 3).getToken().equals("NumeroEntero")
-                && listaTokens.get(contadorLista + 4).getToken().equals("Delimitador")) {
-            listaSimbolos.add(new listaSimbolos("", listaTokens.get(contadorLista).getValor(), "Int", listaTokens.get(contadorLista).getValor(), ""));
-            //                               Identificador , a , Int , 10 , ---, Identificador , b , Int , 5, --- , Identificador , c, Int, ---, ---
-            contadorLista = contadorLista + 4;
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
 
     private void Exp() {
