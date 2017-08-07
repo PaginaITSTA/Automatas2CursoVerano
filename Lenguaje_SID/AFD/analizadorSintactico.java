@@ -94,13 +94,13 @@ public class analizadorSintactico {
             declaración();
         } else if (declVB()) {
             declaración();
-        } else if (declVE()) {
+        } /*else if (declVE()) {
 
         } else if (declVD()) {
 
         } else if (declVB()) {
 
-        }
+        }*/
 
         return false;
 
@@ -120,7 +120,10 @@ public class analizadorSintactico {
 
                 contadorLista = contadorLista + 5;
                 return true;
+            }else{
+                listaErrores.add("Error de Declaración en la Linea " + listaTokens.get(contadorLista+1).getLinea() + " Se esperaba --> Tipo de Dato Identificador = Valor $");
             }
+            
         }
         if ((contadorLista + 3) < listaTokens.size()) {
             if (listaTokens.get(contadorLista + 1).getValor().equals("Int")
@@ -129,17 +132,11 @@ public class analizadorSintactico {
                 listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), "Int", "0", ""));
                 contadorLista = contadorLista + 3;
                 return true;
+            }else{
+                listaErrores.add("Error de Declaración en la Linea " + listaTokens.get(contadorLista+1).getLinea() + " Se esperaba --> Tipo de dato Identificador $");
             }
-        } /*
-        if () {
-            if (listaTokens.get(contadorLista + 1).getValor().equals("Identificador")
-                    && listaTokens.get(contadorLista + 2).getToken().equals("operadorDeAsignacion")
-                    && listaTokens.get(contadorLista + 3).getToken().equals("Delimitador")) {
-
-            }
-        } 
-         */ else {
-            listaErrores.add("Sintaxis de Declaracion incorrecta en la Linea " + listaTokens.get(contadorLista).getLinea() + "");
+        }else {
+            
             return false;
         }
         return false;
