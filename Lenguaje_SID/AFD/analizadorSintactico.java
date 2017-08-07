@@ -94,7 +94,8 @@ public class analizadorSintactico {
             declaración();
         } else if (declVB()) {
             declaración();
-        } /*else if (declVE()) {
+        }
+        /*else if (declVE()) {
 
         } else if (declVD()) {
 
@@ -120,10 +121,10 @@ public class analizadorSintactico {
 
                 contadorLista = contadorLista + 5;
                 return true;
-            }else{
-                listaErrores.add("Error de Declaración en la Linea " + listaTokens.get(contadorLista+1).getLinea() + " Se esperaba --> Tipo de Dato Identificador = Valor $");
+            } else {
+                listaErrores.add("Error de Declaración en la Linea " + listaTokens.get(contadorLista + 1).getLinea() + " Se esperaba --> Tipo de Dato Identificador = Valor $");
             }
-            
+
         }
         if ((contadorLista + 3) < listaTokens.size()) {
             if (listaTokens.get(contadorLista + 1).getValor().equals("Int")
@@ -132,11 +133,11 @@ public class analizadorSintactico {
                 listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), "Int", "0", ""));
                 contadorLista = contadorLista + 3;
                 return true;
-            }else{
-                listaErrores.add("Error de Declaración en la Linea " + listaTokens.get(contadorLista+1).getLinea() + " Se esperaba --> Tipo de dato Identificador $");
+            } else {
+                listaErrores.add("Error de Declaración en la Linea " + listaTokens.get(contadorLista + 1).getLinea() + " Se esperaba --> Tipo de dato Identificador $");
             }
-        }else {
-            
+        } else {
+
             return false;
         }
         return false;
@@ -144,33 +145,51 @@ public class analizadorSintactico {
 
     private boolean Exp() {
         /*
-        Exp -> Term | Term + Exp | Term - Exp
+        Exp -> Term + Exp | Term - Exp | Term
          */
-        if (Term()) {
-            return true;
-        } else if (Term()
-                && listaTokens.get(contadorLista + 2).getToken().equals("OperadorSuma")
+        if (Term()
+                && listaTokens.get(contadorLista + 1).getToken().equals("OperadorSuma")
                 && Exp()) {
             return true;
         } else if (Term()
                 && listaTokens.get(contadorLista + 2).getToken().equals("OperadorResta")
                 && Exp()) {
 
+        } else if (Term()) {
+            return true;
         }
         return false;
     }
 
     private boolean Term() {
         /*
-        Term -> Factor | Term * Factor | Term / Factor
+        Term -> Factor * Term | Term / Factor | Factor
          */
+        if (factor()
+                && listaTokens.get(contadorLista + 1).getToken().equals("OperadorMultiplicacion")
+                && Term()) {
+            return true;
+        } else if (factor()
+                && listaTokens.get(contadorLista + 1).getToken().equals("OperadorDivision")
+                && Term()) {
+            return true;
+        } else if (factor()) {
+            return true;
+        }
         return false;
     }
 
     private boolean factor() {
         /*
-        Factor -> Exp | digito | identificador
+        Factor -> digito | identificador | Exp
          */
+        if (listaTokens.get(contadorLista + 1).getToken().equals("Identificador")) {
+            return true;
+        } else if (listaTokens.get(contadorLista + 1).getToken().equals("NumeroDecimal") || listaTokens.get(contadorLista + 1).getToken().equals("NumeroEntero")) {
+            return true;
+        } else if (Exp()) {
+            return true;
+        }
         return false;
     }
 
@@ -321,6 +340,9 @@ public class analizadorSintactico {
 
     private boolean condicion_logica() {
         //CONDICIÓN_LÓGICA -> Exp > Exp | Exp < Exp | Exp >= Exp | Exp <= Exp | Exp == Exp | Exp!=  Exp
+        if(Exp()){
+            
+        }
         return false;
     }
 
