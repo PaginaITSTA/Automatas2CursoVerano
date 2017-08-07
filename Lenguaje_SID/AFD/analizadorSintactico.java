@@ -145,22 +145,36 @@ public class analizadorSintactico {
         return false;
     }
 
-    private void Exp() {
+    private boolean Exp() {
         /*
-        Exp -> Exp + Term | Exp – Term | Term
+        Exp -> Term | Term + Exp | Term - Exp
          */
+        if (Term()) {
+            return true;
+        } else if (Term()
+                && listaTokens.get(contadorLista + 2).getToken().equals("OperadorSuma")
+                && Exp()) {
+            return true;
+        } else if (Term()
+                && listaTokens.get(contadorLista + 2).getToken().equals("OperadorResta")
+                && Exp()) {
+
+        }
+        return false;
     }
 
-    private void Term() {
+    private boolean Term() {
         /*
-        Term -> Term * Factor | Term / Factor | Factor
+        Term -> Factor | Term * Factor | Term / Factor
          */
+        return false;
     }
 
-    private void factor() {
+    private boolean factor() {
         /*
         Factor -> Exp | digito | identificador
          */
+        return false;
     }
 
     private boolean declVD() {
@@ -290,7 +304,7 @@ public class analizadorSintactico {
                 && listaTokens.get(contadorLista + 2).getToken().equals("ParentesisInicio")
                 && condicion()
                 && listaTokens.get(contadorLista + 3).getToken().equals("ParentesisFin")
-                && listaTokens.get(contadorLista + 4).getToken().equals("ParentesisFin")) {
+                && listaTokens.get(contadorLista + 4).getToken().equals("llaveApertura")) {
 
         }
         return false;
@@ -298,6 +312,13 @@ public class analizadorSintactico {
 
     private boolean condicion() {
         //CONDICION -> condición_lógica | condición_AND | condición_OR
+        if (condicion_logica()) {
+            return true;
+        } else if (condicion_AND()) {
+            return true;
+        } else if (condicion_OR()) {
+            return true;
+        }
         return false;
     }
 
