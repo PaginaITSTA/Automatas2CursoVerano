@@ -2,6 +2,8 @@ package Lenguaje_SID.AFD;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -23,6 +25,7 @@ public class analizadorSintactico {
         this.listaErrores = new ArrayList<>();
         listaSimbolos = new ArrayList<>();
         contadorLista = 0;
+
     }
 
     public void Programa() {
@@ -36,7 +39,7 @@ public class analizadorSintactico {
 
     private void inicio_Programa() {
         //anexa a nodo
-        // -> INICIO_PROGRAMA -> disponibilidad -> class -> identificador -> {
+        // -> INICIO_PROGRAMA -> public -> class -> identificador -> {
 
         comprobarInicio();
     }
@@ -48,14 +51,22 @@ public class analizadorSintactico {
         Aquí, quizá se podría separar el if, para poder detectar algun error
          */
         if (contadorLista < listaTokens.size()) {
-            if (listaTokens.get(contadorLista).getToken().equals("public")/*||listaTokens.get(contadorLista).getToken().equals("private")*/ && listaTokens.get(contadorLista + 1).getToken().equals("Class")
+
+            if (listaTokens.get(contadorLista).getValor().equals("public")
+                    && listaTokens.get(contadorLista + 1).getValor().equals("class")
                     && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
                     && listaTokens.get(contadorLista + 3).getToken().equals("llaveApertura")) {
-
                 listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 2).getValor(), "", "", listaTokens.get(contadorLista).getValor()));
                 contadorLista = contadorLista + 3;
+                System.out.println("Inicio del Programa Correcto :) ");
+
+            } else {
+
+                listaErrores.add("Sintaxis incorrecta en la Linea " + listaTokens.get(contadorLista).getLinea() + " se esperaba -- > *public class identificador {*");
             }
+
         } else {
+
             System.out.println("No entro en el inicio del programa");
         }
 
@@ -82,37 +93,43 @@ public class analizadorSintactico {
             declaración();
         } else if (declVB()) {
             declaración();
-        } else {
-            return true;
+        } else if (declVE()) {
+
+        } else if (declVD()) {
+
+        } else if (declVB()) {
+
         }
+
         return false;
+
     }
 
     private boolean declVE() {
         /*
         declVE -> Int identificador $ | Int identificador = num $ | Int identificador = Exp;
          */
-        if ((contadorLista + 2) < listaSimbolos.size()) {
-            if (listaTokens.get(contadorLista).getToken().equals("Int")
-                    && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
-                    && listaTokens.get(contadorLista + 2).getToken().equals("Delimitador")) {
-                listaSimbolos.add(new listaSimbolos("", listaTokens.get(contadorLista).getValor(), "Int", "", ""));
-                contadorLista = contadorLista + 2;
-                return true;
-            }
-        }
-        if (listaTokens.get(contadorLista).getToken().equals("Int")
-                && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
-                && listaTokens.get(contadorLista + 2).getToken().equals("operadorDeAsignacion")
-                && listaTokens.get(contadorLista + 3).getToken().equals("NumeroEntero")
-                && listaTokens.get(contadorLista + 4).getToken().equals("Delimitador")) {
-            listaSimbolos.add(new listaSimbolos("", listaTokens.get(contadorLista).getValor(), "Int", listaTokens.get(contadorLista).getValor(), ""));
-            //                               Identificador , a , Int , 10 , ---, Identificador , b , Int , 5, --- , Identificador , c, Int, ---, ---
-            contadorLista = contadorLista + 4;
+
+        if (listaTokens.get(contadorLista + 1).getValor().equals("Int")
+                && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
+                && listaTokens.get(contadorLista + 3).getToken().equals("operadorDeAsignacion")
+                && listaTokens.get(contadorLista + 4).getToken().equals("NumeroEntero")
+                && listaTokens.get(contadorLista + 5).getToken().equals("Delimitador")) {
+            listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 4).getValor(), ""));
+
+            contadorLista = contadorLista + 5;
+            return true;
+        } else if (listaTokens.get(contadorLista + 1).getValor().equals("Int")
+                && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
+                && listaTokens.get(contadorLista + 3).getToken().equals("Delimitador")) {
+            listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), "Int", "0", ""));
+            contadorLista = contadorLista + 3;
             return true;
         } else {
+            listaErrores.add("Sintaxis de Declaracion incorrecta en la Linea " + listaTokens.get(contadorLista).getLinea() + "");
             return false;
         }
+
     }
 
     private void Exp() {
