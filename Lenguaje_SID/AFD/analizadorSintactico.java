@@ -274,21 +274,56 @@ public class analizadorSintactico {
             return true;
         } else if (cond_while()) {
             return true;
-        } else if (cod_for()) {
+        }
+        /*
+        
+        else if (cod_for()) {
             return true;
         }
+         */
         return false;
     }
 
     private boolean cond_if() {
+        //COND_IF -> if (condición) {impresión} else{ impresión}
+        if (listaTokens.get(contadorLista + 1).getValor().equals("if")
+                && listaTokens.get(contadorLista + 2).getToken().equals("ParentesisInicio")
+                && condicion()
+                && listaTokens.get(contadorLista + 3).getToken().equals("ParentesisFin")
+                && listaTokens.get(contadorLista + 4).getToken().equals("ParentesisFin")) {
+
+        }
+        return false;
+    }
+
+    private boolean condicion() {
+        //CONDICION -> condición_lógica | condición_AND | condición_OR
+        return false;
+    }
+
+    private boolean condicion_logica() {
+        //CONDICIÓN_LÓGICA -> Exp > Exp | Exp < Exp | Exp >= Exp | Exp <= Exp | Exp == Exp | Exp!=  Exp
+        return false;
+    }
+
+    private boolean condicion_AND() {
+        //CONDICION AND -> condición_lógica && condición_lógica
+        return false;
+    }
+
+    private boolean condicion_OR() {
+        //CONDICION OR -> condición_lógica | | condición_lógica
         return false;
     }
 
     private boolean cond_while() {
+        //COND_WHLE -> while (condición) {impresión}
         return false;
     }
 
+    //No está declarada de lo que hace en la gramática
     private boolean cod_for() {
+
         return false;
     }
 
