@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -44,18 +45,34 @@ public class GUIAFD extends javax.swing.JFrame {
     private boolean aceptado;
 
     //Arreglos estáticos solo para pruebas y poder ingresarlas a tablas
-    private Object titulosTablaTokens[];
+    private Object[] titulosTablaTokens, titulosTablaDeSimbolos;
     private Object[][] informacionTablaSimbolos, informacionTablaTokens;
+
+    //Modelo para ambas tablas del panel 2 y 3
+    private DefaultTableModel modelo;
 
     public GUIAFD() {
         initComponents();
         this.setLocationRelativeTo(null);
+
+        //Declaracion de los titulos para la tabla de Tokens del panel dos
         titulosTablaTokens = new String[5];
+        //Titulos de la tabla de tokens
         titulosTablaTokens[0] = "Numero";
         titulosTablaTokens[1] = "Token";
         titulosTablaTokens[2] = "Valor";
         titulosTablaTokens[3] = "Linea";
         titulosTablaTokens[4] = "Columna";
+
+        //Declaracion de los títulos para la tabla de simbolos
+        titulosTablaDeSimbolos = new Object[6];
+        //Llenado de los titulos de la tabla para la tabla de simbolos
+        titulosTablaDeSimbolos[0] = "Numero";
+        titulosTablaDeSimbolos[1] = "Clase";
+        titulosTablaDeSimbolos[2] = "Nombre del valor";
+        titulosTablaDeSimbolos[3] = "Tipo de dato";
+        titulosTablaDeSimbolos[4] = "Valor";
+        titulosTablaDeSimbolos[5] = "Disponibilidad";
     }
 
     @SuppressWarnings("unchecked")
@@ -81,6 +98,8 @@ public class GUIAFD extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -180,18 +199,28 @@ public class GUIAFD extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Lista de tokens", jPanel2);
 
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane3.setViewportView(jTable2);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 166, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("tab3", jPanel3);
+        jTabbedPane1.addTab("Lista de simbolos", jPanel3);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -230,7 +259,7 @@ public class GUIAFD extends javax.swing.JFrame {
 
         jMenu5.setText("Compilar");
 
-        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, 0));
+        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem5.setText("Análisis lexico");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -239,6 +268,7 @@ public class GUIAFD extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem5);
 
+        jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem7.setText("Análisis sintactico");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -247,7 +277,13 @@ public class GUIAFD extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem7);
 
+        jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_3, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem8.setText("Análisis semántico");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem8);
 
         jMenuBar1.add(jMenu5);
@@ -296,6 +332,10 @@ public class GUIAFD extends javax.swing.JFrame {
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         ejecutaAnalisisSintactico();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        JOptionPane.showMessageDialog(this, "Funcion no disponible", "En proceso", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     //revisa que el archivo que se va a abrir sea de tipo de dato que se está pidiendo
     private void OpenFile() {
@@ -352,7 +392,7 @@ public class GUIAFD extends javax.swing.JFrame {
 
     /*
     ***********************************************************************************************************
-    **************************Ejecuta el analisis lexico del código escrito***********************************
+    **************************Ejecuta el analisis lexico del código escrito************************************
     ***********************************************************************************************************
      */
     private void ejecutarCodigo(String texto) {
@@ -369,12 +409,14 @@ public class GUIAFD extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No se encontro contenido");
         } else {
 
-            //para crear la tabla de tokens
+            /*
+            para crear la tabla de tokens se crea este arreglo bidimencional
+            el cual se pasara como attributo al DefaultTableModel
+             */
             informacionTablaTokens = new Object[listaTokens.size()][5];
-            DefaultTableModel modelo;
 
             while (cont < listaTokens.size()) {
-                //llenando el arreglo para la tabla que se verá en el panel 2
+                //Llenando el arreglo para la tabla que se verá en el panel 2
                 informacionTablaTokens[cont][0] = cont + 1;
                 informacionTablaTokens[cont][1] = listaTokens.get(cont).getToken();
                 informacionTablaTokens[cont][2] = listaTokens.get(cont).getValor();
@@ -396,14 +438,17 @@ public class GUIAFD extends javax.swing.JFrame {
 
             //Creando la tabla
             modelo = new DefaultTableModel(informacionTablaTokens, titulosTablaTokens);
-            jTable1.setModel(modelo);
 
+            jTable1.setModel(modelo);
+            //Para cambiar el tamaño de la columna 1
+            TableColumn columna = jTable1.getColumn("Numero");
+            columna.setPreferredWidth(10);
         }
     }
 
     /*
     ***********************************************************************************************************
-    **************************Ejecuta el analisis sintactico del código escrito***********************************
+    **************************Ejecuta el analisis sintactico del código escrito********************************
     ***********************************************************************************************************
      */
     private void ejecutaAnalisisSintactico() {
@@ -420,7 +465,21 @@ public class GUIAFD extends javax.swing.JFrame {
 
                 jTextArea2.append("\n\n\n\n\tLISTA DE SIMBOLOS");
 
+                /*
+                Inicializacion del arreglo bidimencional para el panel 3
+                 */
+                informacionTablaSimbolos = new Object[listaSimbolos.size()][6];
+
                 for (int i = 0; i < listaSimbolos.size(); i++) {
+                    //Llenando la informacion de la tabla de simbolos del panel 3
+                    informacionTablaSimbolos[i][0] = i + 1;
+                    informacionTablaSimbolos[i][1] = listaSimbolos.get(i).getClase();
+                    informacionTablaSimbolos[i][2] = listaSimbolos.get(i).getNombreValor();
+                    informacionTablaSimbolos[i][3] = listaSimbolos.get(i).getTipoDeDato();
+                    informacionTablaSimbolos[i][4] = listaSimbolos.get(i).getValor();
+                    informacionTablaSimbolos[i][5] = listaSimbolos.get(i).getDisponibilidad();
+                    //Fin del llenado de datos del arreglo para la tabla de simbolos
+
                     jTextArea2.append("\n\n\nClase -> " + listaSimbolos.get(i).getClase() + "\tDisponibilidad -> "
                             + listaSimbolos.get(i).getDisponibilidad() + "\tNombre -> "
                             + listaSimbolos.get(i).getNombreValor() + "\tTipo de dato -> "
@@ -430,6 +489,10 @@ public class GUIAFD extends javax.swing.JFrame {
 
                 jTextArea2.append("\n\n");
 
+                //Creación del DefaultTableModel para el panel 3
+                modelo = new DefaultTableModel(informacionTablaSimbolos, titulosTablaDeSimbolos);
+                //Envio de datos a la última tabla
+                jTable2.setModel(modelo);
             } else {
 
                 jTextArea2.append("\n\n\n\n\tLISTA DE ERRORES");
@@ -477,10 +540,12 @@ public class GUIAFD extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     // End of variables declaration//GEN-END:variables
