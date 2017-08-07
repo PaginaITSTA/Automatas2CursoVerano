@@ -2,8 +2,4 @@ public class prueba{
 	Int a = 10$
 	Int b = 5$
 	Int c$
-
-	c = a + b$
-
-	
 }
