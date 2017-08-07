@@ -246,9 +246,11 @@ public class analizadorSintactico {
                     System.out.println("Entro a buscar la llave de cierre");
                     if (listaTokens.get(contadorLista).getToken().equals("llaveFin")) {
                         System.out.println("Llego al final del método");
-                    } else {
-                        System.out.println("Lista de errores debe de adherir que faltaba una un token de cierre de llave");
+                    } else if (funcion()) {
+                        System.out.println("Tiene una funcion interna");
                     }
+                } else {
+                    System.err.println("Aqui se debe de adherir una un error por falta de una llave final");
                 }
                 return true;
 
@@ -260,8 +262,33 @@ public class analizadorSintactico {
         return false;
     }
 
+    /*
+    ***********************************************************************************************************
+    *********************************Inicio de las propiedades de las funciones********************************
+    ***********************************************************************************************************
+     */
     private boolean funcion() {
+        //FUNCIÓN -> cond_if | cond_while | cod_for 
 
+        if (cond_if()) {
+            return true;
+        } else if (cond_while()) {
+            return true;
+        } else if (cod_for()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean cond_if() {
+        return false;
+    }
+
+    private boolean cond_while() {
+        return false;
+    }
+
+    private boolean cod_for() {
         return false;
     }
 
