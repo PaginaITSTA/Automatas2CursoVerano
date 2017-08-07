@@ -349,6 +349,8 @@ public class GUIAFD extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        modelo = new DefaultTableModel();
+        jTable1.setModel(modelo);
         ejecutarCodigo(jTextArea1.getText());
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
@@ -361,6 +363,8 @@ public class GUIAFD extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        modelo = new DefaultTableModel();
+        jTable2.setModel(modelo);
         ejecutaAnalisisSintactico();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
@@ -392,6 +396,10 @@ public class GUIAFD extends javax.swing.JFrame {
             archivo_guardado = FileChooser.getSelectedFile();
             boolean name_file = archivo_guardado.getAbsolutePath().endsWith(".sid");
             if (name_file) {
+                jTextArea2.setText("");
+                modelo = new DefaultTableModel();
+                jTable1.setModel(modelo);
+                jTable2.setModel(modelo);
                 jTextArea1.setText(getArchivo(archivo_guardado.getAbsolutePath()));
                 if (!jTextArea1.getText().isEmpty()) {
                     modificaciones = true;
