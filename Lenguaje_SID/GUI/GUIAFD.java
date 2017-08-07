@@ -5,7 +5,6 @@ import Lenguaje_SID.AFD.analizadorSintactico;
 import Lenguaje_SID.AFD.AFD;
 import Lenguaje_SID.AFD.listaSimbolos;
 import Lenguaje_SID.AFD.token;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -26,12 +25,14 @@ public class GUIAFD extends javax.swing.JFrame {
     private AFD analisisLexico;
     private analizadorSintactico analizadorSintactico;
 
+
     /*
     Listas de arreglos para distintos propositos
      */
     private ArrayList<token> listaTokens;
     private ArrayList<String> listaErroresAnalisisLexico;
     private ArrayList<listaSimbolos> listaSimbolos;
+    private ArrayList<String> listaErroresSintactico;
 
     //Variable para leer los archivos desde codigo
     private File archivo_guardado;
@@ -60,9 +61,14 @@ public class GUIAFD extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea3 = new javax.swing.JTextArea();
+        jPanel3 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -86,7 +92,7 @@ public class GUIAFD extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jSplitPane1.setDividerLocation(300);
+        jSplitPane1.setDividerLocation(360);
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
         jTextArea1.setBackground(new java.awt.Color(255, 255, 255));
@@ -103,7 +109,7 @@ public class GUIAFD extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 586, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -113,7 +119,7 @@ public class GUIAFD extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -124,27 +130,58 @@ public class GUIAFD extends javax.swing.JFrame {
         jTextArea2.setRows(5);
         jScrollPane2.setViewportView(jTextArea2);
 
-        jLabel1.setText("Resultados:");
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 809, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Resultados:", jPanel1);
+
+        jTextArea3.setColumns(20);
+        jTextArea3.setRows(5);
+        jScrollPane3.setViewportView(jTextArea3);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 809, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Lista de tokens", jPanel2);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 809, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 142, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("tab3", jPanel3);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 586, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jTabbedPane1)
         );
 
         jSplitPane1.setRightComponent(jPanel6);
@@ -217,7 +254,7 @@ public class GUIAFD extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jSplitPane1)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -315,6 +352,7 @@ public class GUIAFD extends javax.swing.JFrame {
                 if (listaTokens.get(cont).getToken().equals("llaveApertura") || listaTokens.get(cont).getToken().equals("Delimitador")) {
                     jTextArea2.append(" -> " + listaTokens.get(cont).getToken() + "(" + listaTokens.get(cont).getValor() + ", En la linea " + listaTokens.get(cont).getLinea() + " En la columna " + listaTokens.get(cont).getColumna() + ")");
                     jTextArea2.append("\n");
+
                     cont++;
                 } else {
                     jTextArea2.append(" -> " + listaTokens.get(cont).getToken() + "(" + listaTokens.get(cont).getValor() + ", En la linea " + listaTokens.get(cont).getLinea() + " En la columna " + listaTokens.get(cont).getColumna() + ")");
@@ -330,23 +368,36 @@ public class GUIAFD extends javax.swing.JFrame {
     ***********************************************************************************************************
      */
     private void ejecutaAnalisisSintactico() {
+
         listaErroresAnalisisLexico = analisisLexico.getListaErrores();
         boolean vacio = listaErroresAnalisisLexico.isEmpty();
         if (vacio) {
             analizadorSintactico = new analizadorSintactico(listaTokens);
             analizadorSintactico.Programa();
             listaSimbolos = analizadorSintactico.getListaSimbolos();
+            listaErroresSintactico = analizadorSintactico.getListaErrores();
 
             if (!listaSimbolos.isEmpty()) {
-                jTextArea2.append("\n\nLista de simbolos");
+
+                jTextArea2.append("\n\n\n\n\tLISTA DE SIMBOLOS");
+
                 for (int i = 0; i < listaSimbolos.size(); i++) {
-                    jTextArea2.append("Clase ->" + listaSimbolos.get(i).getClase() + "\tDisponibilidad ->"
-                            + listaSimbolos.get(i).getDisponibilidad() + "\tvalor ->"
-                            + listaSimbolos.get(i).getNombreValor() + "\tTipo de dato ->"
-                            + listaSimbolos.get(i).getTipoDeDato() + "\tValor ->"
+                    jTextArea2.append("\n\n\nClase -> " + listaSimbolos.get(i).getClase() + "\tDisponibilidad -> "
+                            + listaSimbolos.get(i).getDisponibilidad() + "\tNombre -> "
+                            + listaSimbolos.get(i).getNombreValor() + "\tTipo de dato -> "
+                            + listaSimbolos.get(i).getTipoDeDato() + "\tValor -> "
                             + listaSimbolos.get(i).getValor());
                 }
 
+                jTextArea2.append("\n\n");
+
+            } else {
+
+                jTextArea2.append("\n\n\n\n\tLISTA DE ERRORES");
+                System.out.println(listaErroresSintactico.size());
+                for (int i = 0; i < listaErroresSintactico.size(); i++) {
+                    jTextArea2.append("\n\n\nError --> " + listaErroresSintactico.get(i));
+                }
             }
 
         } else {
@@ -364,7 +415,6 @@ public class GUIAFD extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -381,12 +431,18 @@ public class GUIAFD extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextArea jTextArea3;
     // End of variables declaration//GEN-END:variables
 }
