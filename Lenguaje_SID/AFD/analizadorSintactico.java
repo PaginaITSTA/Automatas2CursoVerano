@@ -165,6 +165,7 @@ public class analizadorSintactico {
 
     }
 
+
     private boolean declVEexp() {
         if ((contadorLista + 5) < listaTokens.size()) {
 
@@ -187,10 +188,11 @@ public class analizadorSintactico {
     }
 
     //Al parecer esta lista la condición, ya que se ejecuta en el método Term()
+
     private boolean Exp() {
         System.out.println("Entro a ver si es una Exp()");
         if (Term()
-                && (listaTokens.get(contadorLista + 1).getToken().equals("OperadorSuma") || listaTokens.get(contadorLista + 1).getToken().equals("OperadorResta"))
+                && (listaTokens.get(contadorLista + 3).getToken().equals("OperadorSuma") || listaTokens.get(contadorLista + 3).getToken().equals("OperadorResta"))
                 && Exp()) {
             return true;
         } else if (Term()) {
@@ -200,18 +202,16 @@ public class analizadorSintactico {
     }
 
     private boolean Term() {
+        //Term -> Factor * Term | Factor / Term | Factor
         System.out.println("Entro a ver si es un Term()");
         if ((contadorLista + 2) < listaTokens.size()) {
-            if (factor()
-                    && listaTokens.get(contadorLista + 1).getToken().equals("OperadorMultiplicacion")
-                    && Term()) {
-                System.out.println("encontro factor * termino");
-                contadorLista++;
-                return true;
-            } else if (factor()
-                    && listaTokens.get(contadorLista + 1).getToken().equals("OperadorDivision")
-                    && Term()) {
-                System.out.println("encontro factor / termino");
+            if (factor()) {
+                if ((listaTokens.get(contadorLista).getToken().equals("OperadorMultiplicacion")
+                        || listaTokens.get(contadorLista).getToken().equals("OperadorDivision"))
+                        && Term()) {
+                    return true;
+                }
+                System.out.println("Solo encontro un factor");
                 contadorLista++;
                 return true;
             }
@@ -221,10 +221,10 @@ public class analizadorSintactico {
                 return true;
             }
         }
-
         return false;
     }
 
+    //Por el momento solo identifica a un identifiador o un dígito
     private boolean factor() {
         //Factor -> digito | identificador | (Exp)
         System.out.println("Entro a ver si es un factor()");
@@ -235,16 +235,14 @@ public class analizadorSintactico {
                 + " " + listaTokens.get(contadorLista + 5).getValor() + " " + listaTokens.get(contadorLista).getLinea());
 
         if ((contadorLista + 1) < listaTokens.size()) {
-            System.out.println("Se espera un identificador o numero y se da: " + listaTokens.get(contadorLista + 2).getToken());
-            if (listaTokens.get(contadorLista + 2).getToken().equals("Identificador")) {
-                //contadorLista++;
+            System.out.println("Se espera un identificador o numero y se da: " + listaTokens.get(contadorLista + 2).getToken() + " -> " + listaTokens.get(contadorLista + 2).getValor());
+            if (listaTokens.get(contadorLista).getToken().equals("Identificador")) {
+                contadorLista++;
                 System.out.println("identificador encontrado");
                 return true;
-            } else if (listaTokens.get(contadorLista + 1).getToken().equals("NumeroDecimal") || listaTokens.get(contadorLista + 1).getToken().equals("NumeroEntero")) {
-                //contadorLista++;
+            } else if (listaTokens.get(contadorLista).getToken().equals("NumeroDecimal") || listaTokens.get(contadorLista + 2).getToken().equals("NumeroEntero")) {
+                contadorLista++;
                 System.out.println("Numero encontrado");
-                return true;
-            } else if (Exp()) {
                 return true;
             }
         }
@@ -393,10 +391,10 @@ public class analizadorSintactico {
 
         if (cond_if()) {
             return true;
-        } else if (cond_while()) {
+        }/* else if (cond_while()) {
             return true;
         }
-        /*
+        
         No esta declarado en la gramatica
         else if (cod_for()) {
             return true;
@@ -410,15 +408,33 @@ public class analizadorSintactico {
         System.out.println("Entro en el metodo de if");
         if ((contadorLista + 5) < listaTokens.size()) {
             System.out.println("Se espera un if y se da: " + listaTokens.get(contadorLista).getValor());
-            if (listaTokens.get(contadorLista).getValor().equals("if")
-                    && listaTokens.get(contadorLista + 1).getToken().equals("ParentesisInicio")
-                    && condicion()
-                    && listaTokens.get(contadorLista + 3).getToken().equals("ParentesisFin")
-                    && listaTokens.get(contadorLista + 4).getToken().equals("llaveApertura")) {
-                contadorLista = contadorLista + 4;
-                System.out.println("Salio del método if");
-                return true;
-
+            if (listaTokens.get(contadorLista).getValor().equals("if")) {
+                contadorLista++;
+                System.out.println("Encontró el if");
+                if (listaTokens.get(contadorLista + 1).getToken().equals("ParentesisInicio")) {
+                    contadorLista++;
+                    System.out.println("Encontró el parentesis de inicio");
+                    if (condicion()) {
+                        System.out.println("Paso de la función");
+                        if (listaTokens.get(contadorLista + 3).getToken().equals("ParentesisFin")) {
+                            System.out.println("Encontro el parentesis de fin");
+                            if (listaTokens.get(contadorLista + 4).getToken().equals("llaveApertura")) {
+                                System.out.println("Primera parte del if completada.");
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
             }
         }
 
@@ -444,23 +460,37 @@ public class analizadorSintactico {
 
         if (Exp()) {
             boolean band = false;
-
-            if (listaTokens.get(contadorLista + 1).getToken().equals("OperadorMayorQue")) {
-                band = true;
-            } else if (listaTokens.get(contadorLista + 1).getToken().equals("OperadorMenorQue")) {
-                band = true;
-            } else if (listaTokens.get(contadorLista + 1).getToken().equals("OperadorMayorOIgualQue")) {
-                band = true;
-            } else if (listaTokens.get(contadorLista + 1).getToken().equals("OperadorMenorOIgualQue")) {
-                band = true;
-            } else if (listaTokens.get(contadorLista + 1).getToken().equals("operadorIgualIgual")) {
-                band = true;
-            } else if (listaTokens.get(contadorLista + 1).getToken().equals("OperadorDesigual")) {
-                band = true;
+            System.out.println("Entro a ver si es >, < >=, etc");
+            switch (listaTokens.get(contadorLista + 1).getToken()) {
+                case "OperadorMayorQue":
+                    band = true;
+                    break;
+                case "OperadorMenorQue":
+                    band = true;
+                    break;
+                case "OperadorMayorOIgualQue":
+                    band = true;
+                    break;
+                case "OperadorMenorOIgualQue":
+                    band = true;
+                    break;
+                case "operadorIgualIgual":
+                    band = true;
+                    break;
+                case "OperadorDesigual":
+                    band = true;
+                    break;
+                default:
+                    break;
             }
 
             if (band) {
-
+                if (Exp()) {
+                    System.out.println("Encontro, Exp operacionLogica");
+                    return true;
+                }
+            } else {
+                System.out.println("Solo encontró una expresión");
             }
         }
         /*
