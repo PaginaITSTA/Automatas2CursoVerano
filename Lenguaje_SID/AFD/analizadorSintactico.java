@@ -41,8 +41,7 @@ public class analizadorSintactico {
     private boolean inicio_Programa() {
         //anexa a nodo
         // -> INICIO_PROGRAMA -> public -> class -> identificador -> {
-        if (comprobarInicio()) {
-            System.out.println("Correcto !! ");
+        if (comprobarInicio()) {            
             return true;
         }
         System.out.println("Inicio Incorrecto");
@@ -94,10 +93,8 @@ public class analizadorSintactico {
         /*
         DECLARACION ->  declVE declaración | declVD declaración | declVB declaración | declVE | declVD | declVB
          */
-        System.out.println("Entro en la linea 90");
-
+           
         String opcion = listaTokens.get(contadorLista + 1).getValor();
-
         switch (opcion) {
             case "Int":
                 if (declVE()) {
@@ -114,7 +111,6 @@ public class analizadorSintactico {
                     declaración();
                 }
                 break;
-
         }
 
 //        if (declVE()) {
@@ -235,7 +231,6 @@ public class analizadorSintactico {
 
         if ((contadorLista + 5) < listaTokens.size()) {
 
-            System.out.println("Valor de contador lista hasta aqui: --> " + contadorLista);
             if (listaTokens.get(contadorLista + 1).getValor().equals("float")
                     && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
                     && listaTokens.get(contadorLista + 3).getToken().equals("operadorDeAsignacion")
@@ -254,7 +249,7 @@ public class analizadorSintactico {
             if (listaTokens.get(contadorLista + 1).getValor().equals("float")
                     && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
                     && listaTokens.get(contadorLista + 3).getToken().equals("Delimitador")) {
-                listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), "Int", "0", ""));
+                listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), "0.0", ""));
                 contadorLista = contadorLista + 3;
                 System.out.println("Declaracion de Tipo 2 FLOAT correcto");
                 return true;
@@ -271,25 +266,10 @@ public class analizadorSintactico {
         /*
         declVB -> bool identificador $ | bool identificador = valorbool $
         
-        bool a = true$
-        bool b =false$
+        Boolean a = true$
+        Boolean b =false$
          */
 
-//        if (listaTokens.get(contadorLista).getToken().equals("Float")
-//                && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
-//                && listaTokens.get(contadorLista + 2).getToken().equals("Delimitador")) {
-//            contadorLista = contadorLista + 2;
-//            return true;
-//        } else if (listaTokens.get(contadorLista).getToken().equals("Float")
-//                && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
-//                && listaTokens.get(contadorLista + 2).getToken().equals("operadorDeAsignacion")
-//                && listaTokens.get(contadorLista + 3).getToken().equals("NumeroDecimal")
-//                && listaTokens.get(contadorLista + 4).getToken().equals("Delimitador")) {
-//            contadorLista = contadorLista + 4;
-//            return true;
-//        } else {
-//            return false;
-//        }
         if ((contadorLista + 5) < listaTokens.size()) {
             if (listaTokens.get(contadorLista + 1).getValor().equals("Boolean")
                     && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
