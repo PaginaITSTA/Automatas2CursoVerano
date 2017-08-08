@@ -1,0 +1,10 @@
+public class prueba{
+	Int a = 10$
+	Int b = 5$
+	Int c$
+
+	float d = 3.1 $
+	Boolean e = true $
+	Boolean f $
+}
+

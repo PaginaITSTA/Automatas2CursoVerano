@@ -1,0 +1,15 @@
+public class prueba{
+	Int a = 10$
+	Int b = 5$
+	Int c$
+
+	c = a + b$
+
+	public ejemplo(){
+		if (c >= 10){
+			Print("C Es Mayor")$
+		} else {
+			Print("C Es Menor")$
+		}
+	}
+}
