@@ -514,10 +514,8 @@ public class GUIAFD extends javax.swing.JFrame {
             listaSimbolos = analizadorSintactico.getListaSimbolos();
             listaErroresSintactico = analizadorSintactico.getListaErrores();
 
+            jTextArea2.append("\n\n\n\tLISTA DE SIMBOLOS");
             if (!listaSimbolos.isEmpty()) {
-
-                jTextArea2.append("\n\n\n\tLISTA DE SIMBOLOS");
-
                 /*
                 Inicializacion del arreglo bidimencional para el panel 3
                  */
@@ -540,26 +538,22 @@ public class GUIAFD extends javax.swing.JFrame {
                             + listaSimbolos.get(i).getValor());
                 }
 
-                jTextArea2.append("\n\n");
-
                 //Creación del DefaultTableModel para el panel 3
                 modelo = new DefaultTableModel(informacionTablaSimbolos, titulosTablaDeSimbolos);
                 //Envio de datos a la última tabla
                 jTable2.setModel(modelo);
 
-                jTextArea2.append("\n\n\n\tLISTA DE ERRORES");
-                if (!listaErroresSintactico.isEmpty()) {
-                    
-                System.out.println(listaErroresSintactico.size());
+            }
+
+            jTextArea2.append("\n\n");
+            jTextArea2.append("\n\n\n\tLISTA DE ERRORES");
+
+            if (!listaErroresSintactico.isEmpty()) {
                 for (int i = 0; i < listaErroresSintactico.size(); i++) {
                     jTextArea2.append("\n\n\nError --> " + listaErroresSintactico.get(i));
                 }
-                }else{
-                    jTextArea2.append("\n\n\nNo hay Errores" );
-                }
-                
-                
             } else {
+                jTextArea2.append("\n\n\nNo hay Errores\n\n");
             }
 
         } else {
