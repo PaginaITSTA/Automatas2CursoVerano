@@ -360,9 +360,11 @@ public class analizadorSintactico {
                     System.out.println("Entro a buscar la llave de cierre");
                     if (listaTokens.get(contadorLista).getToken().equals("llaveFin")) {
                         System.out.println("Llego al final del método");
-                    } else {
-                        System.out.println("Lista de errores debe de adherir que faltaba una un token de cierre de llave");
+                    } else if (funcion()) {
+                        System.out.println("Tiene una funcion interna");
                     }
+                } else {
+                    System.err.println("Aqui se debe de adherir una un error por falta de una llave final");
                 }
                 return true;
 
