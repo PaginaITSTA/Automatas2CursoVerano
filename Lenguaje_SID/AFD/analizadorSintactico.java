@@ -339,15 +339,28 @@ public class analizadorSintactico {
     }
 
     private boolean condicion_logica() {
-        //CONDICIÓN_LÓGICA -> Exp > Exp | Exp < Exp | Exp >= Exp | Exp <= Exp | Exp == Exp | Exp!=  Exp
-        if(Exp()){
-            
+        //CONDICIÓN_LÓGICA -> Exp > Exp | Exp < Exp | Exp >= Exp | Exp <= Exp | Exp == Exp | Exp !=  Exp
+        if (Exp() && listaTokens.get(contadorLista).getToken().equals("OperadorMayorQue") && Exp()) {
+            return true;
+        } else if (Exp() && listaTokens.get(contadorLista).getToken().equals("OperadorMenorQue") && Exp()) {
+            return true;
+        } else if (Exp() && listaTokens.get(contadorLista).getToken().equals("OperadorMayorOIgualQue") && Exp()) {
+            return true;
+        } else if (Exp() && listaTokens.get(contadorLista).getToken().equals("OperadorMenorOIgualQue") && Exp()) {
+            return true;
+        } else if (Exp() && listaTokens.get(contadorLista).getToken().equals("operadorIgualIgual") && Exp()) {
+            return true;
+        } else if (Exp() && listaTokens.get(contadorLista).getToken().equals("OperadorDesigual") && Exp()) {
+            return true;
         }
         return false;
     }
 
     private boolean condicion_AND() {
         //CONDICION AND -> condición_lógica && condición_lógica
+        if (condicion_logica() && listaTokens.get(contadorLista).getToken().equals("operadorAnd") && condicion_logica()) {
+            return true;
+        }
         return false;
     }
 
