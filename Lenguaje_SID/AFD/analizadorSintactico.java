@@ -221,22 +221,55 @@ public class analizadorSintactico {
     private boolean declVB() {
         /*
         declVB -> bool identificador $ | bool identificador = valorbool $
+        bool a = false$
+        bool b = true$
+        bool c$
          */
-        if (listaTokens.get(contadorLista).getToken().equals("Float")
-                && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
-                && listaTokens.get(contadorLista + 2).getToken().equals("Delimitador")) {
-            contadorLista = contadorLista + 2;
-            return true;
-        } else if (listaTokens.get(contadorLista).getToken().equals("Float")
-                && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
-                && listaTokens.get(contadorLista + 2).getToken().equals("operadorDeAsignacion")
-                && listaTokens.get(contadorLista + 3).getToken().equals("NumeroDecimal")
-                && listaTokens.get(contadorLista + 4).getToken().equals("Delimitador")) {
-            contadorLista = contadorLista + 4;
-            return true;
-        } else {
+//        if (listaTokens.get(contadorLista).getToken().equals("Float")
+//                && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
+//                && listaTokens.get(contadorLista + 2).getToken().equals("Delimitador")) {
+//            contadorLista = contadorLista + 2;
+//            return true;
+//        } else if (listaTokens.get(contadorLista).getToken().equals("Float")
+//                && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
+//                && listaTokens.get(contadorLista + 2).getToken().equals("operadorDeAsignacion")
+//                && listaTokens.get(contadorLista + 3).getToken().equals("NumeroDecimal")
+//                && listaTokens.get(contadorLista + 4).getToken().equals("Delimitador")) {
+//            contadorLista = contadorLista + 4;
+//            return true;
+//        } else {
+//            return false;
+//        }
+if ((contadorLista + 5) < listaTokens.size()) {
+            if (listaTokens.get(contadorLista + 1).getValor().equals("bool")
+                    && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
+                    && listaTokens.get(contadorLista + 3).getToken().equals("operadorDeAsignacion")
+                    && (listaTokens.get(contadorLista + 4).getValor().equals("false")||listaTokens.get(contadorLista + 4).getValor().equals("true"))
+                    && listaTokens.get(contadorLista + 5).getToken().equals("Delimitador")) {
+                listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 4).getValor(), ""));
+
+                contadorLista = contadorLista + 5;
+                return true;
+            }else{
+                listaErrores.add("Error de Declaración bool en la Linea " + listaTokens.get(contadorLista+1).getLinea() + " Se esperaba --> Tipo de Dato Identificador = Valor $");
+            }
+     
+        }
+        if ((contadorLista + 3) < listaTokens.size()) {
+            if (listaTokens.get(contadorLista + 1).getValor().equals("bool")
+                    && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
+                    && listaTokens.get(contadorLista + 3).getToken().equals("Delimitador")) {
+                listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), "bool", "0", ""));
+                contadorLista = contadorLista + 3;
+                return true;
+            }else{
+                listaErrores.add("Error de Declaración bool en la Linea " + listaTokens.get(contadorLista+1).getLinea() + " Se esperaba --> Tipo de dato Identificador $");
+            }
+        }else {
+            
             return false;
         }
+        return false;
     }
 
     private boolean metodo() {
