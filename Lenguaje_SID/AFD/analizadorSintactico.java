@@ -203,15 +203,17 @@ public class analizadorSintactico {
     }
 
     private boolean factor() {
+        //Factor -> digito | identificador | (Exp)
         System.out.println("Entro a ver si es un factor()");
 
         if ((contadorLista + 1) < listaTokens.size()) {
-            if (listaTokens.get(contadorLista + 1).getToken().equals("Identificador")) {
-                contadorLista++;
+            System.out.println("Se espera un identificador o numero y se da: " + listaTokens.get(contadorLista + 2).getToken());
+            if (listaTokens.get(contadorLista + 2).getToken().equals("Identificador")) {
+                //contadorLista++;
                 System.out.println("identificador encontrado");
                 return true;
             } else if (listaTokens.get(contadorLista + 1).getToken().equals("NumeroDecimal") || listaTokens.get(contadorLista + 1).getToken().equals("NumeroEntero")) {
-                contadorLista++;
+                //contadorLista++;
                 System.out.println("Numero encontrado");
                 return true;
             } else if (Exp()) {
@@ -379,8 +381,9 @@ public class analizadorSintactico {
         //COND_IF -> if (condición) {impresión} else{ impresión}
         System.out.println("Entro en el metodo de if");
         if ((contadorLista + 5) < listaTokens.size()) {
-            if (listaTokens.get(contadorLista + 1).getValor().equals("if")
-                    && listaTokens.get(contadorLista + 2).getToken().equals("ParentesisInicio")
+            System.out.println("Se espera un if y se da: " + listaTokens.get(contadorLista).getValor());
+            if (listaTokens.get(contadorLista).getValor().equals("if")
+                    && listaTokens.get(contadorLista + 1).getToken().equals("ParentesisInicio")
                     && condicion()
                     && listaTokens.get(contadorLista + 3).getToken().equals("ParentesisFin")
                     && listaTokens.get(contadorLista + 4).getToken().equals("llaveApertura")) {
@@ -395,7 +398,7 @@ public class analizadorSintactico {
     }
 
     private boolean condicion() {
-        System.out.println("Entro a verificar si existe alguna conficion");
+        System.out.println("Entro a verificar si existe alguna condicion");
         //CONDICION -> condición_lógica | condición_AND | condición_OR
         if (condicion_logica()) {
             return true;
@@ -410,19 +413,43 @@ public class analizadorSintactico {
     private boolean condicion_logica() {
         System.out.println("Entro a ver si es una condición lógica");
         //CONDICIÓN_LÓGICA -> Exp > Exp | Exp < Exp | Exp >= Exp | Exp <= Exp | Exp == Exp | Exp !=  Exp
-        if (Exp() && listaTokens.get(contadorLista).getToken().equals("OperadorMayorQue") && Exp()) {
+
+        if (Exp()) {
+            boolean band = false;
+
+            if (listaTokens.get(contadorLista + 1).getToken().equals("OperadorMayorQue")) {
+                band = true;
+            } else if (listaTokens.get(contadorLista + 1).getToken().equals("OperadorMenorQue")) {
+                band = true;
+            } else if (listaTokens.get(contadorLista + 1).getToken().equals("OperadorMayorOIgualQue")) {
+                band = true;
+            } else if (listaTokens.get(contadorLista + 1).getToken().equals("OperadorMenorOIgualQue")) {
+                band = true;
+            } else if (listaTokens.get(contadorLista + 1).getToken().equals("operadorIgualIgual")) {
+                band = true;
+            } else if (listaTokens.get(contadorLista + 1).getToken().equals("OperadorDesigual")) {
+                band = true;
+            }
+
+            if (band) {
+
+            }
+        }
+        /*
+        if (Exp() && listaTokens.get(contadorLista + 1).getToken().equals("OperadorMayorQue") && Exp()) {
             return true;
-        } else if (Exp() && listaTokens.get(contadorLista).getToken().equals("OperadorMenorQue") && Exp()) {
+        } else if (Exp() && listaTokens.get(contadorLista+1).getToken().equals("OperadorMenorQue") && Exp()) {
             return true;
-        } else if (Exp() && listaTokens.get(contadorLista).getToken().equals("OperadorMayorOIgualQue") && Exp()) {
+        } else if (Exp() && listaTokens.get(contadorLista+1).getToken().equals("OperadorMayorOIgualQue") && Exp()) {
             return true;
-        } else if (Exp() && listaTokens.get(contadorLista).getToken().equals("OperadorMenorOIgualQue") && Exp()) {
+        } else if (Exp() && listaTokens.get(contadorLista+1).getToken().equals("OperadorMenorOIgualQue") && Exp()) {
             return true;
         } else if (Exp() && listaTokens.get(contadorLista).getToken().equals("operadorIgualIgual") && Exp()) {
             return true;
         } else if (Exp() && listaTokens.get(contadorLista).getToken().equals("OperadorDesigual") && Exp()) {
             return true;
         }
+         */
         return false;
     }
 
