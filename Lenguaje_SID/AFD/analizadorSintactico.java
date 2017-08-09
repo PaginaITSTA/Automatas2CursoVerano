@@ -159,9 +159,36 @@ public class analizadorSintactico {
 
             }
         }
+
+        declVEexp();
         return false;
 
     }
+
+
+
+    private boolean declVEexp() {
+        if ((contadorLista + 5) < listaTokens.size()) {
+
+            if (listaTokens.get(contadorLista + 1).getValor().equals("Int")
+                    && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
+                    && listaTokens.get(contadorLista + 3).getToken().equals("operadorDeAsignacion")
+                    && Exp()
+                    && listaTokens.get(contadorLista + 5).getToken().equals("Delimitador")) {
+                listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 4).getValor(), ""));
+                contadorLista = contadorLista + 5;
+                System.out.println("Declaracion de tipo 3 INT Correcto");
+                return true;
+            } else {
+                listaErrores.add("Error de Declaración INT 3 en la Linea " + listaTokens.get(contadorLista + 1).getLinea() + " Se esperaba --> Tipo de Dato Identificador = Valor $");
+
+            }
+
+        }
+        return false;
+    }
+
+    //Al parecer esta lista la condición, ya que se ejecuta en el método Term()
 
     private boolean Exp() {
         System.out.println("Entro a ver si es una Exp()");
@@ -202,6 +229,11 @@ public class analizadorSintactico {
     private boolean factor() {
         //Factor -> digito | identificador | (Exp)
         System.out.println("Entro a ver si es un factor()");
+        System.out.println(listaTokens.get(contadorLista + 1).getValor()
+                + " " + listaTokens.get(contadorLista + 2).getValor()
+                + " " + listaTokens.get(contadorLista + 3).getValor()
+                + " " + listaTokens.get(contadorLista + 4).getValor()
+                + " " + listaTokens.get(contadorLista + 5).getValor() + " " + listaTokens.get(contadorLista).getLinea());
 
         if ((contadorLista + 1) < listaTokens.size()) {
             System.out.println("Se espera un identificador o numero y se da: " + listaTokens.get(contadorLista + 2).getToken() + " -> " + listaTokens.get(contadorLista + 2).getValor());

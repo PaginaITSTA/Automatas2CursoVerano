@@ -9,24 +9,18 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
-import javax.swing.Action;
-import javax.swing.ActionMap;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import javax.swing.text.DefaultEditorKit;
-import javax.swing.undo.UndoManager;
 
 /**
  *
  * @author erick
  */
 public class GUIAFD extends javax.swing.JFrame {
-   
-   Action Copiar_Action, Pegar_Action, Cortar_Action; 
-   private UndoManager Undo;
+
     /*
     Importaciones para las partes del analisis del código
      */
@@ -79,18 +73,6 @@ public class GUIAFD extends javax.swing.JFrame {
         titulosTablaDeSimbolos[4] = "Valor";
         titulosTablaDeSimbolos[5] = "Disponibilidad";
     }
-    
-    public void Inicio() { //Metodo
-        //Acciones para Copiar,Cortar y Pegar
-        ActionMap acciones = jTextArea1.getActionMap();
-        Copiar_Action = acciones.get(DefaultEditorKit.copyAction);
-        Pegar_Action = acciones.get(DefaultEditorKit.pasteAction);
-        Cortar_Action = acciones.get(DefaultEditorKit.cutAction);
-
-        //Agregar Listener en Area de Texto para Rehacer y Deshacer
-        Undo = new UndoManager();
-        jTextArea1.getDocument().addUndoableEditListener(Undo);
-    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -101,10 +83,6 @@ public class GUIAFD extends javax.swing.JFrame {
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
-        jMenu7 = new javax.swing.JMenu();
-        jMenuBar3 = new javax.swing.JMenuBar();
-        jMenu8 = new javax.swing.JMenu();
-        jMenu9 = new javax.swing.JMenu();
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -125,20 +103,10 @@ public class GUIAFD extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu10 = new javax.swing.JMenu();
-        subDeshacer = new javax.swing.JMenuItem();
-        subRehacer = new javax.swing.JMenuItem();
-        subCopiar = new javax.swing.JMenuItem();
-        subCortar = new javax.swing.JMenuItem();
-        subPegar = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
-        jMenu6 = new javax.swing.JMenu();
-        jMenuItem11 = new javax.swing.JMenuItem();
-        jMenuItem9 = new javax.swing.JMenuItem();
-        jMenuItem10 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
 
@@ -151,14 +119,6 @@ public class GUIAFD extends javax.swing.JFrame {
 
         jMenu4.setText("Edit");
         jMenuBar2.add(jMenu4);
-
-        jMenu7.setText("jMenu7");
-
-        jMenu8.setText("File");
-        jMenuBar3.add(jMenu8);
-
-        jMenu9.setText("Edit");
-        jMenuBar3.add(jMenu9);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -296,55 +256,6 @@ public class GUIAFD extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu10.setText("Editar");
-
-        subDeshacer.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
-        subDeshacer.setText("Deshacer");
-        subDeshacer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                subDeshacerActionPerformed(evt);
-            }
-        });
-        jMenu10.add(subDeshacer);
-
-        subRehacer.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
-        subRehacer.setText("Rehacer");
-        subRehacer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                subRehacerActionPerformed(evt);
-            }
-        });
-        jMenu10.add(subRehacer);
-
-        subCopiar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
-        subCopiar.setText("Copiar");
-        subCopiar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                subCopiarActionPerformed(evt);
-            }
-        });
-        jMenu10.add(subCopiar);
-
-        subCortar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
-        subCortar.setText("Cortar");
-        subCortar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                subCortarActionPerformed(evt);
-            }
-        });
-        jMenu10.add(subCortar);
-
-        subPegar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
-        subPegar.setText("Pegar");
-        subPegar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                subPegarActionPerformed(evt);
-            }
-        });
-        jMenu10.add(subPegar);
-
-        jMenuBar1.add(jMenu10);
-
         jMenu5.setText("Compilar");
 
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.CTRL_MASK));
@@ -375,34 +286,6 @@ public class GUIAFD extends javax.swing.JFrame {
         jMenu5.add(jMenuItem8);
 
         jMenuBar1.add(jMenu5);
-
-        jMenu6.setText("Borrar");
-
-        jMenuItem11.setText("LimpiaResultados");
-        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem11ActionPerformed(evt);
-            }
-        });
-        jMenu6.add(jMenuItem11);
-
-        jMenuItem9.setText("LimpiaTablaTokens");
-        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem9ActionPerformed(evt);
-            }
-        });
-        jMenu6.add(jMenuItem9);
-
-        jMenuItem10.setText("LimpiaTablaSimbolos");
-        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem10ActionPerformed(evt);
-            }
-        });
-        jMenu6.add(jMenuItem10);
-
-        jMenuBar1.add(jMenu6);
 
         jMenu2.setText("Acerca de");
 
@@ -456,53 +339,6 @@ public class GUIAFD extends javax.swing.JFrame {
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
         JOptionPane.showMessageDialog(this, "Funcion no disponible", "En proceso", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jMenuItem8ActionPerformed
-
-    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-        modelo = new DefaultTableModel();
-        jTable1.setModel(modelo);
-    }//GEN-LAST:event_jMenuItem9ActionPerformed
-
-    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
-        modelo = new DefaultTableModel();
-        jTable2.setModel(modelo);
-    }//GEN-LAST:event_jMenuItem10ActionPerformed
-
-    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-        jTextArea2.setText("");
-    }//GEN-LAST:event_jMenuItem11ActionPerformed
-
-    private void subDeshacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subDeshacerActionPerformed
-         //valida si se puede deshacer
-        if (Undo.canUndo()) {
-            Undo.undo(); //manda a deshacer
-            subRehacer.setEnabled(true);
-        } else { //sino existen inabilita el menu
-            subDeshacer.setEnabled(false);
-        }
-
-    }//GEN-LAST:event_subDeshacerActionPerformed
-
-    private void subRehacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subRehacerActionPerformed
-     
-        if (Undo.canRedo()) { //valuda si se puede rehacer
-            Undo.redo(); //manda a rehacer
-            subDeshacer.setEnabled(true);
-        } else { //sino 
-            subRehacer.setEnabled(false);
-        }
-    }//GEN-LAST:event_subRehacerActionPerformed
-
-    private void subCopiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subCopiarActionPerformed
-        Copiar_Action.actionPerformed(evt); //llama accion
-    }//GEN-LAST:event_subCopiarActionPerformed
-
-    private void subCortarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subCortarActionPerformed
-        Cortar_Action.actionPerformed(evt);//llama accion
-    }//GEN-LAST:event_subCortarActionPerformed
-
-    private void subPegarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subPegarActionPerformed
-         Pegar_Action.actionPerformed(evt);//llama accion
-    }//GEN-LAST:event_subPegarActionPerformed
 
     //revisa que el archivo que se va a abrir sea de tipo de dato que se está pidiendo
     private void OpenFile() {
@@ -691,21 +527,13 @@ public class GUIAFD extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
-    private javax.swing.JMenu jMenu7;
-    private javax.swing.JMenu jMenu8;
-    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuBar jMenuBar3;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -713,7 +541,6 @@ public class GUIAFD extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -729,10 +556,5 @@ public class GUIAFD extends javax.swing.JFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JMenuItem subCopiar;
-    private javax.swing.JMenuItem subCortar;
-    private javax.swing.JMenuItem subDeshacer;
-    private javax.swing.JMenuItem subPegar;
-    private javax.swing.JMenuItem subRehacer;
     // End of variables declaration//GEN-END:variables
 }
