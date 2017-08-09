@@ -14,13 +14,16 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.Action;
 
 /**
  *
  * @author erick
  */
 public class GUIAFD extends javax.swing.JFrame {
-
+ 
+    //variables de clase
+    Action Copiar_Action, Pegar_Action, Cortar_Action;
     /*
     Importaciones para las partes del analisis del código
      */
@@ -103,6 +106,10 @@ public class GUIAFD extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu6 = new javax.swing.JMenu();
+        subCopiar = new javax.swing.JMenuItem();
+        subCortar = new javax.swing.JMenuItem();
+        subPegar = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -167,7 +174,7 @@ public class GUIAFD extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Resultados:", jPanel1);
@@ -193,7 +200,7 @@ public class GUIAFD extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Lista de tokens", jPanel2);
@@ -216,7 +223,7 @@ public class GUIAFD extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Lista de simbolos", jPanel3);
@@ -234,9 +241,11 @@ public class GUIAFD extends javax.swing.JFrame {
 
         jSplitPane1.setRightComponent(jPanel6);
 
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/carpeta (1).png"))); // NOI18N
         jMenu1.setText("Archivo");
 
         jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Abrir.png"))); // NOI18N
         jMenuItem6.setText("Abrir");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -246,6 +255,7 @@ public class GUIAFD extends javax.swing.JFrame {
         jMenu1.add(jMenuItem6);
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/cancelar.png"))); // NOI18N
         jMenuItem2.setText("Salir");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -256,9 +266,46 @@ public class GUIAFD extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/documento.png"))); // NOI18N
+        jMenu6.setText("Editar");
+
+        subCopiar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        subCopiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/copiar.png"))); // NOI18N
+        subCopiar.setText("Copiar");
+        subCopiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subCopiarActionPerformed(evt);
+            }
+        });
+        jMenu6.add(subCopiar);
+
+        subCortar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
+        subCortar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/tijeras.png"))); // NOI18N
+        subCortar.setText("Cortar");
+        subCortar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subCortarActionPerformed(evt);
+            }
+        });
+        jMenu6.add(subCortar);
+
+        subPegar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
+        subPegar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/pegar.png"))); // NOI18N
+        subPegar.setText("Pegar");
+        subPegar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subPegarActionPerformed(evt);
+            }
+        });
+        jMenu6.add(subPegar);
+
+        jMenuBar1.add(jMenu6);
+
+        jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/play.png"))); // NOI18N
         jMenu5.setText("Compilar");
 
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/jugar.png"))); // NOI18N
         jMenuItem5.setText("Análisis lexico");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -268,6 +315,7 @@ public class GUIAFD extends javax.swing.JFrame {
         jMenu5.add(jMenuItem5);
 
         jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/jugar.png"))); // NOI18N
         jMenuItem7.setText("Análisis sintactico");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -277,6 +325,7 @@ public class GUIAFD extends javax.swing.JFrame {
         jMenu5.add(jMenuItem7);
 
         jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_3, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/jugar.png"))); // NOI18N
         jMenuItem8.setText("Análisis semántico");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -287,6 +336,7 @@ public class GUIAFD extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu5);
 
+        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Acerca.png"))); // NOI18N
         jMenu2.setText("Acerca de");
 
         jMenuItem1.setText("Codigo fuente");
@@ -309,7 +359,7 @@ public class GUIAFD extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jSplitPane1)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -339,6 +389,18 @@ public class GUIAFD extends javax.swing.JFrame {
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
         JOptionPane.showMessageDialog(this, "Funcion no disponible", "En proceso", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void subCortarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subCortarActionPerformed
+        Cortar_Action.actionPerformed(evt);//llama accion
+    }//GEN-LAST:event_subCortarActionPerformed
+
+    private void subCopiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subCopiarActionPerformed
+Copiar_Action.actionPerformed(evt); //llama accion      
+    }//GEN-LAST:event_subCopiarActionPerformed
+
+    private void subPegarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subPegarActionPerformed
+         Pegar_Action.actionPerformed(evt);//llama accion
+    }//GEN-LAST:event_subPegarActionPerformed
 
     //revisa que el archivo que se va a abrir sea de tipo de dato que se está pidiendo
     private void OpenFile() {
@@ -531,6 +593,7 @@ public class GUIAFD extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
@@ -556,5 +619,8 @@ public class GUIAFD extends javax.swing.JFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JMenuItem subCopiar;
+    private javax.swing.JMenuItem subCortar;
+    private javax.swing.JMenuItem subPegar;
     // End of variables declaration//GEN-END:variables
 }
