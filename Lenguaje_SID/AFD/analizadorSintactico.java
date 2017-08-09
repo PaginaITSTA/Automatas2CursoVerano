@@ -174,7 +174,6 @@ public class analizadorSintactico {
 
     }
 
-
     private boolean declVEexp() {
         if ((contadorLista + 5) < listaTokens.size()) {
 
@@ -200,7 +199,7 @@ public class analizadorSintactico {
     private boolean Exp() {
         System.out.println("Entro a ver si es una Exp()");
         if (Term()) {
-            if (listaTokens.get(contadorLista + 3).getToken().equals("OperadorSuma") || listaTokens.get(contadorLista + 3).getToken().equals("OperadorResta")) {
+            if (listaTokens.get(contadorLista + 1).getToken().equals("OperadorSuma") || listaTokens.get(contadorLista + 1).getToken().equals("OperadorResta")) {
                 if (Exp()) {
                     return true;
                 } else {
@@ -223,7 +222,7 @@ public class analizadorSintactico {
                     return true;
                 }
                 System.out.println("Solo encontro un factor");
-                contadorLista++;
+                //contadorLista++;
                 return true;
             }
         } else if ((contadorLista + 1) < listaTokens.size()) {
@@ -239,19 +238,20 @@ public class analizadorSintactico {
     private boolean factor() {
         //Factor -> digito | identificador | (Exp)
         System.out.println("Entro a ver si es un factor()");
-        System.out.println(listaTokens.get(contadorLista + 1).getValor()
+        System.out.println(listaTokens.get(contadorLista).getValor()
+                + " " + listaTokens.get(contadorLista + 1).getValor()
                 + " " + listaTokens.get(contadorLista + 2).getValor()
                 + " " + listaTokens.get(contadorLista + 3).getValor()
                 + " " + listaTokens.get(contadorLista + 4).getValor()
                 + " " + listaTokens.get(contadorLista + 5).getValor() + " " + listaTokens.get(contadorLista).getLinea());
 
         if ((contadorLista + 1) < listaTokens.size()) {
-            System.out.println("Se espera un identificador o numero y se da: " + listaTokens.get(contadorLista).getToken() + " -> " + listaTokens.get(contadorLista + 2).getValor());
+            System.out.println("Se espera un identificador o numero y se da: " + listaTokens.get(contadorLista).getToken() + " -> " + listaTokens.get(contadorLista).getValor());
             if (listaTokens.get(contadorLista).getToken().equals("Identificador")) {
                 contadorLista++;
                 System.out.println("identificador encontrado");
                 return true;
-            } else if (listaTokens.get(contadorLista).getToken().equals("NumeroDecimal") || listaTokens.get(contadorLista + 2).getToken().equals("NumeroEntero")) {
+            } else if (listaTokens.get(contadorLista).getToken().equals("NumeroDecimal") || listaTokens.get(contadorLista).getToken().equals("NumeroEntero")) {
                 contadorLista++;
                 System.out.println("Numero encontrado");
                 return true;
@@ -492,8 +492,8 @@ public class analizadorSintactico {
 
         if (Exp()) {
             boolean band = false;
-            System.out.println("Entro a ver si es >, < >=, etc");
-            switch (listaTokens.get(contadorLista + 1).getToken()) {
+            System.out.println("Entro a ver si es >, < >=, etc, lo que se da es: " + listaTokens.get(contadorLista).getToken());
+            switch (listaTokens.get(contadorLista).getToken()) {
                 case "OperadorMayorQue":
                     band = true;
                     break;
@@ -517,12 +517,17 @@ public class analizadorSintactico {
             }
 
             if (band) {
+                contadorLista++;
                 if (Exp()) {
                     System.out.println("Encontro, Exp operacionLogica");
                     return true;
                 }
+                System.out.println("Encontro un simbolo de >=, <= o algo así");
+
+                return true;
             } else {
                 System.out.println("Solo encontró una expresión");
+                return true;
             }
         }
         /*
