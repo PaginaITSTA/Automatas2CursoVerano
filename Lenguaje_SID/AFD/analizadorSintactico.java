@@ -165,11 +165,14 @@ public class analizadorSintactico {
 
     private boolean Exp() {
         System.out.println("Entro a ver si es una Exp()");
-        if (Term()
-                && (listaTokens.get(contadorLista + 3).getToken().equals("OperadorSuma") || listaTokens.get(contadorLista + 3).getToken().equals("OperadorResta"))
-                && Exp()) {
-            return true;
-        } else if (Term()) {
+        if (Term()) {
+            if (listaTokens.get(contadorLista + 3).getToken().equals("OperadorSuma") || listaTokens.get(contadorLista + 3).getToken().equals("OperadorResta")) {
+                if (Exp()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
             return true;
         }
         return false;
@@ -204,7 +207,7 @@ public class analizadorSintactico {
         System.out.println("Entro a ver si es un factor()");
 
         if ((contadorLista + 1) < listaTokens.size()) {
-            System.out.println("Se espera un identificador o numero y se da: " + listaTokens.get(contadorLista + 2).getToken() + " -> " + listaTokens.get(contadorLista + 2).getValor());
+            System.out.println("Se espera un identificador o numero y se da: " + listaTokens.get(contadorLista).getToken() + " -> " + listaTokens.get(contadorLista + 2).getValor());
             if (listaTokens.get(contadorLista).getToken().equals("Identificador")) {
                 contadorLista++;
                 System.out.println("identificador encontrado");
@@ -380,14 +383,14 @@ public class analizadorSintactico {
             if (listaTokens.get(contadorLista).getValor().equals("if")) {
                 contadorLista++;
                 System.out.println("Encontró el if");
-                if (listaTokens.get(contadorLista + 1).getToken().equals("ParentesisInicio")) {
+                if (listaTokens.get(contadorLista).getToken().equals("ParentesisInicio")) {
                     contadorLista++;
                     System.out.println("Encontró el parentesis de inicio");
                     if (condicion()) {
                         System.out.println("Paso de la función");
-                        if (listaTokens.get(contadorLista + 3).getToken().equals("ParentesisFin")) {
+                        if (listaTokens.get(contadorLista).getToken().equals("ParentesisFin")) {
                             System.out.println("Encontro el parentesis de fin");
-                            if (listaTokens.get(contadorLista + 4).getToken().equals("llaveApertura")) {
+                            if (listaTokens.get(contadorLista).getToken().equals("llaveApertura")) {
                                 System.out.println("Primera parte del if completada.");
                                 return true;
                             } else {
