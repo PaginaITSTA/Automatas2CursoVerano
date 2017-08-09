@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class AFD {
 
-      private int contadorGeneral, linea;
+    private int contadorGeneral, linea;
     private char cadenaGeneral[];
     private String rows[];
     private final String[] palabrasReservadas
@@ -24,7 +24,7 @@ public class AFD {
         listaTokens = new ArrayList<>();
         listaErrores = new ArrayList<>();
         this.contadorGeneral = 0;
-        this.linea = 0;       
+        this.linea = 0;
     }
 
     public void estadoInicial() {
@@ -34,7 +34,7 @@ public class AFD {
 
     private void q0() {
         boolean entro;
-        while (linea <= rows.length) {           
+        while (linea <= rows.length) {
             //System.out.println("linea =" + linea);
             if (contadorGeneral < cadenaGeneral.length) {
                 //System.out.println("Caracter -> " + cadenaGeneral[contadorGeneral]);
@@ -197,7 +197,8 @@ public class AFD {
     private void q10() {
         if (contadorGeneral < (cadenaGeneral.length - 1)) {
             if (cadenaGeneral[contadorGeneral + 1] == '#') {
-                listaTokens.add(new token("ComentarioSimple", "##", linea, contadorGeneral));
+                //Este simbolo, pese a pertenecer a los tokens establecidos, no es necesarios de ser incluidos en la lista, ya que no ayudan al proceso del código.
+                //listaTokens.add(new token("ComentarioSimple", "##", linea, contadorGeneral));
                 cambiaLinea();
             } else {
                 listaErrores.add("Esperado: # en la linea: " + linea + ", en la columna: " + contadorGeneral + 1);
@@ -405,22 +406,21 @@ public class AFD {
 //        } else {
 //            listaTokens.add(new token("Identificador", temp, linea, valorTemporal));
 //        }
-        
+
         boolean reservada = true;
         for (int i = 0; i < palabrasReservadas.length; i++) {
             if (temp.equals(palabrasReservadas[i])) {
                 listaTokens.add(new token("PalabraReservada", temp, linea, contadorGeneral));
                 reservada = false;
                 break;
-            }            
+            }
         }
         if (reservada) {
             listaTokens.add(new token("Identificador", temp, linea, valorTemporal));
-            
+
         }
-        
+
     }
-    
 
     //Este método es para identificar a los números 
     private void q24() {
@@ -457,7 +457,6 @@ public class AFD {
 //        }
 //        return "";
 //    }
-
     private static boolean isNumeric(char numero) {
         String cadena = numero + "";
         try {
@@ -468,7 +467,6 @@ public class AFD {
         }
     }
 
-   
     private static boolean isLetter(char letra) {
         if ((letra >= 'a' && letra <= 'z') || (letra >= 'A' && letra <= 'Z')) {
             return true;
@@ -488,7 +486,6 @@ public class AFD {
 //        }
 //        return band;
 //    }
-
     private void cambiaLinea() {
         if (linea < rows.length) {
             cadenaGeneral = rows[linea].toCharArray();
@@ -498,8 +495,6 @@ public class AFD {
             linea++;
         }
     }
-    
-  
 
     public ArrayList getListaTokens() {
         return listaTokens;
