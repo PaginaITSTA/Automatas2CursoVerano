@@ -175,12 +175,133 @@ public class analizadorSintactico {
     }
 
     private boolean declVD() {
+
+    
+
+
+
+    
+
+
+
+
+
+
+    
+
+
+private boolean declVEexp() {
+        if ((contadorLista + 5) < listaTokens.size()) {
+
+            if (listaTokens.get(contadorLista + 1).getValor().equals("Int")) {
+                if (listaTokens.get(contadorLista + 2).getToken().equals("Identificador")) {
+                    if (listaTokens.get(contadorLista + 3).getToken().equals("operadorDeAsignacion")) {
+                        String resultadoDeExp = Exp();
+                        if (!resultadoDeExp.isEmpty()) {
+                            if (listaTokens.get(contadorLista + 5).getToken().equals("Delimitador")) {
+                                listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 4).getValor(), ""));
+                                contadorLista = contadorLista + 5;
+                                System.out.println("Declaracion de tipo 3 INT Correcto");
+                                return true;
+                            } else {
+                                listaErrores.add("Error de Declaración INT 3 en la Linea " + listaTokens.get(contadorLista + 1).getLinea() + " Se esperaba --> Tipo de Dato Identificador = Valor $");
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    //Al parecer esta lista la condición, ya que se ejecuta en el método Term()
+    private String Exp() {
+        System.out.println("Entro a ver si es una Exp()");
+        String resultadoDeTermino = Term(), resultadoDeExp = "", operadorSumatorio = "";
+        if (!resultadoDeTermino.isEmpty()) {
+            //contadorLista++;
+            if (listaTokens.get(contadorLista).getToken().equals("OperadorSuma") || listaTokens.get(contadorLista).getToken().equals("OperadorResta")) {
+                operadorSumatorio = listaTokens.get(contadorLista + 1).getValor();
+                resultadoDeExp = Exp();
+                if (!resultadoDeExp.isEmpty()) {
+                    return resultadoDeExp;
+                } else {
+                    return "";
+                }
+            }
+            return resultadoDeTermino;
+        }
+        return "";
+    }
+
+    private String Term() {
+        String resultadoDeFactor = "", resultadoDeTerm = "", operadorMultiplicativo = "";
+        //Term -> Factor * Term | Factor / Term | Factor
+        System.out.println("Entro a ver si es un Term()");
+        if ((contadorLista + 2) < listaTokens.size()) {
+            resultadoDeFactor = factor();
+            if (!resultadoDeFactor.isEmpty()) {
+                if (listaTokens.get(contadorLista).getToken().equals("OperadorMultiplicacion")
+                        || listaTokens.get(contadorLista).getToken().equals("OperadorDivision")) {
+                    operadorMultiplicativo = listaTokens.get(contadorLista).getValor();
+                    resultadoDeTerm = Term();
+                    if (!resultadoDeTerm.isEmpty()) {
+                        listaSimbolos.add(new listaSimbolos("", operadorMultiplicativo, resultadoDeFactor, resultadoDeTerm, "Debe una variable"));
+                        return "RetornaUnavariable";
+                    }
+                }
+                System.out.println("Solo encontro un factor");
+                //contadorLista++;
+                return resultadoDeFactor;
+            }
+        } else if ((contadorLista + 1) < listaTokens.size()) {
+            resultadoDeFactor = factor();
+            if (!resultadoDeFactor.isEmpty()) {
+                System.out.println("Solo encontro un factor");
+                return resultadoDeFactor;
+            }
+        }
+        return "";
+    }
+
+    //Por el momento solo identifica a un identifiador o un dígito
+    private String factor() {
+        //Factor -> digito | identificador | (Exp)
+        System.out.println("Entro a ver si es un factor()");
+        System.out.println(listaTokens.get(contadorLista).getValor()
+                + " " + listaTokens.get(contadorLista + 1).getValor()
+                + " " + listaTokens.get(contadorLista + 2).getValor()
+                + " " + listaTokens.get(contadorLista + 3).getValor()
+                + " " + listaTokens.get(contadorLista + 4).getValor()
+                + " " + listaTokens.get(contadorLista + 5).getValor() + " " + listaTokens.get(contadorLista).getLinea());
+
+        if ((contadorLista + 1) < listaTokens.size()) {
+            String Identificador = "";
+            System.out.println("Se espera un identificador o numero y se da: " + listaTokens.get(contadorLista).getToken() + " -> " + listaTokens.get(contadorLista).getValor());
+            if (listaTokens.get(contadorLista).getToken().equals("Identificador")) {
+                Identificador = listaTokens.get(contadorLista).getValor();
+                contadorLista++;
+                System.out.println("identificador encontrado");
+                return Identificador;
+            } else if (listaTokens.get(contadorLista).getToken().equals("NumeroDecimal") || listaTokens.get(contadorLista).getToken().equals("NumeroEntero")) {
+                Identificador = listaTokens.get(contadorLista).getValor();
+                contadorLista++;
+                System.out.println("Numero encontrado");
+                return Identificador;
+            }
+        }
+        System.out.println("Salio de factor por falta de tokens");
+        return "";
+    }
+
+    private boolean declVD() {
+
         /*
         declVD -> float identificador $ | float identificador = num.num $
         float a = 2.1 $
         float b $
          */
-
         String opcion = listaTokens.get(contadorLista + 3).getValor();
         System.out.println(opcion);
 
@@ -340,12 +461,12 @@ public class analizadorSintactico {
     private boolean factor() {
         //Factor -> digito | identificador | (Exp)
         System.out.println("Entro a ver si es un factor()");
-        System.out.println( listaTokens.get(contadorLista + 1).getValor()
+        System.out.println(listaTokens.get(contadorLista + 1).getValor()
                 + " " + listaTokens.get(contadorLista + 2).getValor()
                 + " " + listaTokens.get(contadorLista + 3).getValor()
                 + " " + listaTokens.get(contadorLista + 4).getValor()
                 + " " + listaTokens.get(contadorLista + 5).getValor()
-                + " " + listaTokens.get(contadorLista + 6).getValor() +  " linea :" + listaTokens.get(contadorLista).getLinea());
+                + " " + listaTokens.get(contadorLista + 6).getValor() + " linea :" + listaTokens.get(contadorLista).getLinea());
 
         if ((contadorLista + 1) < listaTokens.size()) {
             System.out.println("Se espera un identificador o numero y se da: " + listaTokens.get(contadorLista).getToken() + " -> " + listaTokens.get(contadorLista).getValor());
@@ -377,13 +498,8 @@ public class analizadorSintactico {
     private boolean comprobarMetodo() {
         //METODO -> disponibilidad  identificador () { función }
         //String clase, String nombreValor, String tipoDeDato, String valor, String disponibilidad
-        System.out.println("Entro en la parte de comprobar método");
         contadorLista++;
         if ((contadorLista + 4) < listaTokens.size()) {
-            System.out.println("Inteto identificar si es un método");
-
-            System.out.println("El siguiente token que se espera es un public y lo que se da es: "
-                    + listaTokens.get(contadorLista).getValor());
 
             if ((listaTokens.get(contadorLista).getValor().equals("public") || listaTokens.get(contadorLista).getValor().equals("private"))
                     && listaTokens.get(contadorLista + 1).getToken().equals("Identificador")
@@ -393,14 +509,18 @@ public class analizadorSintactico {
                 listaSimbolos.add(new listaSimbolos("Metodo", listaTokens.get(contadorLista + 1).getValor(), "", "", listaTokens.get(contadorLista).getValor()));
                 contadorLista = contadorLista + 5;
 
-                System.out.println("Comprobó que sea la primera parte del método");
-
                 //En éste punto se debe de comprobar si tiene alguna funcion a dentro o concluye con una llave
                 if ((contadorLista + 1) < listaTokens.size()) {
                     System.out.println("Entro a buscar la llave de cierre");
                     if (listaTokens.get(contadorLista).getToken().equals("llaveFin")) {
                         System.out.println("Llego al final del método");
                     } else if (funcion()) {
+                        if (listaTokens.get(contadorLista).getToken().equals("llaveFin")) {
+                            System.out.println("Se encontro la llave final del método y todo completo");
+                            return true;
+                        } else {
+                            System.out.println("Aqui se produce un error ya que no está la llave final del método");
+                        }
                         System.out.println("Tiene una funcion interna");
                     }
                 } else {
@@ -417,7 +537,6 @@ public class analizadorSintactico {
     }
 
     private boolean funcion() {
-
         System.out.println("Entro a buscar una función");
         //FUNCIÓN -> cond_if | cond_while | cod_for 
 
@@ -446,13 +565,23 @@ public class analizadorSintactico {
                 if (listaTokens.get(contadorLista).getToken().equals("ParentesisInicio")) {
                     contadorLista++;
                     System.out.println("Encontró el parentesis de inicio");
-                    if (condicion()) {
+                    //En esta parte se comprueba que tenga una condición en el método if.
+                    if (condicion("if")) {
                         System.out.println("Paso de la función");
                         if (listaTokens.get(contadorLista).getToken().equals("ParentesisFin")) {
                             System.out.println("Encontro el parentesis de fin");
+                            contadorLista++;
                             if (listaTokens.get(contadorLista).getToken().equals("llaveApertura")) {
                                 System.out.println("Primera parte del if completada.");
-                                return true;
+                                contadorLista++;
+                                if (listaTokens.get(contadorLista).getToken().equals("llaveFin")) {
+                                    return true;
+                                } else if (impresion()) {
+                                    return true;
+                                } else {
+                                    System.out.println("Termino la primera parte de if, pero no encontro la llave fin");
+                                    return false;
+                                }
                             } else {
                                 return false;
                             }
@@ -473,12 +602,12 @@ public class analizadorSintactico {
         return false;
     }
 
-    private boolean condicion() {
+    private boolean condicion(String origenDeLafuncion) {
         System.out.println("Entro a verificar si existe alguna condicion");
         //CONDICION -> condición_lógica | condición_AND | condición_OR
-        if (condicion_logica()) {
+        if (condicion_logica(origenDeLafuncion)) {
             return true;
-        } else if (condicion_AND()) {
+        } else if (condicion_AND(origenDeLafuncion)) {
             return true;
         } else if (condicion_OR()) {
             return true;
@@ -486,11 +615,11 @@ public class analizadorSintactico {
         return false;
     }
 
-    private boolean condicion_logica() {
+    private boolean condicion_logica(String origenDeLaFuncion) {
         System.out.println("Entro a ver si es una condición lógica");
         //CONDICIÓN_LÓGICA -> Exp > Exp | Exp < Exp | Exp >= Exp | Exp <= Exp | Exp == Exp | Exp !=  Exp
-
-        if (Exp()) {
+        String resultadoDeExp = Exp(), resultadoDeExp2 = "", operadorLogico = "";
+        if (!resultadoDeExp.isEmpty()) {
             boolean band = false;
             System.out.println("Entro a ver si es >, < >=, etc, lo que se da es: " + listaTokens.get(contadorLista).getToken());
             switch (listaTokens.get(contadorLista).getToken()) {
@@ -517,14 +646,18 @@ public class analizadorSintactico {
             }
 
             if (band) {
+                operadorLogico = listaTokens.get(contadorLista).getToken();
                 contadorLista++;
-                if (Exp()) {
+                resultadoDeExp2 = Exp();
+                if (!resultadoDeExp2.isEmpty()) {
+                    listaSimbolos.add(new listaSimbolos(origenDeLaFuncion, operadorLogico, resultadoDeExp, resultadoDeExp2, "VariableDebeSerIncrementable"));
                     System.out.println("Encontro, Exp operacionLogica");
                     return true;
                 }
+                /*
                 System.out.println("Encontro un simbolo de >=, <= o algo así");
-
                 return true;
+                 */
             } else {
                 System.out.println("Solo encontró una expresión");
                 return true;
@@ -548,9 +681,9 @@ public class analizadorSintactico {
         return false;
     }
 
-    private boolean condicion_AND() {
+    private boolean condicion_AND(String OrigenDeLaFuncion) {
         //CONDICION AND -> condición_lógica && condición_lógica
-        if (condicion_logica() && listaTokens.get(contadorLista).getToken().equals("operadorAnd") && condicion_logica()) {
+        if (condicion_logica(OrigenDeLaFuncion) && listaTokens.get(contadorLista).getToken().equals("operadorAnd") && condicion_logica(OrigenDeLaFuncion)) {
             return true;
         }
         return false;
@@ -565,7 +698,7 @@ public class analizadorSintactico {
         //COND_WHLE -> while (condición) {impresión}
         if (listaTokens.get(contadorLista).getValor().equals("while")
                 && listaTokens.get(contadorLista).getToken().equals("ParentesisInicio")
-                && condicion()
+                && condicion("while")
                 && listaTokens.get(contadorLista).getToken().equals("ParentesisFin")
                 && listaTokens.get(contadorLista).equals("llaveApertura")
                 && impresion()
@@ -582,6 +715,25 @@ public class analizadorSintactico {
     }
 
     private boolean impresion() {
+        //IMPRESIÓN  -> Print ( CadenaDeTexto )$
+        System.out.println("Entro a la impresión dato esperado Print dado: " + listaTokens.get(contadorLista).getValor());
+        if (listaTokens.get(contadorLista).getValor().equals("Print")) {
+            contadorLista++;
+            if (listaTokens.get(contadorLista).getToken().equals("ParentesisInicio")) {
+                contadorLista++;
+                if (listaTokens.get(contadorLista).getToken().equals("CadenaDeTexto")) {
+                    contadorLista++;
+                    if (listaTokens.get(contadorLista).getToken().equals("ParentesisFin")) {
+                        contadorLista++;
+                        if (listaTokens.get(contadorLista).getToken().equals("Delimitador")) {
+                            listaSimbolos.add(new listaSimbolos("Impresion", "", "", listaTokens.get(contadorLista - 2).getValor(), ""));
+                            contadorLista++;
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
         return false;
     }
 
