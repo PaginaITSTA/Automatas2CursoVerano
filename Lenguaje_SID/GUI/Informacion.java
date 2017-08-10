@@ -84,7 +84,6 @@ public class Informacion extends javax.swing.JFrame {
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/proximo.png"))); // NOI18N
         jButton1.setBorderPainted(false);
         jButton1.setContentAreaFilled(false);
-        jButton1.setOpaque(false);
         jButton1.setRolloverEnabled(true);
         jButton1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/proximo (1).png"))); // NOI18N
 
@@ -92,7 +91,6 @@ public class Informacion extends javax.swing.JFrame {
         jButton2.setBorder(null);
         jButton2.setBorderPainted(false);
         jButton2.setContentAreaFilled(false);
-        jButton2.setOpaque(false);
         jButton2.setRolloverEnabled(true);
         jButton2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/proximo (1).png"))); // NOI18N
         jButton2.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/proximo (1).png"))); // NOI18N
@@ -101,7 +99,6 @@ public class Informacion extends javax.swing.JFrame {
         jButton3.setBorder(null);
         jButton3.setBorderPainted(false);
         jButton3.setContentAreaFilled(false);
-        jButton3.setOpaque(false);
         jButton3.setRolloverEnabled(true);
         jButton3.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/proximo (1).png"))); // NOI18N
         jButton3.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/proximo (1).png"))); // NOI18N
