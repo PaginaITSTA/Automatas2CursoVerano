@@ -21,9 +21,10 @@ import javax.swing.Action;
  * @author erick
  */
 public class GUIAFD extends javax.swing.JFrame {
- 
+
     //variables de clase
     Action Copiar_Action, Pegar_Action, Cortar_Action;
+    Informacion form;
     /*
     Importaciones para las partes del analisis del código
      */
@@ -86,6 +87,8 @@ public class GUIAFD extends javax.swing.JFrame {
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
+        jSeparator4 = new javax.swing.JSeparator();
+        jSeparator15 = new javax.swing.JSeparator();
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -104,17 +107,26 @@ public class GUIAFD extends javax.swing.JFrame {
         jTable2 = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem6 = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
         subCopiar = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
         subCortar = new javax.swing.JMenuItem();
+        jSeparator7 = new javax.swing.JPopupMenu.Separator();
         subPegar = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
+        jSeparator14 = new javax.swing.JPopupMenu.Separator();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jSeparator9 = new javax.swing.JPopupMenu.Separator();
         jMenuItem7 = new javax.swing.JMenuItem();
+        jSeparator10 = new javax.swing.JPopupMenu.Separator();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jSeparator13 = new javax.swing.JPopupMenu.Separator();
         jMenuItem1 = new javax.swing.JMenuItem();
 
         jMenuItem3.setText("jMenuItem3");
@@ -174,7 +186,7 @@ public class GUIAFD extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Resultados:", jPanel1);
@@ -200,7 +212,7 @@ public class GUIAFD extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Lista de tokens", jPanel2);
@@ -223,7 +235,7 @@ public class GUIAFD extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Lista de simbolos", jPanel3);
@@ -243,6 +255,7 @@ public class GUIAFD extends javax.swing.JFrame {
 
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/carpeta (1).png"))); // NOI18N
         jMenu1.setText("Archivo");
+        jMenu1.add(jSeparator1);
 
         jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Abrir.png"))); // NOI18N
@@ -253,6 +266,7 @@ public class GUIAFD extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem6);
+        jMenu1.add(jSeparator2);
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/cancelar.png"))); // NOI18N
@@ -268,6 +282,7 @@ public class GUIAFD extends javax.swing.JFrame {
 
         jMenu6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/documento.png"))); // NOI18N
         jMenu6.setText("Editar");
+        jMenu6.add(jSeparator5);
 
         subCopiar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
         subCopiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/copiar.png"))); // NOI18N
@@ -278,6 +293,7 @@ public class GUIAFD extends javax.swing.JFrame {
             }
         });
         jMenu6.add(subCopiar);
+        jMenu6.add(jSeparator6);
 
         subCortar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
         subCortar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/tijeras.png"))); // NOI18N
@@ -288,6 +304,7 @@ public class GUIAFD extends javax.swing.JFrame {
             }
         });
         jMenu6.add(subCortar);
+        jMenu6.add(jSeparator7);
 
         subPegar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
         subPegar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/pegar.png"))); // NOI18N
@@ -303,6 +320,7 @@ public class GUIAFD extends javax.swing.JFrame {
 
         jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/play.png"))); // NOI18N
         jMenu5.setText("Compilar");
+        jMenu5.add(jSeparator14);
 
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/jugar.png"))); // NOI18N
@@ -313,6 +331,7 @@ public class GUIAFD extends javax.swing.JFrame {
             }
         });
         jMenu5.add(jMenuItem5);
+        jMenu5.add(jSeparator9);
 
         jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/jugar.png"))); // NOI18N
@@ -323,6 +342,7 @@ public class GUIAFD extends javax.swing.JFrame {
             }
         });
         jMenu5.add(jMenuItem7);
+        jMenu5.add(jSeparator10);
 
         jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_3, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/jugar.png"))); // NOI18N
@@ -338,8 +358,15 @@ public class GUIAFD extends javax.swing.JFrame {
 
         jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Acerca.png"))); // NOI18N
         jMenu2.setText("Acerca de");
+        jMenu2.add(jSeparator13);
 
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/gestion-de-datos-simbolo-de-interfaz-con-engranajes-y-numeros-de-codigo-binario.png"))); // NOI18N
         jMenuItem1.setText("Codigo fuente");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem1);
 
         jMenuBar1.add(jMenu2);
@@ -359,7 +386,7 @@ public class GUIAFD extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -395,12 +422,18 @@ public class GUIAFD extends javax.swing.JFrame {
     }//GEN-LAST:event_subCortarActionPerformed
 
     private void subCopiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subCopiarActionPerformed
-Copiar_Action.actionPerformed(evt); //llama accion      
+        Copiar_Action.actionPerformed(evt); //llama accion      
     }//GEN-LAST:event_subCopiarActionPerformed
 
     private void subPegarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subPegarActionPerformed
-         Pegar_Action.actionPerformed(evt);//llama accion
+        Pegar_Action.actionPerformed(evt);//llama accion
     }//GEN-LAST:event_subPegarActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        form = new Informacion();
+        form.setVisible(true);
+        
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     //revisa que el archivo que se va a abrir sea de tipo de dato que se está pidiendo
     private void OpenFile() {
@@ -613,6 +646,17 @@ Copiar_Action.actionPerformed(evt); //llama accion
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator10;
+    private javax.swing.JPopupMenu.Separator jSeparator13;
+    private javax.swing.JPopupMenu.Separator jSeparator14;
+    private javax.swing.JSeparator jSeparator15;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
+    private javax.swing.JPopupMenu.Separator jSeparator6;
+    private javax.swing.JPopupMenu.Separator jSeparator7;
+    private javax.swing.JPopupMenu.Separator jSeparator9;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;

@@ -252,8 +252,7 @@ private boolean declVE() {
     private String factor() {
         //Factor -> digito | identificador | (Exp)
         System.out.println("Entro a ver si es un factor()");
-        System.out.println(listaTokens.get(contadorLista).getValor()
-                + " " + listaTokens.get(contadorLista + 1).getValor()
+        System.out.println(listaTokens.get(contadorLista + 1).getValor()
                 + " " + listaTokens.get(contadorLista + 2).getValor()
                 + " " + listaTokens.get(contadorLista + 3).getValor()
                 + " " + listaTokens.get(contadorLista + 4).getValor()
