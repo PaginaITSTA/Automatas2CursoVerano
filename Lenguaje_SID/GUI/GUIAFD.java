@@ -396,7 +396,11 @@ public class GUIAFD extends javax.swing.JFrame {
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         modelo = new DefaultTableModel();
         jTable1.setModel(modelo);
-        ejecutarCodigo(jTextArea1.getText());
+        if (!jTextArea1.getText().isEmpty()) {
+            ejecutarCodigo(jTextArea1.getText());
+        } else {
+            JOptionPane.showMessageDialog(this, "El código está vacio", "No hay codigo a compilar", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -432,7 +436,7 @@ public class GUIAFD extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         form = new Informacion();
         form.setVisible(true);
-        
+
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     //revisa que el archivo que se va a abrir sea de tipo de dato que se está pidiendo
@@ -507,10 +511,8 @@ public class GUIAFD extends javax.swing.JFrame {
 
         boolean verdad = listaTokens.isEmpty();
 
-        if (jTextArea1.getText().length() == 0) {
-            JOptionPane.showMessageDialog(null, "No se encontro contenido");
-        } else {
-
+        if (!verdad) {
+            jTextArea2.append("\n**Compilación completa del análisis léxico**\n");
             /*
             para crear la tabla de tokens se crea este arreglo bidimencional
             el cual se pasara como attributo al DefaultTableModel
@@ -526,6 +528,7 @@ public class GUIAFD extends javax.swing.JFrame {
                 informacionTablaTokens[cont][4] = listaTokens.get(cont).getColumna();
                 //Fin del llenado del arreglo
 
+                /*
                 if (listaTokens.get(cont).getToken().equals("llaveApertura") || listaTokens.get(cont).getToken().equals("Delimitador")) {
                     jTextArea2.append(" -> " + listaTokens.get(cont).getToken() + "(" + listaTokens.get(cont).getValor() + ", En la linea " + listaTokens.get(cont).getLinea() + " En la columna " + listaTokens.get(cont).getColumna() + ")");
                     jTextArea2.append("\n");
@@ -535,7 +538,8 @@ public class GUIAFD extends javax.swing.JFrame {
 
                     cont++;
                 }
-
+                 */
+                cont++;
             }
 
             //Creando la tabla
@@ -545,6 +549,8 @@ public class GUIAFD extends javax.swing.JFrame {
             //Para cambiar el tamaño de la columna 1
             TableColumn columna = jTable1.getColumn("Numero");
             columna.setPreferredWidth(10);
+        } else {
+            jTextArea2.append("\n**No se han encontrado tokens resultanes del análisis léxico**\n");
         }
     }
 
@@ -558,53 +564,57 @@ public class GUIAFD extends javax.swing.JFrame {
         listaErroresAnalisisLexico = analisisLexico.getListaErrores();
         boolean vacio = listaErroresAnalisisLexico.isEmpty();
         if (vacio) {
-            analizadorSintactico = new analizadorSintactico(listaTokens);
-            analizadorSintactico.Programa();
-            listaSimbolos = analizadorSintactico.getListaSimbolos();
-            listaErroresSintactico = analizadorSintactico.getListaErrores();
+            if (!listaTokens.isEmpty()) {
+                analizadorSintactico = new analizadorSintactico(listaTokens);
+                analizadorSintactico.Programa();
+                listaSimbolos = analizadorSintactico.getListaSimbolos();
+                listaErroresSintactico = analizadorSintactico.getListaErrores();
 
-            jTextArea2.append("\n\n\n\tLISTA DE SIMBOLOS");
-            if (!listaSimbolos.isEmpty()) {
-                /*
+                jTextArea2.append("\n\n\n\tLISTA DE SIMBOLOS");
+                if (!listaSimbolos.isEmpty()) {
+                    /*
                 Inicializacion del arreglo bidimencional para el panel 3
-                 */
-                informacionTablaSimbolos = new Object[listaSimbolos.size()][6];
+                     */
+                    informacionTablaSimbolos = new Object[listaSimbolos.size()][6];
 
-                for (int i = 0; i < listaSimbolos.size(); i++) {
-                    //Llenando la informacion de la tabla de simbolos del panel 3
-                    informacionTablaSimbolos[i][0] = i + 1;
-                    informacionTablaSimbolos[i][1] = listaSimbolos.get(i).getClase();
-                    informacionTablaSimbolos[i][2] = listaSimbolos.get(i).getNombreValor();
-                    informacionTablaSimbolos[i][3] = listaSimbolos.get(i).getTipoDeDato();
-                    informacionTablaSimbolos[i][4] = listaSimbolos.get(i).getValor();
-                    informacionTablaSimbolos[i][5] = listaSimbolos.get(i).getDisponibilidad();
-                    //Fin del llenado de datos del arreglo para la tabla de simbolos
+                    for (int i = 0; i < listaSimbolos.size(); i++) {
+                        //Llenando la informacion de la tabla de simbolos del panel 3
+                        informacionTablaSimbolos[i][0] = i + 1;
+                        informacionTablaSimbolos[i][1] = listaSimbolos.get(i).getClase();
+                        informacionTablaSimbolos[i][2] = listaSimbolos.get(i).getNombreValor();
+                        informacionTablaSimbolos[i][3] = listaSimbolos.get(i).getTipoDeDato();
+                        informacionTablaSimbolos[i][4] = listaSimbolos.get(i).getValor();
+                        informacionTablaSimbolos[i][5] = listaSimbolos.get(i).getDisponibilidad();
+                        //Fin del llenado de datos del arreglo para la tabla de simbolos
 
-                    jTextArea2.append("\n\n\nClase -> " + listaSimbolos.get(i).getClase() + "\tDisponibilidad -> "
-                            + listaSimbolos.get(i).getDisponibilidad() + "\tNombre -> "
-                            + listaSimbolos.get(i).getNombreValor() + "\tTipo de dato -> "
-                            + listaSimbolos.get(i).getTipoDeDato() + "\tValor -> "
-                            + listaSimbolos.get(i).getValor());
+                        jTextArea2.append("\n\n\nClase -> " + listaSimbolos.get(i).getClase() + "\tDisponibilidad -> "
+                                + listaSimbolos.get(i).getDisponibilidad() + "\tNombre -> "
+                                + listaSimbolos.get(i).getNombreValor() + "\tTipo de dato -> "
+                                + listaSimbolos.get(i).getTipoDeDato() + "\tValor -> "
+                                + listaSimbolos.get(i).getValor());
+                    }
+
+                    //Creación del DefaultTableModel para el panel 3
+                    modelo = new DefaultTableModel(informacionTablaSimbolos, titulosTablaDeSimbolos);
+                    //Envio de datos a la última tabla
+                    jTable2.setModel(modelo);
+
                 }
 
-                //Creación del DefaultTableModel para el panel 3
-                modelo = new DefaultTableModel(informacionTablaSimbolos, titulosTablaDeSimbolos);
-                //Envio de datos a la última tabla
-                jTable2.setModel(modelo);
+                jTextArea2.append("\n\n");
+                jTextArea2.append("\n\n\n\tLISTA DE ERRORES");
 
-            }
-
-            jTextArea2.append("\n\n");
-            jTextArea2.append("\n\n\n\tLISTA DE ERRORES");
-
-            if (!listaErroresSintactico.isEmpty()) {
-                for (int i = 0; i < listaErroresSintactico.size(); i++) {
-                    jTextArea2.append("\n\n\nError --> " + listaErroresSintactico.get(i));
+                if (!listaErroresSintactico.isEmpty()) {
+                    for (int i = 0; i < listaErroresSintactico.size(); i++) {
+                        jTextArea2.append("\n\n\nError --> " + listaErroresSintactico.get(i));
+                    }
+                } else {
+                    jTextArea2.append("\n\n\nNo hay Errores\n\n");
                 }
+
             } else {
-                jTextArea2.append("\n\n\nNo hay Errores\n\n");
+                JOptionPane.showMessageDialog(this, "No hay tokens disponibles para realizar el análisis léxico", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
-
         } else {
             JOptionPane.showMessageDialog(this, "Tal parece que se encontraron algunos errores en el análisis léxico", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
         }
