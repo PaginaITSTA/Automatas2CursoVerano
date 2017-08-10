@@ -16,6 +16,8 @@ public class analizadorSintactico {
     private ArrayList<token> listaTokens;
     //Contador, para avanzar en la lista de tokens
     private int contadorLista;
+    //private 
+    private int valorIncremVariableTemp;
 
     public analizadorSintactico(ArrayList<token> lista) {
         this.listaTokens = lista;
@@ -26,6 +28,7 @@ public class analizadorSintactico {
     }
 
     public void Programa() {
+        valorIncremVariableTemp = 1;
         //anexar a nodo raiz
         // -> PROGRAMA -> Inicio_programa -> cuerpo_codigo -> }
 
@@ -33,6 +36,7 @@ public class analizadorSintactico {
             Se comprueba que el inicio sea correcto para que pueda continuar :)               
          */
         if (inicio_Programa()) {
+            //Busca código interno
             cuerpo_Código();
         }
 
@@ -197,12 +201,16 @@ public class analizadorSintactico {
         String resultadoDeTermino = Term(), resultadoDeExp = "", operadorSumatorio = "";
         if (!resultadoDeTermino.isEmpty()) {
             //contadorLista++;
-            System.out.println("Exp: "+listaTokens.get(contadorLista).getToken()+"Linea: "+listaTokens.get(contadorLista).getLinea());// impresion por Rosa
+            System.out.println("Se espera un valor de suma o resta o regresa el valor y da: " + listaTokens.get(contadorLista).getToken()
+                    + " -> " + listaTokens.get(contadorLista).getValor());
             if (listaTokens.get(contadorLista).getToken().equals("OperadorSuma") || listaTokens.get(contadorLista).getToken().equals("OperadorResta")) {
-                operadorSumatorio = listaTokens.get(contadorLista + 1).getValor();
+                operadorSumatorio = listaTokens.get(contadorLista).getValor();
+                contadorLista++;
                 resultadoDeExp = Exp();
                 if (!resultadoDeExp.isEmpty()) {
-                    return resultadoDeExp;
+                    listaSimbolos.add(new listaSimbolos("Operacion", operadorSumatorio, resultadoDeTermino, resultadoDeExp, "resultado" + valorIncremVariableTemp));
+                    valorIncremVariableTemp++;
+                    return "resultado" + (valorIncremVariableTemp - 1);
                 } else {
                     return "";
                 }
@@ -219,14 +227,17 @@ public class analizadorSintactico {
         if ((contadorLista + 2) < listaTokens.size()) {
             resultadoDeFactor = factor();
             if (!resultadoDeFactor.isEmpty()) {
-                System.out.println("Term: "+listaTokens.get(contadorLista).getToken()+"Linea: "+listaTokens.get(contadorLista).getLinea()); // impresion por Rosa
+                System.out.println("Se espera una mul o div y se da: " + listaTokens.get(contadorLista).getToken() + " -> "
+                        + listaTokens.get(contadorLista).getValor());
                 if (listaTokens.get(contadorLista).getToken().equals("OperadorMultiplicacion")
                         || listaTokens.get(contadorLista).getToken().equals("OperadorDivision")) {
                     operadorMultiplicativo = listaTokens.get(contadorLista).getValor();
+                    contadorLista++;
                     resultadoDeTerm = Term();
                     if (!resultadoDeTerm.isEmpty()) {
-                        listaSimbolos.add(new listaSimbolos("", operadorMultiplicativo, resultadoDeFactor, resultadoDeTerm, "Debe una variable"));
-                        return "RetornaUnavariable";
+                        listaSimbolos.add(new listaSimbolos("operacion", operadorMultiplicativo, resultadoDeFactor, resultadoDeTerm, "resultado" + valorIncremVariableTemp));
+                        valorIncremVariableTemp++;
+                        return "resultado" + (valorIncremVariableTemp - 1);
                     }
                 }
                 System.out.println("Solo encontro un factor");
@@ -247,26 +258,22 @@ public class analizadorSintactico {
     private String factor() {
         //Factor -> digito | identificador | (Exp)
         System.out.println("Entro a ver si es un factor()");
-        System.out.println(listaTokens.get(contadorLista + 1).getValor() // Int
-                + " " + listaTokens.get(contadorLista + 2).getValor()// identificador 
-                + " " + listaTokens.get(contadorLista + 3).getValor()// =
-                + " " + listaTokens.get(contadorLista + 4).getValor()// identificador o numero
-                + " " + listaTokens.get(contadorLista + 5).getValor()// + - * /
-                + " " + listaTokens.get(contadorLista + 6).getValor()// identificador o numero
-                
-                + " " + listaTokens.get(contadorLista+1).getLinea());// linea
+        System.out.println(listaTokens.get(contadorLista + 1).getValor()
+                + " " + listaTokens.get(contadorLista + 2).getValor()
+                + " " + listaTokens.get(contadorLista + 3).getValor()
+                + " " + listaTokens.get(contadorLista + 4).getValor()
+                + " " + listaTokens.get(contadorLista + 5).getValor() + " " + listaTokens.get(contadorLista).getLinea());
 
         if ((contadorLista + 1) < listaTokens.size()) {
             String Identificador = "";
-            System.out.println("Se espera un identificador o numero y se da: " + listaTokens.get(contadorLista+4).getToken() + " -> " + listaTokens.get(contadorLista+4).getValor());
-            System.out.println("Factor: "+listaTokens.get(contadorLista).getToken()+"Linea: "+listaTokens.get(contadorLista).getLinea()); // impresion por rosa
-            if (listaTokens.get(contadorLista+4).getToken().equals("Identificador")) {
-                Identificador = listaTokens.get(contadorLista+4).getValor();
+            System.out.println("Se espera un identificador o numero y se da: " + listaTokens.get(contadorLista).getToken() + " -> " + listaTokens.get(contadorLista).getValor());
+            if (listaTokens.get(contadorLista).getToken().equals("Identificador")) {
+                Identificador = listaTokens.get(contadorLista).getValor();
                 contadorLista++;
                 System.out.println("identificador encontrado");
                 return Identificador;
-            } else if (listaTokens.get(contadorLista+4).getToken().equals("NumeroDecimal") || listaTokens.get(contadorLista+4).getToken().equals("NumeroEntero")) {
-                Identificador = listaTokens.get(contadorLista+4).getValor();
+            } else if (listaTokens.get(contadorLista).getToken().equals("NumeroDecimal") || listaTokens.get(contadorLista).getToken().equals("NumeroEntero")) {
+                Identificador = listaTokens.get(contadorLista).getValor();
                 contadorLista++;
                 System.out.println("Numero encontrado");
                 return Identificador;
@@ -436,10 +443,10 @@ public class analizadorSintactico {
 
         if (cond_if()) {
             return true;
-        }/* else if (cond_while()) {
+        } else if (cond_while()) {
             return true;
         }
-        
+        /*
         No esta declarado en la gramatica
         else if (cod_for()) {
             return true;
@@ -548,7 +555,8 @@ public class analizadorSintactico {
                 contadorLista++;
                 resultadoDeExp2 = Exp();
                 if (!resultadoDeExp2.isEmpty()) {
-                    listaSimbolos.add(new listaSimbolos(origenDeLaFuncion, operadorLogico, resultadoDeExp, resultadoDeExp2, "VariableDebeSerIncrementable"));
+                    listaSimbolos.add(new listaSimbolos(origenDeLaFuncion, operadorLogico, resultadoDeExp, resultadoDeExp2, "resultado" + valorIncremVariableTemp));
+                    valorIncremVariableTemp++;
                     System.out.println("Encontro, Exp operacionLogica");
                     return true;
                 }
@@ -561,21 +569,7 @@ public class analizadorSintactico {
                 return true;
             }
         }
-        /*
-        if (Exp() && listaTokens.get(contadorLista + 1).getToken().equals("OperadorMayorQue") && Exp()) {
-            return true;
-        } else if (Exp() && listaTokens.get(contadorLista+1).getToken().equals("OperadorMenorQue") && Exp()) {
-            return true;
-        } else if (Exp() && listaTokens.get(contadorLista+1).getToken().equals("OperadorMayorOIgualQue") && Exp()) {
-            return true;
-        } else if (Exp() && listaTokens.get(contadorLista+1).getToken().equals("OperadorMenorOIgualQue") && Exp()) {
-            return true;
-        } else if (Exp() && listaTokens.get(contadorLista).getToken().equals("operadorIgualIgual") && Exp()) {
-            return true;
-        } else if (Exp() && listaTokens.get(contadorLista).getToken().equals("OperadorDesigual") && Exp()) {
-            return true;
-        }
-         */
+        
         return false;
     }
 

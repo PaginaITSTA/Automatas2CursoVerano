@@ -3,6 +3,7 @@ package Lenguaje_SID.GUI;
 //Importando la carpeta AFD dentro del desarrollo del lenguaje
 import Lenguaje_SID.AFD.analizadorSintactico;
 import Lenguaje_SID.AFD.AFD;
+import Lenguaje_SID.AFD.analizadorSemantico;
 import Lenguaje_SID.AFD.listaSimbolos;
 import Lenguaje_SID.AFD.token;
 import java.io.BufferedReader;
@@ -30,7 +31,7 @@ public class GUIAFD extends javax.swing.JFrame {
      */
     private AFD analisisLexico;
     private analizadorSintactico analizadorSintactico;
-
+    private analizadorSemantico analizadorSemantico;
 
     /*
     Listas de arreglos para distintos propositos
@@ -446,7 +447,7 @@ public class GUIAFD extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        JOptionPane.showMessageDialog(this, "Funcion no disponible", "En proceso", JOptionPane.INFORMATION_MESSAGE);
+       EjecutarSemantico();
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void subCortarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subCortarActionPerformed
@@ -656,6 +657,16 @@ public class GUIAFD extends javax.swing.JFrame {
             }
         } else {
             JOptionPane.showMessageDialog(this, "Tal parece que se encontraron algunos errores en el análisis léxico", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    
+    private void EjecutarSemantico(){
+        listaErroresSintactico = analizadorSintactico.getListaErrores();
+        boolean vacio = listaErroresSintactico.isEmpty();
+        if (vacio) {
+            analizadorSemantico = new analizadorSemantico(listaSimbolos);
+            analizadorSemantico.imprimirSimbolos();
         }
     }
 
