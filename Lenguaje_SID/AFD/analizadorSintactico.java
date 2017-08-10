@@ -37,7 +37,15 @@ public class analizadorSintactico {
          */
         if (inicio_Programa()) {
             //Busca código interno
-            cuerpo_Código();
+            if (cuerpo_Código()) {
+
+                if (listaTokens.get(contadorLista).getToken().equals("llaveFin")) {
+                    System.out.println("Llave final de la clase");
+                } else {
+                    System.out.println("Aquí se produce un error debido a que no esta la  llave final");
+                }
+            }
+
         }
 
     }
@@ -82,7 +90,7 @@ public class analizadorSintactico {
 
     }
 
-    private void cuerpo_Código() {
+    private boolean cuerpo_Código() {
         /*
         CUERPO_CODIGO -> declaración método
          */
@@ -90,7 +98,9 @@ public class analizadorSintactico {
             System.out.println("Entro en la parte de declaración\n");
         } else if (metodo()) {
             System.out.println("Salio del método");
+            return true;
         }
+        return false;
     }
 
     private boolean declaración() {
@@ -416,10 +426,13 @@ public class analizadorSintactico {
                     if (listaTokens.get(contadorLista).getToken().equals("llaveFin")) {
                         System.out.println("Llego al final del método");
                     } else if (funcion()) {
+                        //Aquí se debe de probar la distancia de la lista para evitar que produsca un OutIndexException
                         if (listaTokens.get(contadorLista).getToken().equals("llaveFin")) {
                             System.out.println("Se encontro la llave final del método y todo completo");
+                            contadorLista++;
                             return true;
                         } else {
+                            listaErrores.add("Falta una llave de cierre");
                             System.out.println("Aqui se produce un error ya que no está la llave final del método");
                         }
                         System.out.println("Tiene una funcion interna");
@@ -478,7 +491,13 @@ public class analizadorSintactico {
                                 if (listaTokens.get(contadorLista).getToken().equals("llaveFin")) {
                                     return true;
                                 } else if (impresion()) {
-                                    System.out.println("Despues de la impresión aún se tiene: " + listaTokens.get(contadorLista).getValor());
+                                    if (listaTokens.get(contadorLista).getToken().equals("llaveFin")) {
+                                        System.out.println("Encontro la llave final del if");
+                                        contadorLista++;
+                                        return true;
+                                    } else {
+                                        System.out.println("Aquí debe de ir un error en caso de que no esté la llave de fin");
+                                    }
                                     return true;
                                 } else {
 
@@ -511,6 +530,7 @@ public class analizadorSintactico {
         System.out.println("Entro a verificar si existe alguna condicion");
         //CONDICION -> condición_lógica | condición_AND | condición_OR
         if (condicion_logica(origenDeLafuncion)) {
+
             return true;
         } else if (condicion_AND(origenDeLafuncion)) {
             return true;
@@ -569,7 +589,7 @@ public class analizadorSintactico {
                 return true;
             }
         }
-        
+
         return false;
     }
 
