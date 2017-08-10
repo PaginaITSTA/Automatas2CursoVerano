@@ -468,11 +468,11 @@ public class analizadorSintactico {
                                     System.out.println("Despues de la impresión aún se tiene: " + listaTokens.get(contadorLista).getValor());
                                     return true;
                                 } else {
-                                    
+
                                     System.out.println("Termino la primera parte de if, pero no encontro la llave fin");
                                     return false;
                                 }
-                                
+
                             } else {
                                 return false;
                             }
@@ -485,7 +485,7 @@ public class analizadorSintactico {
                 } else {
                     return false;
                 }
-                
+
             } else {
                 return false;
             }
@@ -588,15 +588,53 @@ public class analizadorSintactico {
 
     private boolean cond_while() {
         //COND_WHLE -> while (condición) {impresión}
-        if (listaTokens.get(contadorLista).getValor().equals("while")
-                && listaTokens.get(contadorLista).getToken().equals("ParentesisInicio")
-                && condicion("while")
-                && listaTokens.get(contadorLista).getToken().equals("ParentesisFin")
-                && listaTokens.get(contadorLista).equals("llaveApertura")
-                && impresion()
-                && listaTokens.get(contadorLista).equals("llaveFin")) {
-            return true;
+        System.out.println("Entro en el metodo de while");
+        if ((contadorLista + 5) < listaTokens.size()) {
+            System.out.println("Se espera un while y se da: " + listaTokens.get(contadorLista).getValor());
+            if (listaTokens.get(contadorLista).getValor().equals("while")) {
+                contadorLista++;
+                System.out.println("Encontró el while");
+                if (listaTokens.get(contadorLista).getToken().equals("ParentesisInicio")) {
+                    contadorLista++;
+                    System.out.println("Encontró el parentesis de inicio");
+                    //En esta parte se comprueba que tenga una condición en el método if.
+                    if (condicion("while")) {
+                        System.out.println("Paso de la función");
+                        if (listaTokens.get(contadorLista).getToken().equals("ParentesisFin")) {
+                            System.out.println("Encontro el parentesis de fin");
+                            contadorLista++;
+                            if (listaTokens.get(contadorLista).getToken().equals("llaveApertura")) {
+                                System.out.println("Primera parte del if completada.");
+                                contadorLista++;
+                                if (listaTokens.get(contadorLista).getToken().equals("llaveFin")) {
+                                    return true;
+                                } else if (impresion()) {
+                                    System.out.println("Despues de la impresión aún se tiene: " + listaTokens.get(contadorLista).getValor());
+                                    return true;
+                                } else {
+
+                                    System.out.println("Termino la primera parte de if, pero no encontro la llave fin");
+                                    return false;
+                                }
+
+                            } else {
+                                return false;
+                            }
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+
+            } else {
+                return false;
+            }
         }
+
         return false;
     }
 
