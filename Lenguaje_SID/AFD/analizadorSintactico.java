@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class analizadorSintactico {
 
-    //Listas de errores
+    //Listas de errores en caso de que tenga en el analisis sintactico
     private ArrayList<String> listaErrores;
     //Lista en la cual se guardan la lista de simbolos obtenidos en esta análisis
     private ArrayList<listaSimbolos> listaSimbolos;
@@ -112,18 +112,11 @@ public class analizadorSintactico {
                 }
                 break;
         }
-
-//        if (declVE()) {
-//            declaración();
-//        } else if (declVD()) {
-//            declaración();
-//        } else if (declVB()) {
-//            declaración();
-//        }
         return false;
 
     }
-private boolean declVE() {
+
+    private boolean declVE() {
         /*
         declVE -> Int identificador $ | Int identificador = num $ | Int identificador = Exp;
          */
@@ -277,7 +270,7 @@ private boolean declVE() {
         return "";
     }
 
-   private boolean declVD() {
+    private boolean declVD() {
         /*
         declVD -> float identificador $ | float identificador = num.num $
         float a = 2.1 $
@@ -327,7 +320,8 @@ private boolean declVE() {
         return false;
 
     }
-   private boolean declVB() {
+
+    private boolean declVB() {
         /*
         declVB -> bool identificador $ | bool identificador = valorbool $
         
@@ -471,6 +465,7 @@ private boolean declVE() {
                                 if (listaTokens.get(contadorLista).getToken().equals("llaveFin")) {
                                     return true;
                                 } else if (impresion()) {
+                                    System.out.println("Despues de la impresión aún se tiene: " + listaTokens.get(contadorLista).getValor());
                                     return true;
                                 } else {
                                     System.out.println("Termino la primera parte de if, pero no encontro la llave fin");
