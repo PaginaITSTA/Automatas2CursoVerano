@@ -21,9 +21,10 @@ import javax.swing.Action;
  * @author erick
  */
 public class GUIAFD extends javax.swing.JFrame {
- 
+
     //variables de clase
     Action Copiar_Action, Pegar_Action, Cortar_Action;
+    Informacion form;
     /*
     Importaciones para las partes del analisis del código
      */
@@ -421,16 +422,17 @@ public class GUIAFD extends javax.swing.JFrame {
     }//GEN-LAST:event_subCortarActionPerformed
 
     private void subCopiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subCopiarActionPerformed
-Copiar_Action.actionPerformed(evt); //llama accion      
+        Copiar_Action.actionPerformed(evt); //llama accion      
     }//GEN-LAST:event_subCopiarActionPerformed
 
     private void subPegarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subPegarActionPerformed
-         Pegar_Action.actionPerformed(evt);//llama accion
+        Pegar_Action.actionPerformed(evt);//llama accion
     }//GEN-LAST:event_subPegarActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-       Informacion form=new Informacion(); 
-form.setVisible(true); 
+        form = new Informacion();
+        form.setVisible(true);
+        
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     //revisa que el archivo que se va a abrir sea de tipo de dato que se está pidiendo
