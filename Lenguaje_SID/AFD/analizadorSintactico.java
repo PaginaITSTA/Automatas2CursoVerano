@@ -468,9 +468,11 @@ public class analizadorSintactico {
                                     System.out.println("Despues de la impresión aún se tiene: " + listaTokens.get(contadorLista).getValor());
                                     return true;
                                 } else {
+                                    
                                     System.out.println("Termino la primera parte de if, pero no encontro la llave fin");
                                     return false;
                                 }
+                                
                             } else {
                                 return false;
                             }
@@ -483,6 +485,7 @@ public class analizadorSintactico {
                 } else {
                     return false;
                 }
+                
             } else {
                 return false;
             }
