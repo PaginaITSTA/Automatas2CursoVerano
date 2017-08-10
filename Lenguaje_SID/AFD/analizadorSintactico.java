@@ -245,11 +245,14 @@ public class analizadorSintactico {
     private String factor() {
         //Factor -> digito | identificador | (Exp)
         System.out.println("Entro a ver si es un factor()");
-        System.out.println(listaTokens.get(contadorLista + 1).getValor()
-                + " " + listaTokens.get(contadorLista + 2).getValor()
-                + " " + listaTokens.get(contadorLista + 3).getValor()
-                + " " + listaTokens.get(contadorLista + 4).getValor()
-                + " " + listaTokens.get(contadorLista + 5).getValor() + " " + listaTokens.get(contadorLista).getLinea());
+        System.out.println(listaTokens.get(contadorLista + 1).getValor() // Int
+                + " " + listaTokens.get(contadorLista + 2).getValor()// identificador 
+                + " " + listaTokens.get(contadorLista + 3).getValor()// =
+                + " " + listaTokens.get(contadorLista + 4).getValor()// identificador o numero
+                + " " + listaTokens.get(contadorLista + 5).getValor()// + - * /
+                + " " + listaTokens.get(contadorLista + 6).getValor()// identificador o numero
+                
+                + " " + listaTokens.get(contadorLista+1).getLinea());// linea
 
         if ((contadorLista + 1) < listaTokens.size()) {
             String Identificador = "";
