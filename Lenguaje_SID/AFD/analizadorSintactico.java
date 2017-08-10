@@ -430,10 +430,10 @@ public class analizadorSintactico {
 
         if (cond_if()) {
             return true;
-        }/* else if (cond_while()) {
+        } else if (cond_while()) {
             return true;
         }
-        
+        /*
         No esta declarado en la gramatica
         else if (cod_for()) {
             return true;
