@@ -16,6 +16,8 @@ public class analizadorSintactico {
     private ArrayList<token> listaTokens;
     //Contador, para avanzar en la lista de tokens
     private int contadorLista;
+    //private 
+    private int valorIncremVariableTemp;
 
     public analizadorSintactico(ArrayList<token> lista) {
         this.listaTokens = lista;
@@ -26,6 +28,7 @@ public class analizadorSintactico {
     }
 
     public void Programa() {
+        valorIncremVariableTemp = 1;
         //anexar a nodo raiz
         // -> PROGRAMA -> Inicio_programa -> cuerpo_codigo -> }
 
@@ -33,6 +36,7 @@ public class analizadorSintactico {
             Se comprueba que el inicio sea correcto para que pueda continuar :)               
          */
         if (inicio_Programa()) {
+            //Busca código interno
             cuerpo_Código();
         }
 
@@ -197,11 +201,16 @@ public class analizadorSintactico {
         String resultadoDeTermino = Term(), resultadoDeExp = "", operadorSumatorio = "";
         if (!resultadoDeTermino.isEmpty()) {
             //contadorLista++;
+            System.out.println("Se espera un valor de suma o resta o regresa el valor y da: " + listaTokens.get(contadorLista).getToken()
+                    + " -> " + listaTokens.get(contadorLista).getValor());
             if (listaTokens.get(contadorLista).getToken().equals("OperadorSuma") || listaTokens.get(contadorLista).getToken().equals("OperadorResta")) {
-                operadorSumatorio = listaTokens.get(contadorLista + 1).getValor();
+                operadorSumatorio = listaTokens.get(contadorLista).getValor();
+                contadorLista++;
                 resultadoDeExp = Exp();
                 if (!resultadoDeExp.isEmpty()) {
-                    return resultadoDeExp;
+                    listaSimbolos.add(new listaSimbolos("Operacion", operadorSumatorio, resultadoDeTermino, resultadoDeExp, "resultado" + valorIncremVariableTemp));
+                    valorIncremVariableTemp++;
+                    return "resultado" + (valorIncremVariableTemp - 1);
                 } else {
                     return "";
                 }
@@ -218,13 +227,17 @@ public class analizadorSintactico {
         if ((contadorLista + 2) < listaTokens.size()) {
             resultadoDeFactor = factor();
             if (!resultadoDeFactor.isEmpty()) {
+                System.out.println("Se espera una mul o div y se da: " + listaTokens.get(contadorLista).getToken() + " -> "
+                        + listaTokens.get(contadorLista).getValor());
                 if (listaTokens.get(contadorLista).getToken().equals("OperadorMultiplicacion")
                         || listaTokens.get(contadorLista).getToken().equals("OperadorDivision")) {
                     operadorMultiplicativo = listaTokens.get(contadorLista).getValor();
+                    contadorLista++;
                     resultadoDeTerm = Term();
                     if (!resultadoDeTerm.isEmpty()) {
-                        listaSimbolos.add(new listaSimbolos("", operadorMultiplicativo, resultadoDeFactor, resultadoDeTerm, "Debe una variable"));
-                        return "RetornaUnavariable";
+                        listaSimbolos.add(new listaSimbolos("operacion", operadorMultiplicativo, resultadoDeFactor, resultadoDeTerm, "resultado" + valorIncremVariableTemp));
+                        valorIncremVariableTemp++;
+                        return "resultado" + (valorIncremVariableTemp - 1);
                     }
                 }
                 System.out.println("Solo encontro un factor");
@@ -542,7 +555,8 @@ public class analizadorSintactico {
                 contadorLista++;
                 resultadoDeExp2 = Exp();
                 if (!resultadoDeExp2.isEmpty()) {
-                    listaSimbolos.add(new listaSimbolos(origenDeLaFuncion, operadorLogico, resultadoDeExp, resultadoDeExp2, "VariableDebeSerIncrementable"));
+                    listaSimbolos.add(new listaSimbolos(origenDeLaFuncion, operadorLogico, resultadoDeExp, resultadoDeExp2, "resultado" + valorIncremVariableTemp));
+                    valorIncremVariableTemp++;
                     System.out.println("Encontro, Exp operacionLogica");
                     return true;
                 }
@@ -555,21 +569,7 @@ public class analizadorSintactico {
                 return true;
             }
         }
-        /*
-        if (Exp() && listaTokens.get(contadorLista + 1).getToken().equals("OperadorMayorQue") && Exp()) {
-            return true;
-        } else if (Exp() && listaTokens.get(contadorLista+1).getToken().equals("OperadorMenorQue") && Exp()) {
-            return true;
-        } else if (Exp() && listaTokens.get(contadorLista+1).getToken().equals("OperadorMayorOIgualQue") && Exp()) {
-            return true;
-        } else if (Exp() && listaTokens.get(contadorLista+1).getToken().equals("OperadorMenorOIgualQue") && Exp()) {
-            return true;
-        } else if (Exp() && listaTokens.get(contadorLista).getToken().equals("operadorIgualIgual") && Exp()) {
-            return true;
-        } else if (Exp() && listaTokens.get(contadorLista).getToken().equals("OperadorDesigual") && Exp()) {
-            return true;
-        }
-         */
+        
         return false;
     }
 
