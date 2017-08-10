@@ -197,6 +197,7 @@ public class analizadorSintactico {
         String resultadoDeTermino = Term(), resultadoDeExp = "", operadorSumatorio = "";
         if (!resultadoDeTermino.isEmpty()) {
             //contadorLista++;
+            System.out.println("Exp: "+listaTokens.get(contadorLista).getToken()+"Linea: "+listaTokens.get(contadorLista).getLinea());// impresion por Rosa
             if (listaTokens.get(contadorLista).getToken().equals("OperadorSuma") || listaTokens.get(contadorLista).getToken().equals("OperadorResta")) {
                 operadorSumatorio = listaTokens.get(contadorLista + 1).getValor();
                 resultadoDeExp = Exp();
@@ -218,6 +219,7 @@ public class analizadorSintactico {
         if ((contadorLista + 2) < listaTokens.size()) {
             resultadoDeFactor = factor();
             if (!resultadoDeFactor.isEmpty()) {
+                System.out.println("Term: "+listaTokens.get(contadorLista).getToken()+"Linea: "+listaTokens.get(contadorLista).getLinea()); // impresion por Rosa
                 if (listaTokens.get(contadorLista).getToken().equals("OperadorMultiplicacion")
                         || listaTokens.get(contadorLista).getToken().equals("OperadorDivision")) {
                     operadorMultiplicativo = listaTokens.get(contadorLista).getValor();
@@ -256,14 +258,15 @@ public class analizadorSintactico {
 
         if ((contadorLista + 1) < listaTokens.size()) {
             String Identificador = "";
-            System.out.println("Se espera un identificador o numero y se da: " + listaTokens.get(contadorLista).getToken() + " -> " + listaTokens.get(contadorLista).getValor());
-            if (listaTokens.get(contadorLista).getToken().equals("Identificador")) {
-                Identificador = listaTokens.get(contadorLista).getValor();
+            System.out.println("Se espera un identificador o numero y se da: " + listaTokens.get(contadorLista+4).getToken() + " -> " + listaTokens.get(contadorLista+4).getValor());
+            System.out.println("Factor: "+listaTokens.get(contadorLista).getToken()+"Linea: "+listaTokens.get(contadorLista).getLinea()); // impresion por rosa
+            if (listaTokens.get(contadorLista+4).getToken().equals("Identificador")) {
+                Identificador = listaTokens.get(contadorLista+4).getValor();
                 contadorLista++;
                 System.out.println("identificador encontrado");
                 return Identificador;
-            } else if (listaTokens.get(contadorLista).getToken().equals("NumeroDecimal") || listaTokens.get(contadorLista).getToken().equals("NumeroEntero")) {
-                Identificador = listaTokens.get(contadorLista).getValor();
+            } else if (listaTokens.get(contadorLista+4).getToken().equals("NumeroDecimal") || listaTokens.get(contadorLista+4).getToken().equals("NumeroEntero")) {
+                Identificador = listaTokens.get(contadorLista+4).getValor();
                 contadorLista++;
                 System.out.println("Numero encontrado");
                 return Identificador;
