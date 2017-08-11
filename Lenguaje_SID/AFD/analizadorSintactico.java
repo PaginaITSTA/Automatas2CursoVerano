@@ -69,17 +69,28 @@ public class analizadorSintactico {
          */
         if (contadorLista < listaTokens.size()) {
 
-            if (listaTokens.get(contadorLista).getValor().equals("public")
-                    && listaTokens.get(contadorLista + 1).getValor().equals("class")
-                    && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
-                    && listaTokens.get(contadorLista + 3).getToken().equals("llaveApertura")) {
-                listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 2).getValor(), "", "", listaTokens.get(contadorLista).getValor()));
-                contadorLista = contadorLista + 3;
-                System.out.println("Inicio del Programa Correcto :) ");
-                return true;
+            if (listaTokens.get(contadorLista).getValor().equals("public")) {
+                if (listaTokens.get(contadorLista + 1).getValor().equals("class")) {
+                    if (listaTokens.get(contadorLista + 2).getToken().equals("Identificador")) {
+                        if (listaTokens.get(contadorLista + 3).getToken().equals("llaveApertura")) {
+                            listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 2).getValor(), "", "", listaTokens.get(contadorLista).getValor(), listaTokens.get(contadorLista).getLinea()));
+                            contadorLista = contadorLista + 3;
+                            System.out.println("Inicio del Programa Correcto :) ");
+                            return true;
+                        } else {
+                            listaErrores.add("Error la Linea: " + listaTokens.get(contadorLista + 3).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 3).getColumna() + " Se esperaba --> llave de apertura");
+                            return false;
+                        }
+                    } else {
+                        listaErrores.add("Error la Linea: " + listaTokens.get(contadorLista + 2).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 2).getColumna() + " Se esperaba --> identificador");
+                        return false;
+                    }
+                } else {
+                    listaErrores.add("Error la Linea: " + listaTokens.get(contadorLista + 1).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 1).getColumna() + " Se esperaba --> class");
+                    return false;
+                }
             } else {
-                listaErrores.add("Error la Linea " + listaTokens.get(contadorLista).getLinea() + " Se esperaba --> public class identifiador { <--");
-                System.out.println("Error en la Linea: " + listaTokens.get(contadorLista).getLinea() + " se esperaba -- > * public class identificador { *");
+                listaErrores.add("Error la Linea: " + listaTokens.get(contadorLista).getLinea() + " en la Columna: " + listaTokens.get(contadorLista).getColumna() + " Se esperaba --> public");
                 return false;
             }
 
@@ -135,47 +146,168 @@ public class analizadorSintactico {
         declVE -> Int identificador $ | Int identificador = num $ | Int identificador = Exp;
          */
 
-        String opcion = listaTokens.get(contadorLista + 3).getValor();
-        System.out.println(opcion);
+        if ((contadorLista + 5) < listaTokens.size()) {
 
-        switch (opcion) {
-            case "=":
-                if ((contadorLista + 5) < listaTokens.size()) {
+            if (listaTokens.get(contadorLista + 1).getValor().equals("Int")) {
+                if (listaTokens.get(contadorLista + 2).getToken().equals("Identificador")) {
 
-                    if (listaTokens.get(contadorLista + 1).getValor().equals("Int")
-                            && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
-                            && listaTokens.get(contadorLista + 3).getToken().equals("operadorDeAsignacion")
-                            && listaTokens.get(contadorLista + 4).getToken().equals("NumeroEntero")
-                            && listaTokens.get(contadorLista + 5).getToken().equals("Delimitador")) {
-                        listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 4).getValor(), ""));
-                        contadorLista = contadorLista + 5;
-                        System.out.println("Declaracion de tipo 1 INT Correcto");
-                        return true;
+                    String opcion = listaTokens.get(contadorLista + 3).getValor();
+
+                    if (opcion.equals("=")) {
+                        if (listaTokens.get(contadorLista + 3).getToken().equals("operadorDeAsignacion")) {
+                            String resultadoDeExp = Exp();
+                            if (listaTokens.get(contadorLista + 4).getToken().equals("NumeroEntero")) {
+                                if (listaTokens.get(contadorLista + 5).getToken().equals("Delimitador")) {
+                                    listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 4).getValor(), "", listaTokens.get(contadorLista + 1).getLinea()));
+                                    contadorLista = contadorLista + 5;
+                                    System.out.println("Declaracion de tipo 1 INT Correcto");
+                                    return true;
+                                } else {
+                                    listaErrores.add("Error de Declaración INT en la Linea: " + listaTokens.get(contadorLista + 5).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 5).getColumna() + " Se esperaba --> $");
+                                }
+                            } else if (!resultadoDeExp.isEmpty()) {
+                                System.out.println("Se encontro una expresion");
+                            } else {
+                                listaErrores.add("Error de Declaración INT en la Linea: " + listaTokens.get(contadorLista + 4).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 4).getColumna() + " Se esperaba --> Numero Entero");
+                            }
+                        } else {
+                            listaErrores.add("Error de Declaración INT en la Linea: " + listaTokens.get(contadorLista + 3).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 3).getColumna() + " Se esperaba --> =");
+                        }
+                    } else if (opcion.equals("$")) {
+                        if (listaTokens.get(contadorLista + 3).getToken().equals("Delimitador")) {
+                            listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), "Int", "0", "", listaTokens.get(contadorLista + 1).getLinea()));
+                            contadorLista = contadorLista + 3;
+                            System.out.println("Declaracion de tipo 2 INT Correcto");
+                            return true;
+                        } else {
+                            listaErrores.add("Error de Declaración INT en la Linea: " + listaTokens.get(contadorLista + 3).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 3).getColumna() + " Se esperaba --> $");
+                        }
                     } else {
-                        listaErrores.add("Error de Declaración INT en la Linea " + listaTokens.get(contadorLista + 1).getLinea() + " Se esperaba --> Tipo de Dato Identificador = Valor $");
-
+                        listaErrores.add("Error de Declaración INT en la Linea: " + listaTokens.get(contadorLista + 3).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 3).getColumna() + " Se esperaba --> = | $");
                     }
 
+                } else {
+                    listaErrores.add("Error de Declaración INT en la Linea: " + listaTokens.get(contadorLista + 2).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 2).getColumna() + " Se esperaba --> identificador");
                 }
-                break;
-            case "$":
-                if ((contadorLista + 3) < listaTokens.size()) {
-                    if (listaTokens.get(contadorLista + 1).getValor().equals("Int")
-                            && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
-                            && listaTokens.get(contadorLista + 3).getToken().equals("Delimitador")) {
-                        listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), "Int", "0", ""));
-                        contadorLista = contadorLista + 3;
-                        System.out.println("Declaracion de tipo 2 INT Correcto");
-                        return true;
-                    } else {
-                        listaErrores.add("Error de Declaración INT en la Linea " + listaTokens.get(contadorLista + 1).getLinea() + " Se esperaba --> Tipo de dato Identificador $");
-
-                    }
-                }
-                break;
+            } else {
+                listaErrores.add("Error de Declaración INT en la Linea: " + listaTokens.get(contadorLista + 1).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 1).getColumna() + " Se esperaba --> int");
+            }
         }
 
-        declVEexp();
+        return false;
+
+    }
+
+    private boolean declVD() {
+        /*
+        declVD -> float identificador $ | float identificador = num.num $
+        float a = 2.1 $
+        float b $
+         */
+
+        if ((contadorLista + 5) < listaTokens.size()) {
+
+            if (listaTokens.get(contadorLista + 1).getValor().equals("float")) {
+                if (listaTokens.get(contadorLista + 2).getToken().equals("Identificador")) {
+
+                    String opcion = listaTokens.get(contadorLista + 3).getValor();
+
+                    if (opcion.equals("=")) {
+                        if (listaTokens.get(contadorLista + 3).getToken().equals("operadorDeAsignacion")) {
+
+                            if (listaTokens.get(contadorLista + 4).getToken().equals("NumeroDecimal")) {
+                                if (listaTokens.get(contadorLista + 5).getToken().equals("Delimitador")) {
+                                    listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 4).getValor(), "", listaTokens.get(contadorLista + 1).getLinea()));
+                                    contadorLista = contadorLista + 5;
+                                    System.out.println("Declaracion de tipo 1 FLOAT Correcto");
+                                    return true;
+                                } else {
+                                    listaErrores.add("Error de Declaración FLOAT en la Linea: " + listaTokens.get(contadorLista + 5).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 5).getColumna() + " Se esperaba --> $");
+                                }
+                            } else {
+                                listaErrores.add("Error de Declaración FLOAT en la Linea: " + listaTokens.get(contadorLista + 4).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 4).getColumna() + " Se esperaba --> Numero Decimal");
+                            }
+                        } else {
+                            listaErrores.add("Error de Declaración FLOAT en la Linea: " + listaTokens.get(contadorLista + 3).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 3).getColumna() + " Se esperaba --> =");
+                        }
+                    } else if (opcion.equals("$")) {
+                        if (listaTokens.get(contadorLista + 3).getToken().equals("Delimitador")) {
+                            listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), "Int", "0", "", listaTokens.get(contadorLista + 1).getLinea()));
+                            contadorLista = contadorLista + 3;
+                            System.out.println("Declaracion de tipo 2 FLOAT Correcto");
+                            return true;
+                        } else {
+                            listaErrores.add("Error de Declaración FLOAT en la Linea: " + listaTokens.get(contadorLista + 3).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 3).getColumna() + " Se esperaba --> $");
+                        }
+                    } else {
+                        listaErrores.add("Error de Declaración FLOAT en la Linea: " + listaTokens.get(contadorLista + 3).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 3).getColumna() + " Se esperaba --> = | $");
+                    }
+
+                } else {
+                    listaErrores.add("Error de Declaración FLOAT en la Linea: " + listaTokens.get(contadorLista + 2).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 2).getColumna() + " Se esperaba --> identificador");
+                }
+            } else {
+                listaErrores.add("Error de Declaración FLOAT en la Linea: " + listaTokens.get(contadorLista + 1).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 1).getColumna() + " Se esperaba --> float");
+            }
+        }
+
+        return false;
+
+    }
+
+    private boolean declVB() {
+        /*
+        declVB -> bool identificador $ | bool identificador = valorbool $
+        
+        Boolean a = true$
+        Boolean b =false$
+         */
+        if ((contadorLista + 5) < listaTokens.size()) {
+
+            if (listaTokens.get(contadorLista + 1).getValor().equals("Boolean")) {
+                if (listaTokens.get(contadorLista + 2).getToken().equals("Identificador")) {
+
+                    String opcion = listaTokens.get(contadorLista + 3).getValor();
+
+                    if (opcion.equals("=")) {
+                        if (listaTokens.get(contadorLista + 3).getToken().equals("operadorDeAsignacion")) {
+
+                            if (listaTokens.get(contadorLista + 4).getValor().equals("true") || listaTokens.get(contadorLista + 4).getValor().equals("false")) {
+                                if (listaTokens.get(contadorLista + 5).getToken().equals("Delimitador")) {
+                                    listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 4).getValor(), "", listaTokens.get(contadorLista + 1).getLinea()));
+                                    contadorLista = contadorLista + 5;
+                                    System.out.println("Declaracion de tipo 1 BOOL Correcto");
+                                    return true;
+                                } else {
+                                    listaErrores.add("Error de Declaración BOOL en la Linea: " + listaTokens.get(contadorLista + 5).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 5).getColumna() + " Se esperaba --> $");
+                                }
+                            } else {
+                                listaErrores.add("Error de Declaración BOOL en la Linea: " + listaTokens.get(contadorLista + 4).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 4).getColumna() + " Se esperaba --> true | false");
+                            }
+                        } else {
+                            listaErrores.add("Error de Declaración BOOL en la Linea: " + listaTokens.get(contadorLista + 3).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 3).getColumna() + " Se esperaba --> =");
+                        }
+                    } else if (opcion.equals("$")) {
+                        if (listaTokens.get(contadorLista + 3).getToken().equals("Delimitador")) {
+                            listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), "Int", "0", "", listaTokens.get(contadorLista + 1).getLinea()));
+                            contadorLista = contadorLista + 3;
+                            System.out.println("Declaracion de tipo 2 BOOL Correcto");
+                            return true;
+                        } else {
+                            listaErrores.add("Error de Declaración BOOL en la Linea: " + listaTokens.get(contadorLista + 3).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 3).getColumna() + " Se esperaba --> $");
+                        }
+                    } else {
+                        listaErrores.add("Error de Declaración BOOL en la Linea: " + listaTokens.get(contadorLista + 3).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 3).getColumna() + " Se esperaba --> = | $");
+                    }
+
+                } else {
+                    listaErrores.add("Error de Declaración BOOL en la Linea: " + listaTokens.get(contadorLista + 2).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 2).getColumna() + " Se esperaba --> identificador");
+                }
+            } else {
+                listaErrores.add("Error de Declaración BOOL en la Linea: " + listaTokens.get(contadorLista + 1).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 1).getColumna() + " Se esperaba --> Boolean");
+            }
+        }
+
         return false;
 
     }
@@ -189,7 +321,7 @@ public class analizadorSintactico {
                         String resultadoDeExp = Exp();
                         if (!resultadoDeExp.isEmpty()) {
                             if (listaTokens.get(contadorLista + 5).getToken().equals("Delimitador")) {
-                                listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 4).getValor(), ""));
+                                listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 4).getValor(), "", listaTokens.get(contadorLista).getLinea()));
                                 contadorLista = contadorLista + 5;
                                 System.out.println("Declaracion de tipo 3 INT Correcto");
                                 return true;
@@ -218,7 +350,7 @@ public class analizadorSintactico {
                 contadorLista++;
                 resultadoDeExp = Exp();
                 if (!resultadoDeExp.isEmpty()) {
-                    listaSimbolos.add(new listaSimbolos("Operacion", operadorSumatorio, resultadoDeTermino, resultadoDeExp, "resultado" + valorIncremVariableTemp));
+                    listaSimbolos.add(new listaSimbolos("Operacion", operadorSumatorio, resultadoDeTermino, resultadoDeExp, "resultado" + valorIncremVariableTemp, listaTokens.get(contadorLista).getLinea()));
                     valorIncremVariableTemp++;
                     return "resultado" + (valorIncremVariableTemp - 1);
                 } else {
@@ -245,7 +377,7 @@ public class analizadorSintactico {
                     contadorLista++;
                     resultadoDeTerm = Term();
                     if (!resultadoDeTerm.isEmpty()) {
-                        listaSimbolos.add(new listaSimbolos("operacion", operadorMultiplicativo, resultadoDeFactor, resultadoDeTerm, "resultado" + valorIncremVariableTemp));
+                        listaSimbolos.add(new listaSimbolos("operacion", operadorMultiplicativo, resultadoDeFactor, resultadoDeTerm, "resultado" + valorIncremVariableTemp, listaTokens.get(contadorLista).getLinea()));
                         valorIncremVariableTemp++;
                         return "resultado" + (valorIncremVariableTemp - 1);
                     }
@@ -293,108 +425,6 @@ public class analizadorSintactico {
         return "";
     }
 
-    private boolean declVD() {
-        /*
-        declVD -> float identificador $ | float identificador = num.num $
-        float a = 2.1 $
-        float b $
-         */
-
-        String opcion = listaTokens.get(contadorLista + 3).getValor();
-        System.out.println(opcion);
-
-        switch (opcion) {
-            case "=":
-                if ((contadorLista + 5) < listaTokens.size()) {
-
-                    if (listaTokens.get(contadorLista + 1).getValor().equals("float")
-                            && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
-                            && listaTokens.get(contadorLista + 3).getToken().equals("operadorDeAsignacion")
-                            && listaTokens.get(contadorLista + 4).getToken().equals("NumeroDecimal")
-                            && listaTokens.get(contadorLista + 5).getToken().equals("Delimitador")) {
-                        listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 4).getValor(), ""));
-                        contadorLista = contadorLista + 5;
-                        System.out.println("Declaracion de Tipo 1 FLOAT correcto");
-                        return true;
-                    } else {
-                        listaErrores.add("Error de Declaración FLOAT en la Linea " + listaTokens.get(contadorLista + 1).getLinea() + " Se esperaba --> Tipo de Dato Identificador = Valor $");
-
-                    }
-                }
-                break;
-            case "$":
-
-                if ((contadorLista + 3) < listaTokens.size()) {
-                    if (listaTokens.get(contadorLista + 1).getValor().equals("float")
-                            && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
-                            && listaTokens.get(contadorLista + 3).getToken().equals("Delimitador")) {
-                        listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), "0.0", ""));
-                        contadorLista = contadorLista + 3;
-                        System.out.println("Declaracion de Tipo 2 FLOAT correcto");
-                        return true;
-                    } else {
-                        listaErrores.add("Error de Declaración FLOAT en la Linea " + listaTokens.get(contadorLista + 1).getLinea() + " Se esperaba --> Tipo de dato Identificador $");
-
-                    }
-                }
-                break;
-        }
-
-        return false;
-
-    }
-
-    private boolean declVB() {
-        /*
-        declVB -> bool identificador $ | bool identificador = valorbool $
-        
-        Boolean a = true$
-        Boolean b =false$
-         */
-
-        String opcion = listaTokens.get(contadorLista + 3).getValor();
-        System.out.println(opcion);
-
-        switch (opcion) {
-            case "=":
-                if ((contadorLista + 5) < listaTokens.size()) {
-                    if (listaTokens.get(contadorLista + 1).getValor().equals("Boolean")
-                            && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
-                            && listaTokens.get(contadorLista + 3).getToken().equals("operadorDeAsignacion")
-                            && (listaTokens.get(contadorLista + 4).getValor().equals("false") || listaTokens.get(contadorLista + 4).getValor().equals("true"))
-                            && listaTokens.get(contadorLista + 5).getToken().equals("Delimitador")) {
-                        listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 4).getValor(), ""));
-                        contadorLista = contadorLista + 5;
-                        System.out.println("Declaracion de tipo 1 BOOL Correcto");
-                        return true;
-                    } else {
-                        listaErrores.add("Error de Declaración BOOL en la Linea " + listaTokens.get(contadorLista + 1).getLinea() + " Se esperaba --> Tipo de Dato Identificador = Valor $");
-                    }
-
-                }
-                break;
-            case "$":
-                if ((contadorLista + 3) < listaTokens.size()) {
-                    if (listaTokens.get(contadorLista + 1).getValor().equals("Boolean")
-                            && listaTokens.get(contadorLista + 2).getToken().equals("Identificador")
-                            && listaTokens.get(contadorLista + 3).getToken().equals("Delimitador")) {
-                        listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), "Sin valor", ""));
-                        contadorLista = contadorLista + 3;
-                        System.out.println("Declaracion de tipo 2 BOOL Correcto");
-                        return true;
-                    } else {
-
-                        listaErrores.add("Error de Declaración BOOL en la Linea " + listaTokens.get(contadorLista + 1).getLinea() + " Se esperaba --> Tipo de dato Identificador $");
-
-                    }
-
-                }
-                break;
-        }
-
-        return false;
-    }
-
     private boolean metodo() {
         /*
         METODO -> disponibilidad  identificador () { función}
@@ -417,7 +447,7 @@ public class analizadorSintactico {
                     && listaTokens.get(contadorLista + 2).getToken().equals("ParentesisInicio")
                     && listaTokens.get(contadorLista + 3).getToken().equals("ParentesisFin")
                     && listaTokens.get(contadorLista + 4).getToken().equals("llaveApertura")) {
-                listaSimbolos.add(new listaSimbolos("Metodo", listaTokens.get(contadorLista + 1).getValor(), "", "", listaTokens.get(contadorLista).getValor()));
+                listaSimbolos.add(new listaSimbolos("Metodo", listaTokens.get(contadorLista + 1).getValor(), "", "", listaTokens.get(contadorLista).getValor(), listaTokens.get(contadorLista).getLinea()));
                 contadorLista = contadorLista + 5;
 
                 //En éste punto se debe de comprobar si tiene alguna funcion a dentro o concluye con una llave
@@ -443,6 +473,7 @@ public class analizadorSintactico {
                 return true;
 
             } else {
+                listaErrores.add("Error en la declaracion de metodo en la Linea: " + listaTokens.get(contadorLista).getLinea());
                 return false;
             }
         }
@@ -506,19 +537,23 @@ public class analizadorSintactico {
                                 }
 
                             } else {
+                                listaErrores.add("Error en la Linea: " + listaTokens.get(contadorLista).getLinea() + " en la Columna: " + listaTokens.get(contadorLista).getColumna() + " se esperaba --> { ");
                                 return false;
                             }
                         } else {
+                            listaErrores.add("Error en la Linea: " + listaTokens.get(contadorLista).getLinea() + " en la Columna: " + listaTokens.get(contadorLista).getColumna() + " se esperaba --> ) ");
                             return false;
                         }
                     } else {
                         return false;
                     }
                 } else {
+                    listaErrores.add("Error en la Linea: " + listaTokens.get(contadorLista).getLinea() + " en la Columna: " + listaTokens.get(contadorLista).getColumna() + " se esperaba --> ( ");
                     return false;
                 }
 
             } else {
+                listaErrores.add("Error en la Linea: " + listaTokens.get(contadorLista).getLinea() + " en la Columna: " + listaTokens.get(contadorLista).getColumna() + " se esperaba --> if ");
                 return false;
             }
         }
@@ -575,7 +610,7 @@ public class analizadorSintactico {
                 contadorLista++;
                 resultadoDeExp2 = Exp();
                 if (!resultadoDeExp2.isEmpty()) {
-                    listaSimbolos.add(new listaSimbolos(origenDeLaFuncion, operadorLogico, resultadoDeExp, resultadoDeExp2, "resultado" + valorIncremVariableTemp));
+                    listaSimbolos.add(new listaSimbolos(origenDeLaFuncion, operadorLogico, resultadoDeExp, resultadoDeExp2, "resultado" + valorIncremVariableTemp, listaTokens.get(contadorLista).getLinea()));
                     valorIncremVariableTemp++;
                     System.out.println("Encontro, Exp operacionLogica");
                     return true;
@@ -676,7 +711,7 @@ public class analizadorSintactico {
                     if (listaTokens.get(contadorLista).getToken().equals("ParentesisFin")) {
                         contadorLista++;
                         if (listaTokens.get(contadorLista).getToken().equals("Delimitador")) {
-                            listaSimbolos.add(new listaSimbolos("Impresion", "", "", listaTokens.get(contadorLista - 2).getValor(), ""));
+                            listaSimbolos.add(new listaSimbolos("Impresion", "", "", listaTokens.get(contadorLista - 2).getValor(), "", listaTokens.get(contadorLista).getLinea()));
                             contadorLista++;
                             return true;
                         }

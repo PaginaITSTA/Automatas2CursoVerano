@@ -19,15 +19,28 @@ public class analizadorSemantico {
         contadorLista = 0;
     }
 
-    public void imprimirSimbolos() {
+    public void comprobar() {
+        BuscarTSIdentificadoresiguales();
+    }
+
+    private void BuscarTSIdentificadoresiguales() {
+
         for (int i = 0; i < Simbolos.size(); i++) {
-            System.out.println(" Clase: " + Simbolos.get(contadorLista + i).getClase()
-                    + " Nombre: " + Simbolos.get(contadorLista + i).getNombreValor()
-                    + " TipoDato: " + Simbolos.get(contadorLista + i).getTipoDeDato()
-                    + " Valor: " + Simbolos.get(contadorLista + i).getValor()
-                    + " Disponibilidad: " + Simbolos.get(contadorLista + i).getDisponibilidad());
+            String identificador = Simbolos.get(contadorLista + i).getNombreValor();
+            for (int j = i - 1; j >= 0; j--) {
+                boolean valorar = Simbolos.get(j).getNombreValor().equals(identificador);
+                if (valorar) {
+                    ErroresSemanticos.add("Error, se encontraron variables con el mismo nombre en la linea: "
+                            + Simbolos.get(i).getLinea());
+                }
+            }
+
         }
 
+    }
+
+    public ArrayList<String> getErroresSemanticos() {
+        return ErroresSemanticos;
     }
 
 }

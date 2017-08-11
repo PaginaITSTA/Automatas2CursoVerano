@@ -33,6 +33,7 @@ public class AFD {
     }
 
     private void q0() {
+     
         boolean entro;
         while (linea <= rows.length) {
             //System.out.println("linea =" + linea);
@@ -395,17 +396,6 @@ public class AFD {
                 diferent = true;
             }
         }
-//        boolean reservada = isReserved(temp);
-//        
-//
-//        if (digit) {
-//            listaTokens.add(new token("Identificador", temp, linea, valorTemporal));
-//        } else if (reservada) {
-//            listaTokens.add(new token("PalabraReservada", temp, linea, contadorGeneral));
-//
-//        } else {
-//            listaTokens.add(new token("Identificador", temp, linea, valorTemporal));
-//        }
 
         boolean reservada = true;
         for (int i = 0; i < palabrasReservadas.length; i++) {

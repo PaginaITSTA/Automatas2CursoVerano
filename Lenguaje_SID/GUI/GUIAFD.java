@@ -40,6 +40,7 @@ public class GUIAFD extends javax.swing.JFrame {
     private ArrayList<String> listaErroresAnalisisLexico;
     private ArrayList<listaSimbolos> listaSimbolos;
     private ArrayList<String> listaErroresSintactico;
+    private ArrayList<String> listaErroresSemantico;
 
     //Variable para leer los archivos desde codigo
     private File archivo_guardado;
@@ -110,6 +111,7 @@ public class GUIAFD extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        dir = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
@@ -145,6 +147,7 @@ public class GUIAFD extends javax.swing.JFrame {
         jMenuBar2.add(jMenu4);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("IDE SID 1.0");
 
         jSplitPane1.setDividerLocation(360);
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
@@ -204,6 +207,7 @@ public class GUIAFD extends javax.swing.JFrame {
 
         jTextArea2.setBackground(new java.awt.Color(255, 255, 255));
         jTextArea2.setColumns(20);
+        jTextArea2.setFont(new java.awt.Font("DialogInput", 0, 12)); // NOI18N
         jTextArea2.setRows(5);
         jScrollPane2.setViewportView(jTextArea2);
 
@@ -215,7 +219,7 @@ public class GUIAFD extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Resultados:", jPanel1);
@@ -241,7 +245,7 @@ public class GUIAFD extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Lista de tokens", jPanel2);
@@ -264,20 +268,29 @@ public class GUIAFD extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Lista de simbolos", jPanel3);
+
+        dir.setFont(new java.awt.Font("DialogInput", 0, 11)); // NOI18N
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(dir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addComponent(jTabbedPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dir, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jSplitPane1.setRightComponent(jPanel6);
@@ -443,11 +456,16 @@ public class GUIAFD extends javax.swing.JFrame {
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         modelo = new DefaultTableModel();
         jTable2.setModel(modelo);
-        ejecutaAnalisisSintactico();
+        if (!listaTokens.isEmpty()) {
+            ejecutaAnalisisSintactico();
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay Tokens", "No hay codigo a compilar", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-       EjecutarSemantico();
+        EjecutarSemantico();
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void subCortarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subCortarActionPerformed
@@ -469,7 +487,7 @@ public class GUIAFD extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jTextArea1CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextArea1CaretUpdate
-         int posicion = evt.getDot();
+        int posicion = evt.getDot();
         try {
             int row = jTextArea1.getLineOfOffset(posicion) + 1;
             int col = posicion - jTextArea1.getLineStartOffset(row - 1);
@@ -485,15 +503,18 @@ public class GUIAFD extends javax.swing.JFrame {
         FileChooser.setFileFilter(new FileNameExtensionFilter("todos los archivos *.sid", "sid", "sid"));
         FileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         int selection = FileChooser.showOpenDialog(this);
+
         if (selection == JFileChooser.APPROVE_OPTION) {
             archivo_guardado = FileChooser.getSelectedFile();
             boolean name_file = archivo_guardado.getAbsolutePath().endsWith(".sid");
+
             if (name_file) {
                 jTextArea2.setText("");
                 modelo = new DefaultTableModel();
                 jTable1.setModel(modelo);
                 jTable2.setModel(modelo);
                 jTextArea1.setText(getArchivo(archivo_guardado.getAbsolutePath()));
+                dir.setText(archivo_guardado.getAbsolutePath());                
                 if (!jTextArea1.getText().isEmpty()) {
                     modificaciones = true;
                     fileSaved = true;
@@ -552,6 +573,7 @@ public class GUIAFD extends javax.swing.JFrame {
         boolean verdad = listaTokens.isEmpty();
 
         if (!verdad) {
+
             jTextArea2.append("\n**Compilación completa del análisis léxico**\n");
             /*
             para crear la tabla de tokens se crea este arreglo bidimencional
@@ -610,7 +632,7 @@ public class GUIAFD extends javax.swing.JFrame {
                 listaSimbolos = analizadorSintactico.getListaSimbolos();
                 listaErroresSintactico = analizadorSintactico.getListaErrores();
 
-                jTextArea2.append("\n\n\n\tLISTA DE SIMBOLOS");
+                // jTextArea2.append("\n\n\n\tLISTA DE SIMBOLOS");
                 if (!listaSimbolos.isEmpty()) {
                     /*
                 Inicializacion del arreglo bidimencional para el panel 3
@@ -625,13 +647,14 @@ public class GUIAFD extends javax.swing.JFrame {
                         informacionTablaSimbolos[i][3] = listaSimbolos.get(i).getTipoDeDato();
                         informacionTablaSimbolos[i][4] = listaSimbolos.get(i).getValor();
                         informacionTablaSimbolos[i][5] = listaSimbolos.get(i).getDisponibilidad();
-                        //Fin del llenado de datos del arreglo para la tabla de simbolos
 
+                        //Fin del llenado de datos del arreglo para la tabla de simbolos
+                        /*
                         jTextArea2.append("\n\n\nClase -> " + listaSimbolos.get(i).getClase() + "\tDisponibilidad -> "
                                 + listaSimbolos.get(i).getDisponibilidad() + "\tNombre -> "
                                 + listaSimbolos.get(i).getNombreValor() + "\tTipo de dato -> "
                                 + listaSimbolos.get(i).getTipoDeDato() + "\tValor -> "
-                                + listaSimbolos.get(i).getValor());
+                                + listaSimbolos.get(i).getValor());*/
                     }
 
                     //Creación del DefaultTableModel para el panel 3
@@ -641,15 +664,14 @@ public class GUIAFD extends javax.swing.JFrame {
 
                 }
 
-                jTextArea2.append("\n\n");
-                jTextArea2.append("\n\n\n\tLISTA DE ERRORES");
+                jTextArea2.append("\n\n--------- ERRORES SINTACTICO");
 
                 if (!listaErroresSintactico.isEmpty()) {
                     for (int i = 0; i < listaErroresSintactico.size(); i++) {
-                        jTextArea2.append("\n\n\nError --> " + listaErroresSintactico.get(i));
+                        jTextArea2.append("\n\nError --> " + listaErroresSintactico.get(i));
                     }
                 } else {
-                    jTextArea2.append("\n\n\nNo hay Errores\n\n");
+                    jTextArea2.append("\n\nNo hay Errores Sintacticos\n\n");
                 }
 
             } else {
@@ -659,14 +681,34 @@ public class GUIAFD extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Tal parece que se encontraron algunos errores en el análisis léxico", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    
-    
-    private void EjecutarSemantico(){
+
+    private void EjecutarSemantico() {
         listaErroresSintactico = analizadorSintactico.getListaErrores();
         boolean vacio = listaErroresSintactico.isEmpty();
         if (vacio) {
-            analizadorSemantico = new analizadorSemantico(listaSimbolos);
-            analizadorSemantico.imprimirSimbolos();
+            if (!listaSimbolos.isEmpty()) {
+                analizadorSemantico = new analizadorSemantico(listaSimbolos);
+                analizadorSemantico.comprobar();
+                listaErroresSemantico = analizadorSemantico.getErroresSemanticos();
+
+                jTextArea2.append("\n\n--------- ERRORES SEMANTICOS");
+
+                System.out.println(listaErroresSemantico.size());
+
+                if (!listaErroresSemantico.isEmpty()) {
+                    for (int i = 0; i < listaErroresSemantico.size(); i++) {
+                        jTextArea2.append("\n\nError --> " + listaErroresSemantico.get(i));
+                    }
+                } else {
+                    jTextArea2.append("\n\nNo hay Errores Semanticos\n\n");
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "No hay Simbolos disponibles para realizar el análisis semantico", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Tal parece que se encontraron algunos errores en el análisis sintactico", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -682,6 +724,7 @@ public class GUIAFD extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Columnas;
     private javax.swing.JLabel Lineas;
+    private javax.swing.JLabel dir;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;

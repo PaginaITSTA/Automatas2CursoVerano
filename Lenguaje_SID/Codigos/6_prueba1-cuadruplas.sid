@@ -1,0 +1,11 @@
+public class prueba{
+	Int a = 10$
+	Int b = 5$
+	Int c$
+
+	public ejemplo(){
+		if (c + 2 * 3 >= ultimo + 10 * primero ){
+			Print("C Es Mayor")$
+		}
+	}
+}
