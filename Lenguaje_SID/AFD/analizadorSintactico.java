@@ -155,7 +155,6 @@ public class analizadorSintactico {
 
                     if (opcion.equals("=")) {
                         if (listaTokens.get(contadorLista + 3).getToken().equals("operadorDeAsignacion")) {
-                            String resultadoDeExp = Exp();
                             if (listaTokens.get(contadorLista + 4).getToken().equals("NumeroEntero")) {
                                 if (listaTokens.get(contadorLista + 5).getToken().equals("Delimitador")) {
                                     listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 4).getValor(), "", listaTokens.get(contadorLista + 1).getLinea()));
@@ -165,8 +164,6 @@ public class analizadorSintactico {
                                 } else {
                                     listaErrores.add("Error de Declaración INT en la Linea: " + listaTokens.get(contadorLista + 5).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 5).getColumna() + " Se esperaba --> $");
                                 }
-                            } else if (!resultadoDeExp.isEmpty()) {
-                                System.out.println("Se encontro una expresion");
                             } else {
                                 listaErrores.add("Error de Declaración INT en la Linea: " + listaTokens.get(contadorLista + 4).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 4).getColumna() + " Se esperaba --> Numero Entero");
                             }
@@ -313,27 +310,30 @@ public class analizadorSintactico {
     }
 
     private boolean declVEexp() {
-        if ((contadorLista + 5) < listaTokens.size()) {
-
-            if (listaTokens.get(contadorLista + 1).getValor().equals("Int")) {
+//        if ((contadorLista + 5) < listaTokens.size()) {
+        contadorLista = contadorLista + 4;
+        System.out.println(listaTokens.get(contadorLista).getValor());
+        System.out.println(contadorLista);
+        if (listaTokens.get(contadorLista).getToken().equals("Identificador")) {
+            if (listaTokens.get(contadorLista + 1).getToken().equals("OperadorSuma")
+                    || listaTokens.get(contadorLista + 1).getToken().equals("OperadorResta")
+                    || listaTokens.get(contadorLista + 1).getToken().equals("OperadorMultiplicacion")
+                    || listaTokens.get(contadorLista + 1).getToken().equals("OperadorDivision")) {
                 if (listaTokens.get(contadorLista + 2).getToken().equals("Identificador")) {
-                    if (listaTokens.get(contadorLista + 3).getToken().equals("operadorDeAsignacion")) {
-                        String resultadoDeExp = Exp();
-                        if (!resultadoDeExp.isEmpty()) {
-                            if (listaTokens.get(contadorLista + 5).getToken().equals("Delimitador")) {
-                                listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 4).getValor(), "", listaTokens.get(contadorLista).getLinea()));
-                                contadorLista = contadorLista + 5;
-                                System.out.println("Declaracion de tipo 3 INT Correcto");
-                                return true;
-                            } else {
-                                listaErrores.add("Error de Declaración INT 3 en la Linea " + listaTokens.get(contadorLista + 1).getLinea() + " Se esperaba --> Tipo de Dato Identificador = Valor $");
+                    if (listaTokens.get(contadorLista + 3).getToken().equals("Delimitador")) {
+                        //listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 4).getValor(), "", listaTokens.get(contadorLista).getLinea()));
+                        contadorLista = contadorLista + 7;
+                        System.out.println("Declaracion de tipo 3 INT Correcto");
+                        return true;
+                    } else {
+                        System.out.println("Hasta aqui errror");
 
-                            }
-                        }
                     }
+
                 }
             }
         }
+//        }
         return false;
     }
 
