@@ -27,16 +27,27 @@ public class analizadorSemantico {
 
         for (int i = 0; i < Simbolos.size(); i++) {
             String identificador = Simbolos.get(contadorLista + i).getNombreValor();
+
             for (int j = i - 1; j >= 0; j--) {
                 boolean valorar = Simbolos.get(j).getNombreValor().equals(identificador);
                 if (valorar) {
-                    ErroresSemanticos.add("Error, se encontraron variables con el mismo nombre en la linea: "
-                            + Simbolos.get(i).getLinea());
+                    if (isIdentificador(j)) {
+                        ErroresSemanticos.add("Error, se encontraron variables con el mismo nombre dado: ( " + Simbolos.get(i).getNombreValor() + " ) en la linea: "
+                                + Simbolos.get(i).getLinea());
+                    }
                 }
             }
 
         }
 
+    }
+
+    private boolean isIdentificador(int valor) {
+        boolean valorar = Simbolos.get(valor).getClase().equals("Identificador");
+        if (valorar) {
+            return true;
+        }
+        return false;
     }
 
     public ArrayList<String> getErroresSemanticos() {

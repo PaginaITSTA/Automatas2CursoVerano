@@ -160,7 +160,7 @@ public class analizadorSintactico {
                                 if (listaTokens.get(contadorLista + 5).getToken().equals("Delimitador")) {
                                     listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 4).getValor(), "", listaTokens.get(contadorLista + 1).getLinea()));
                                     contadorLista = contadorLista + 5;
-                                    System.out.println("Declaracion de tipo 1 INT Correcto");
+                                    //System.out.println("Declaracion de tipo 1 INT Correcto");
                                     return true;
                                 } else {
                                     listaErrores.add("Error de Declaración INT en la Linea: " + listaTokens.get(contadorLista + 5).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 5).getColumna() + " Se esperaba --> $");
@@ -177,7 +177,7 @@ public class analizadorSintactico {
                         if (listaTokens.get(contadorLista + 3).getToken().equals("Delimitador")) {
                             listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), "Int", "0", "", listaTokens.get(contadorLista + 1).getLinea()));
                             contadorLista = contadorLista + 3;
-                            System.out.println("Declaracion de tipo 2 INT Correcto");
+                            //System.out.println("Declaracion de tipo 2 INT Correcto");
                             return true;
                         } else {
                             listaErrores.add("Error de Declaración INT en la Linea: " + listaTokens.get(contadorLista + 3).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 3).getColumna() + " Se esperaba --> $");
@@ -219,7 +219,7 @@ public class analizadorSintactico {
                                 if (listaTokens.get(contadorLista + 5).getToken().equals("Delimitador")) {
                                     listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 4).getValor(), "", listaTokens.get(contadorLista + 1).getLinea()));
                                     contadorLista = contadorLista + 5;
-                                    System.out.println("Declaracion de tipo 1 FLOAT Correcto");
+                                    //System.out.println("Declaracion de tipo 1 FLOAT Correcto");
                                     return true;
                                 } else {
                                     listaErrores.add("Error de Declaración FLOAT en la Linea: " + listaTokens.get(contadorLista + 5).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 5).getColumna() + " Se esperaba --> $");
@@ -234,7 +234,7 @@ public class analizadorSintactico {
                         if (listaTokens.get(contadorLista + 3).getToken().equals("Delimitador")) {
                             listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), "Int", "0", "", listaTokens.get(contadorLista + 1).getLinea()));
                             contadorLista = contadorLista + 3;
-                            System.out.println("Declaracion de tipo 2 FLOAT Correcto");
+                            //System.out.println("Declaracion de tipo 2 FLOAT Correcto");
                             return true;
                         } else {
                             listaErrores.add("Error de Declaración FLOAT en la Linea: " + listaTokens.get(contadorLista + 3).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 3).getColumna() + " Se esperaba --> $");
@@ -276,7 +276,7 @@ public class analizadorSintactico {
                                 if (listaTokens.get(contadorLista + 5).getToken().equals("Delimitador")) {
                                     listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 4).getValor(), "", listaTokens.get(contadorLista + 1).getLinea()));
                                     contadorLista = contadorLista + 5;
-                                    System.out.println("Declaracion de tipo 1 BOOL Correcto");
+                                    //System.out.println("Declaracion de tipo 1 BOOL Correcto");
                                     return true;
                                 } else {
                                     listaErrores.add("Error de Declaración BOOL en la Linea: " + listaTokens.get(contadorLista + 5).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 5).getColumna() + " Se esperaba --> $");
@@ -291,7 +291,7 @@ public class analizadorSintactico {
                         if (listaTokens.get(contadorLista + 3).getToken().equals("Delimitador")) {
                             listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), "Int", "0", "", listaTokens.get(contadorLista + 1).getLinea()));
                             contadorLista = contadorLista + 3;
-                            System.out.println("Declaracion de tipo 2 BOOL Correcto");
+                            //System.out.println("Declaracion de tipo 2 BOOL Correcto");
                             return true;
                         } else {
                             listaErrores.add("Error de Declaración BOOL en la Linea: " + listaTokens.get(contadorLista + 3).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 3).getColumna() + " Se esperaba --> $");

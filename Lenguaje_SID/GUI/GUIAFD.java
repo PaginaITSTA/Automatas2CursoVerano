@@ -668,7 +668,7 @@ public class GUIAFD extends javax.swing.JFrame {
 
                 if (!listaErroresSintactico.isEmpty()) {
                     for (int i = 0; i < listaErroresSintactico.size(); i++) {
-                        jTextArea2.append("\n\nError --> " + listaErroresSintactico.get(i));
+                        jTextArea2.append("\n\nError ---> " + listaErroresSintactico.get(i));
                     }
                 } else {
                     jTextArea2.append("\n\nNo hay Errores Sintacticos\n\n");
@@ -697,7 +697,7 @@ public class GUIAFD extends javax.swing.JFrame {
 
                 if (!listaErroresSemantico.isEmpty()) {
                     for (int i = 0; i < listaErroresSemantico.size(); i++) {
-                        jTextArea2.append("\n\nError --> " + listaErroresSemantico.get(i));
+                        jTextArea2.append("\n\nError ---> " + listaErroresSemantico.get(i));
                     }
                 } else {
                     jTextArea2.append("\n\nNo hay Errores Semanticos\n\n");
