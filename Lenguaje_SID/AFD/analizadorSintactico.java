@@ -39,11 +39,14 @@ public class analizadorSintactico {
             //Busca código interno
             contadorLista++;
             if (cuerpo_Código()) {
-
-                if (listaTokens.get(contadorLista).getToken().equals("llaveFin")) {
-                    System.out.println("Llave final de la clase");
+                if (contadorLista < listaTokens.size()) {
+                    if (listaTokens.get(contadorLista).getToken().equals("llaveFin")) {
+                        System.out.println("Llave final de la clase");
+                    } else {
+                        listaErrores.add("Error en la Linea: " + listaTokens.get(contadorLista).getLinea() + " en la Columna: " + listaTokens.get(contadorLista).getColumna() + " se esperaba --> } ");
+                    }
                 } else {
-                    System.out.println("Aquí se produce un error debido a que no esta la  llave final");
+                    listaErrores.add("Error: se espera una llave de cierre final y no se tienen más tokens");
                 }
             }
 
@@ -328,7 +331,7 @@ public class analizadorSintactico {
                         }
                     } else if (opcion.equals("$")) {
                         if (listaTokens.get(contadorLista).getToken().equals("Delimitador")) {
-                            listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista - 1).getToken(), listaTokens.get(contadorLista - 1).getValor(), listaTokens.get(contadorLista - 2).getValor(), "0", "", listaTokens.get(contadorLista).getLinea()));
+                            listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista - 1).getToken(), listaTokens.get(contadorLista - 1).getValor(), listaTokens.get(contadorLista - 2).getValor(), "null", "", listaTokens.get(contadorLista).getLinea()));
                             contadorLista++;
                             //System.out.println("Declaracion de tipo 2 BOOL Correcto");
                             return true;
@@ -497,16 +500,16 @@ public class analizadorSintactico {
                     if (listaTokens.get(contadorLista).getToken().equals("llaveFin")) {
                         System.out.println("Llego al final del método");
                     } else if (funcion()) {
-                        //Aquí se debe de probar la distancia de la lista para evitar que produsca un OutIndexException
-                        if (listaTokens.get(contadorLista).getToken().equals("llaveFin")) {
-                            System.out.println("Se encontro la llave final del método y todo completo");
-                            contadorLista++;
-                            return true;
-                        } else {
-                            listaErrores.add("Falta una llave de cierre");
-                            System.out.println("Aqui se produce un error ya que no está la llave final del método");
+                        if ((contadorLista + 1) < listaTokens.size()) {
+                            if (listaTokens.get(contadorLista).getToken().equals("llaveFin")) {
+                                System.out.println("Se encontro la llave final del método y todo completo");
+                                contadorLista++;
+                                return true;
+                            } else {
+                                listaErrores.add("Falta una llave de cierre");
+                                System.out.println("Aqui se produce un error ya que no está la llave final del método");
+                            }
                         }
-                        System.out.println("Tiene una funcion interna");
                     }
                 } else {
                     System.err.println("Aqui se debe de adherir una un error por falta de una llave final");
@@ -605,7 +608,6 @@ public class analizadorSintactico {
         System.out.println("Entro a verificar si existe alguna condicion");
         //CONDICION -> condición_lógica | condición_AND | condición_OR
         if (condicion_logica(origenDeLafuncion)) {
-
             return true;
         } else if (condicion_AND(origenDeLafuncion)) {
             return true;
@@ -741,19 +743,20 @@ public class analizadorSintactico {
 
     private boolean impresion() {
         //IMPRESIÓN  -> Print ( CadenaDeTexto )$
-        System.out.println("Entro a la impresión dato esperado Print dado: " + listaTokens.get(contadorLista).getValor());
-        if (listaTokens.get(contadorLista).getValor().equals("Print")) {
-            contadorLista++;
-            if (listaTokens.get(contadorLista).getToken().equals("ParentesisInicio")) {
+        if (contadorLista + 4 < listaTokens.size()) {
+            if (listaTokens.get(contadorLista).getValor().equals("Print")) {
                 contadorLista++;
-                if (listaTokens.get(contadorLista).getToken().equals("CadenaDeTexto")) {
+                if (listaTokens.get(contadorLista).getToken().equals("ParentesisInicio")) {
                     contadorLista++;
-                    if (listaTokens.get(contadorLista).getToken().equals("ParentesisFin")) {
+                    if (listaTokens.get(contadorLista).getToken().equals("CadenaDeTexto")) {
                         contadorLista++;
-                        if (listaTokens.get(contadorLista).getToken().equals("Delimitador")) {
-                            listaSimbolos.add(new listaSimbolos("Impresion", "", "", listaTokens.get(contadorLista - 2).getValor(), "", listaTokens.get(contadorLista).getLinea()));
+                        if (listaTokens.get(contadorLista).getToken().equals("ParentesisFin")) {
                             contadorLista++;
-                            return true;
+                            if (listaTokens.get(contadorLista).getToken().equals("Delimitador")) {
+                                listaSimbolos.add(new listaSimbolos("Impresion", "", "", listaTokens.get(contadorLista - 2).getValor(), "", listaTokens.get(contadorLista).getLinea()));
+                                contadorLista++;
+                                return true;
+                            }
                         }
                     }
                 }
