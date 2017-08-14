@@ -4,7 +4,7 @@ public class prueba{
 	Int c$
 
 	public ejemplo(){
-		if (c + 2 * 3 >= ultimo + 10 * primero ){
+		while (c >= 10){
 			Print("C Es Mayor")$
 		}
 	}
