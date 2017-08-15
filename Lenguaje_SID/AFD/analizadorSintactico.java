@@ -150,7 +150,7 @@ public class analizadorSintactico {
     }
 
     private boolean declVE() {
-        /*
+                /*
         declVE -> Int identificador $ | Int identificador = num $ | Int identificador = Exp;
          */
 
@@ -159,24 +159,34 @@ public class analizadorSintactico {
             if (listaTokens.get(contadorLista).getValor().equals("Int")) {
                 contadorLista++;
                 if (listaTokens.get(contadorLista).getToken().equals("Identificador")) {
+                    String variable = listaTokens.get(contadorLista).getValor();
                     contadorLista++;
                     String opcion = listaTokens.get(contadorLista).getValor();
 
                     if (opcion.equals("=")) {
                         if (listaTokens.get(contadorLista).getToken().equals("operadorDeAsignacion")) {
-                            contadorLista++;
-                            if (listaTokens.get(contadorLista).getToken().equals("NumeroEntero")) {
-                                contadorLista++;
-                                if (listaTokens.get(contadorLista).getToken().equals("Delimitador")) {
-                                    listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista - 3).getToken(), listaTokens.get(contadorLista - 3).getValor(), listaTokens.get(contadorLista - 4).getValor(), listaTokens.get(contadorLista - 1).getValor(), "", listaTokens.get(contadorLista).getLinea()));
                                     contadorLista++;
-                                    //System.out.println("Declaracion de tipo 1 INT Correcto");
+                            String resultadoExp = Exp();
+                            if (!resultadoExp.isEmpty()) {
+                                //contadorLista++;
+                                System.out.println("Se espera un delimitador y se da: " + listaTokens.get(contadorLista).getToken());
+                                if (listaTokens.get(contadorLista).getToken().equals("Delimitador")) {
+                                    listaSimbolos.add(new listaSimbolos("Identificador", variable, "Int", resultadoExp, "", listaTokens.get(contadorLista).getLinea()));
+                                    contadorLista++;
                                     return true;
                                 } else {
                                     listaErrores.add("Error de Declaración INT en la Linea: " + listaTokens.get(contadorLista + 5).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 5).getColumna() + " Se esperaba --> $");
+                                }                            
+                            } else if (listaTokens.get(contadorLista).getToken().equals("NumeroEntero")) {
+                                contadorLista++;
+                                System.out.println("Se espera un delimitador y se da: " + listaTokens.get(contadorLista).getToken());
+                                if (listaTokens.get(contadorLista).getToken().equals("Delimitador")) {
+                                    listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista - 3).getToken(), listaTokens.get(contadorLista - 3).getValor(), listaTokens.get(contadorLista - 4).getValor(), listaTokens.get(contadorLista - 1).getValor(), "", listaTokens.get(contadorLista + 1).getLinea()));
+                                    contadorLista++;
+                                    return true;
+                                } else {
+                                    listaErrores.add("Error de Declaración FLOAT en la Linea: " + listaTokens.get(contadorLista + 5).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 5).getColumna() + " Se esperaba --> $");
                                 }
-                            } else {
-                                listaErrores.add("Error de Declaración INT en la Linea: " + listaTokens.get(contadorLista + 4).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 4).getColumna() + " Se esperaba --> Numero Entero");
                             }
                         } else {
                             listaErrores.add("Error de Declaración INT en la Linea: " + listaTokens.get(contadorLista + 3).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 3).getColumna() + " Se esperaba --> =");
@@ -444,11 +454,6 @@ public class analizadorSintactico {
     private String factor() {
         //Factor -> digito | identificador | (Exp)
         System.out.println("Entro a ver si es un factor()");
-        System.out.println(listaTokens.get(contadorLista + 1).getValor()
-                + " " + listaTokens.get(contadorLista + 2).getValor()
-                + " " + listaTokens.get(contadorLista + 3).getValor()
-                + " " + listaTokens.get(contadorLista + 4).getValor()
-                + " " + listaTokens.get(contadorLista + 5).getValor() + " " + listaTokens.get(contadorLista).getLinea());
 
         if ((contadorLista + 1) < listaTokens.size()) {
             String Identificador = "";
@@ -780,3 +785,5 @@ public class analizadorSintactico {
     }
 
 }
+
+

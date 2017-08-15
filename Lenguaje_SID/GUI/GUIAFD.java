@@ -6,9 +6,11 @@ import Lenguaje_SID.AFD.AFD;
 import Lenguaje_SID.AFD.analizadorSemantico;
 import Lenguaje_SID.AFD.listaSimbolos;
 import Lenguaje_SID.AFD.token;
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import javax.swing.JFileChooser;
@@ -95,12 +97,12 @@ public class GUIAFD extends javax.swing.JFrame {
         jSeparator15 = new javax.swing.JSeparator();
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel5 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jPanel4 = new javax.swing.JPanel();
         Lineass = new javax.swing.JEditorPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         Lineas = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -116,6 +118,9 @@ public class GUIAFD extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jPanel7 = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTextArea3 = new javax.swing.JTextArea();
         dir = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -140,6 +145,8 @@ public class GUIAFD extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jSeparator13 = new javax.swing.JPopupMenu.Separator();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu7 = new javax.swing.JMenu();
+        jMenuItem9 = new javax.swing.JMenuItem();
 
         jMenuItem3.setText("jMenuItem3");
 
@@ -156,6 +163,8 @@ public class GUIAFD extends javax.swing.JFrame {
 
         jSplitPane1.setDividerLocation(360);
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+
+        jLabel2.setText("Código fuente:");
 
         jScrollPane5.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -185,23 +194,20 @@ public class GUIAFD extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(Lineass, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 909, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 922, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addComponent(Lineass, javax.swing.GroupLayout.Alignment.TRAILING)))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(Lineass)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jScrollPane5.setViewportView(jPanel4);
-
-        jLabel2.setText("Código fuente:");
 
         jLabel5.setText("Linea:");
 
@@ -215,7 +221,7 @@ public class GUIAFD extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 633, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(Lineas, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -258,11 +264,12 @@ public class GUIAFD extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Resultados:", jPanel1);
+        jTabbedPane1.addTab("Errores.", jPanel1);
 
+        jTable1.setFont(new java.awt.Font("Dialog", 0, 13)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -284,11 +291,12 @@ public class GUIAFD extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Lista de tokens", jPanel2);
+        jTabbedPane1.addTab("Lista de Tokens.", jPanel2);
 
+        jTable2.setFont(new java.awt.Font("Dialog", 0, 13)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -307,10 +315,36 @@ public class GUIAFD extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Lista de simbolos", jPanel3);
+        jTabbedPane1.addTab("Tabla de Simbolos.", jPanel3);
+
+        jTextArea3.setEditable(false);
+        jTextArea3.setBackground(new java.awt.Color(255, 255, 255));
+        jTextArea3.setColumns(20);
+        jTextArea3.setFont(new java.awt.Font("DialogInput", 0, 18)); // NOI18N
+        jTextArea3.setRows(5);
+        jScrollPane6.setViewportView(jTextArea3);
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 953, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Resultados.", jPanel7);
 
         dir.setFont(new java.awt.Font("DialogInput", 0, 11)); // NOI18N
 
@@ -452,6 +486,18 @@ public class GUIAFD extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
+        jMenu7.setText("Ayuda");
+
+        jMenuItem9.setText("Manual de Usuario");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem9);
+
+        jMenuBar1.add(jMenu7);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -540,6 +586,15 @@ public class GUIAFD extends javax.swing.JFrame {
         // TODO add your handling code here:
         UpdateLineas();
     }//GEN-LAST:event_jTextArea1KeyReleased
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+      try {
+            File path = new File("Manual.pdf");
+            Desktop.getDesktop().open(path);
+        } catch (IOException ex) {
+        } catch (IllegalArgumentException argumentException) {
+        }
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void UpdateLineas() {
         StringTokenizer st = new StringTokenizer(jTextArea1.getText(), "\n", true);
@@ -637,7 +692,7 @@ public class GUIAFD extends javax.swing.JFrame {
 
         if (!verdad) {
 
-            jTextArea2.append("\n**Compilación completa del análisis léxico**\n");
+            jTextArea2.append("\n**Compilación completa del análisis léxico**\n\n");
             /*
             para crear la tabla de tokens se crea este arreglo bidimencional
             el cual se pasara como attributo al DefaultTableModel
@@ -731,7 +786,7 @@ public class GUIAFD extends javax.swing.JFrame {
 
                 if (!listaErroresSintactico.isEmpty()) {
                     for (int i = 0; i < listaErroresSintactico.size(); i++) {
-                        jTextArea2.append("\n\nError ---> " + listaErroresSintactico.get(i));
+                        jTextArea2.append("\n\nError ---> " + listaErroresSintactico.get(i)+"\n\n");
                     }
                 } else {
                     jTextArea2.append("\n\nNo hay Errores Sintacticos\n\n");
@@ -750,7 +805,7 @@ public class GUIAFD extends javax.swing.JFrame {
         boolean vacio = listaErroresSintactico.isEmpty();
         if (vacio) {
             if (!listaSimbolos.isEmpty()) {
-                analizadorSemantico = new analizadorSemantico(listaSimbolos);
+                analizadorSemantico = new analizadorSemantico(listaSimbolos, listaTokens);
                 analizadorSemantico.comprobar();
                 listaErroresSemantico = analizadorSemantico.getErroresSemanticos();
 
@@ -760,7 +815,7 @@ public class GUIAFD extends javax.swing.JFrame {
 
                 if (!listaErroresSemantico.isEmpty()) {
                     for (int i = 0; i < listaErroresSemantico.size(); i++) {
-                        jTextArea2.append("\n\nError ---> " + listaErroresSemantico.get(i));
+                        jTextArea2.append("\n\nError ---> " + listaErroresSemantico.get(i)+"\n\n");
                     }
                 } else {
                     jTextArea2.append("\n\nNo hay Errores Semanticos\n\n");
@@ -798,6 +853,7 @@ public class GUIAFD extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
@@ -808,17 +864,20 @@ public class GUIAFD extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator13;
@@ -836,6 +895,7 @@ public class GUIAFD extends javax.swing.JFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextArea jTextArea3;
     private javax.swing.JMenuItem subCopiar;
     private javax.swing.JMenuItem subCortar;
     private javax.swing.JMenuItem subPegar;

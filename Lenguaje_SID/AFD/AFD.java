@@ -464,18 +464,6 @@ public class AFD {
         return false;
     }
 
-//    private boolean isReserved(String valor) {
-//        int contadorTemporal = 0;
-//        boolean band = false;
-//        while (contadorTemporal < palabrasReservadas.length) {
-//
-//            if (valor.equals(palabrasReservadas[0][contadorTemporal])) {
-//                return band = true;
-//            }
-//            contadorTemporal++;
-//        }
-//        return band;
-//    }
     private void cambiaLinea() {
         if (linea < rows.length) {
             cadenaGeneral = rows[linea].toCharArray();
