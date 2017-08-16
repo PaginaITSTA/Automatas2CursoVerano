@@ -26,7 +26,7 @@ import javax.swing.Action;
  * @author erick
  */
 public class GUIAFD extends javax.swing.JFrame {
-    
+
     int cont = 0;
     //variables de clase
     Action Copiar_Action, Pegar_Action, Cortar_Action;
@@ -60,10 +60,13 @@ public class GUIAFD extends javax.swing.JFrame {
 
     //Modelo para ambas tablas del panel 2 y 3
     private DefaultTableModel modelo;
-    
+
     public GUIAFD() {
         initComponents();
+        //Hace que siempre esté en medio no importa el tamaño de la pantalla
         this.setLocationRelativeTo(null);
+        //Hace que esté maximizado.
+        this.setExtendedState(MAXIMIZED_BOTH);
 
         //Declaracion de los titulos para la tabla de Tokens del panel dos
         titulosTablaTokens = new String[5];
@@ -84,7 +87,7 @@ public class GUIAFD extends javax.swing.JFrame {
         titulosTablaDeSimbolos[4] = "Valor";
         titulosTablaDeSimbolos[5] = "Disponibilidad";
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -611,19 +614,19 @@ public class GUIAFD extends javax.swing.JFrame {
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
         CrearCodigoIntermedio();
     }//GEN-LAST:event_jMenuItem10ActionPerformed
-    
+
     private void UpdateLineas() {
         StringTokenizer st = new StringTokenizer(jTextArea1.getText(), "\n", true);
         String txt = "", token;
         cont = 1;
-        
+
         while (st.hasMoreTokens()) {
             token = st.nextToken();
             if ("\n".equals(token)) {
                 cont++;
             }
         }
-        
+
         for (int i = 1; i <= cont; i++) {
             txt += i + "\n";
         }
@@ -636,11 +639,11 @@ public class GUIAFD extends javax.swing.JFrame {
         FileChooser.setFileFilter(new FileNameExtensionFilter("todos los archivos *.sid", "sid", "sid"));
         FileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         int selection = FileChooser.showOpenDialog(this);
-        
+
         if (selection == JFileChooser.APPROVE_OPTION) {
             archivo_guardado = FileChooser.getSelectedFile();
             boolean name_file = archivo_guardado.getAbsolutePath().endsWith(".sid");
-            
+
             if (name_file) {
                 jTextArea2.setText("");
                 modelo = new DefaultTableModel();
@@ -658,7 +661,7 @@ public class GUIAFD extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Tipo de archivo no admitido", "Error de archivo", JOptionPane.ERROR_MESSAGE);
                 OpenFile();
             }
-            
+
         }
     }
 
@@ -672,13 +675,13 @@ public class GUIAFD extends javax.swing.JFrame {
             //ruta puede ser de tipo String o tipo File
             fr = new FileReader(ruta);
             br = new BufferedReader(fr);
-            
+
             String linea;
             //Obtenemos el contenido del archivo linea por linea
             while ((linea = br.readLine()) != null) {
                 contenido += linea + "\n";
             }
-            
+
         } catch (Exception e) {
         } //finally se utiliza para que si todo ocurre correctamente o si ocurre 
         //algun error se cierre el archivo que anteriormente abrimos
@@ -699,22 +702,22 @@ public class GUIAFD extends javax.swing.JFrame {
     private void ejecutarCodigo(String texto) {
         analisisLexico = new AFD(texto);
         analisisLexico.estadoInicial();
-        
+
         listaTokens = analisisLexico.getListaTokens();
         int cont = 0;
         jTextArea2.setText("");
-        
+
         boolean verdad = listaTokens.isEmpty();
-        
+
         if (!verdad) {
-            
+
             jTextArea2.append("\n**Compilación completa del análisis léxico**\n\n");
             /*
             para crear la tabla de tokens se crea este arreglo bidimencional
             el cual se pasara como attributo al DefaultTableModel
              */
             informacionTablaTokens = new Object[listaTokens.size()][5];
-            
+
             while (cont < listaTokens.size()) {
                 //Llenando el arreglo para la tabla que se verá en el panel 2
                 informacionTablaTokens[cont][0] = cont + 1;
@@ -740,7 +743,7 @@ public class GUIAFD extends javax.swing.JFrame {
 
             //Creando la tabla
             modelo = new DefaultTableModel(informacionTablaTokens, titulosTablaTokens);
-            
+
             jTable1.setModel(modelo);
             //Para cambiar el tamaño de la columna 1
             TableColumn columna = jTable1.getColumn("Numero");
@@ -756,7 +759,7 @@ public class GUIAFD extends javax.swing.JFrame {
     ***********************************************************************************************************
      */
     private void ejecutaAnalisisSintactico() {
-        
+
         listaErroresAnalisisLexico = analisisLexico.getListaErrores();
         boolean vacio = listaErroresAnalisisLexico.isEmpty();
         if (vacio) {
@@ -772,7 +775,7 @@ public class GUIAFD extends javax.swing.JFrame {
                 Inicializacion del arreglo bidimencional para el panel 3
                      */
                     informacionTablaSimbolos = new Object[listaSimbolos.size()][6];
-                    
+
                     for (int i = 0; i < listaSimbolos.size(); i++) {
                         //Llenando la informacion de la tabla de simbolos del panel 3
                         informacionTablaSimbolos[i][0] = i + 1;
@@ -795,11 +798,11 @@ public class GUIAFD extends javax.swing.JFrame {
                     modelo = new DefaultTableModel(informacionTablaSimbolos, titulosTablaDeSimbolos);
                     //Envio de datos a la última tabla
                     jTable2.setModel(modelo);
-                    
+
                 }
-                
+
                 jTextArea2.append("\n\n--------- ERRORES SINTACTICO");
-                
+
                 if (!listaErroresSintactico.isEmpty()) {
                     for (int i = 0; i < listaErroresSintactico.size(); i++) {
                         jTextArea2.append("\n\nError ---> " + listaErroresSintactico.get(i) + "\n\n");
@@ -807,7 +810,7 @@ public class GUIAFD extends javax.swing.JFrame {
                 } else {
                     jTextArea2.append("\n\nNo hay Errores Sintacticos\n\n");
                 }
-                
+
             } else {
                 JOptionPane.showMessageDialog(this, "No hay tokens disponibles para realizar el análisis léxico", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -815,7 +818,7 @@ public class GUIAFD extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Tal parece que se encontraron algunos errores en el análisis léxico", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    
+
     private void EjecutarSemantico() {
         listaErroresSintactico = analizadorSintactico.getListaErrores();
         boolean vacio = listaErroresSintactico.isEmpty();
@@ -824,11 +827,11 @@ public class GUIAFD extends javax.swing.JFrame {
                 analizadorSemantico = new analizadorSemantico(listaSimbolos, listaTokens);
                 analizadorSemantico.comprobar();
                 listaErroresSemantico = analizadorSemantico.getErroresSemanticos();
-                
+
                 jTextArea2.append("\n\n--------- ERRORES SEMANTICOS");
-                
+
                 System.out.println(listaErroresSemantico.size());
-                
+
                 if (!listaErroresSemantico.isEmpty()) {
                     for (int i = 0; i < listaErroresSemantico.size(); i++) {
                         jTextArea2.append("\n\nError ---> " + listaErroresSemantico.get(i) + "\n\n");
@@ -836,24 +839,24 @@ public class GUIAFD extends javax.swing.JFrame {
                 } else {
                     jTextArea2.append("\n\nNo hay Errores Semanticos\n\n");
                 }
-                
+
             } else {
                 JOptionPane.showMessageDialog(this, "No hay Simbolos disponibles para realizar el análisis semantico", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
-            
+
         } else {
             JOptionPane.showMessageDialog(this, "Tal parece que se encontraron algunos errores en el análisis sintactico", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    
+
     private void CrearCodigoIntermedio() {
         GeneracionCodigoIntermedio codigo = new GeneracionCodigoIntermedio(listaSimbolos);
         codigo.comienza();
         jTextArea3.setText(codigo.getImpresion());
     }
-    
+
     public static void main(String args[]) {
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new GUIAFD().setVisible(true);
