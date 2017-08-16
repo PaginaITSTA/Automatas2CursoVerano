@@ -1,8 +1,7 @@
 %include 'funciones.asm'
-
 SECTION .data
 
- msgSal      db      'Hola mundo', 0Ah, 0h ;
+ msgSal      db      'Hola mundo en SID ', 0Ah, 0h ;
  
 SECTION .text
 global  _start
