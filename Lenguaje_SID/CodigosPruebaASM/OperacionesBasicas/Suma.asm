@@ -3,9 +3,14 @@ SECTION .text
 global _start
 
 _start:
-	mov		ecx, 2
+	mov		ebx, 2
 	mov 	eax, 2
-	add  	eax, ecx
+	add  	eax, ebx
+
+	mov		ebx, eax
+	mov 	eax, 2
+	add  	eax, ebx
+
 	call 		iprintLF
 
 	call 		quit
