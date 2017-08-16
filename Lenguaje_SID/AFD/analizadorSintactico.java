@@ -150,7 +150,7 @@ public class analizadorSintactico {
     }
 
     private boolean declVE() {
-                /*
+        /*
         declVE -> Int identificador $ | Int identificador = num $ | Int identificador = Exp;
          */
 
@@ -165,21 +165,21 @@ public class analizadorSintactico {
 
                     if (opcion.equals("=")) {
                         if (listaTokens.get(contadorLista).getToken().equals("operadorDeAsignacion")) {
-                                    contadorLista++;
+                            contadorLista++;
                             String resultadoExp = Exp();
                             if (!resultadoExp.isEmpty()) {
                                 //contadorLista++;
-                                System.out.println("Se espera un delimitador y se da: " + listaTokens.get(contadorLista).getToken());
+                                //System.out.println("Se espera un delimitador y se da: " + listaTokens.get(contadorLista).getToken());
                                 if (listaTokens.get(contadorLista).getToken().equals("Delimitador")) {
                                     listaSimbolos.add(new listaSimbolos("Identificador", variable, "Int", resultadoExp, "", listaTokens.get(contadorLista).getLinea()));
                                     contadorLista++;
                                     return true;
                                 } else {
                                     listaErrores.add("Error de Declaración INT en la Linea: " + listaTokens.get(contadorLista + 5).getLinea() + " en la Columna: " + listaTokens.get(contadorLista + 5).getColumna() + " Se esperaba --> $");
-                                }                            
+                                }
                             } else if (listaTokens.get(contadorLista).getToken().equals("NumeroEntero")) {
                                 contadorLista++;
-                                System.out.println("Se espera un delimitador y se da: " + listaTokens.get(contadorLista).getToken());
+                                //System.out.println("Se espera un delimitador y se da: " + listaTokens.get(contadorLista).getToken());
                                 if (listaTokens.get(contadorLista).getToken().equals("Delimitador")) {
                                     listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista - 3).getToken(), listaTokens.get(contadorLista - 3).getValor(), listaTokens.get(contadorLista - 4).getValor(), listaTokens.get(contadorLista - 1).getValor(), "", listaTokens.get(contadorLista + 1).getLinea()));
                                     contadorLista++;
@@ -225,7 +225,7 @@ public class analizadorSintactico {
 
         if ((contadorLista + 5) < listaTokens.size()) {
             //contadorLista++;
-            System.out.println("Se espera float y se da: " + listaTokens.get(contadorLista).getValor());
+            //System.out.println("Se espera float y se da: " + listaTokens.get(contadorLista).getValor());
             if (listaTokens.get(contadorLista).getValor().equals("float")) {
                 contadorLista++;
                 if (listaTokens.get(contadorLista).getToken().equals("Identificador")) {
@@ -238,7 +238,7 @@ public class analizadorSintactico {
                             String resultadoExp = Exp();
                             if (!resultadoExp.isEmpty()) {
                                 //contadorLista++;
-                                System.out.println("Se espera un delimitador y se da: " + listaTokens.get(contadorLista).getToken());
+                                //System.out.println("Se espera un delimitador y se da: " + listaTokens.get(contadorLista).getToken());
                                 if (listaTokens.get(contadorLista).getToken().equals("Delimitador")) {
                                     listaSimbolos.add(new listaSimbolos("Identificador", variable, "float", resultadoExp, "", listaTokens.get(contadorLista).getLinea()));
                                     contadorLista++;
@@ -250,7 +250,7 @@ public class analizadorSintactico {
                                 //return true;
                             } else if (listaTokens.get(contadorLista).getToken().equals("NumeroDecimal")) {
                                 contadorLista++;
-                                System.out.println("Se espera un delimitador y se da: " + listaTokens.get(contadorLista).getToken());
+                                //System.out.println("Se espera un delimitador y se da: " + listaTokens.get(contadorLista).getToken());
                                 if (listaTokens.get(contadorLista).getToken().equals("Delimitador")) {
                                     listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista - 3).getToken(), listaTokens.get(contadorLista - 3).getValor(), listaTokens.get(contadorLista - 4).getValor(), listaTokens.get(contadorLista - 1).getValor(), "", listaTokens.get(contadorLista + 1).getLinea()));
                                     contadorLista++;
@@ -367,8 +367,8 @@ public class analizadorSintactico {
     private boolean declVEexp() {
 //        if ((contadorLista + 5) < listaTokens.size()) {
         contadorLista = contadorLista + 4;
-        System.out.println(listaTokens.get(contadorLista).getValor());
-        System.out.println(contadorLista);
+        //System.out.println(listaTokens.get(contadorLista).getValor());
+        //System.out.println(contadorLista);
         if (listaTokens.get(contadorLista).getToken().equals("Identificador")) {
             if (listaTokens.get(contadorLista + 1).getToken().equals("OperadorSuma")
                     || listaTokens.get(contadorLista + 1).getToken().equals("OperadorResta")
@@ -378,10 +378,10 @@ public class analizadorSintactico {
                     if (listaTokens.get(contadorLista + 3).getToken().equals("Delimitador")) {
                         //listaSimbolos.add(new listaSimbolos(listaTokens.get(contadorLista + 2).getToken(), listaTokens.get(contadorLista + 2).getValor(), listaTokens.get(contadorLista + 1).getValor(), listaTokens.get(contadorLista + 4).getValor(), "", listaTokens.get(contadorLista).getLinea()));
                         contadorLista = contadorLista + 7;
-                        System.out.println("Declaracion de tipo 3 INT Correcto");
+                        //System.out.println("Declaracion de tipo 3 INT Correcto");
                         return true;
                     } else {
-                        System.out.println("Hasta aqui errror");
+                        //System.out.println("Hasta aqui errror");
 
                     }
 
@@ -394,11 +394,11 @@ public class analizadorSintactico {
 
     //Al parecer esta lista la condición, ya que se ejecuta en el método Term()
     private String Exp() {
-        System.out.println("Entro a ver si es una Exp()");
+        //System.out.println("Entro a ver si es una Exp()");
         String resultadoDeTermino = Term(), resultadoDeExp = "", operadorSumatorio = "";
         if (!resultadoDeTermino.isEmpty()) {
-            System.out.println("Se espera un valor de suma o resta o regresa el valor y da: " + listaTokens.get(contadorLista).getToken()
-                    + " -> " + listaTokens.get(contadorLista).getValor());
+            //System.out.println("Se espera un valor de suma o resta o regresa el valor y da: " + listaTokens.get(contadorLista).getToken()
+            //        + " -> " + listaTokens.get(contadorLista).getValor());
             if (listaTokens.get(contadorLista).getToken().equals("OperadorSuma") || listaTokens.get(contadorLista).getToken().equals("OperadorResta")) {
                 operadorSumatorio = listaTokens.get(contadorLista).getValor();
                 contadorLista++;
@@ -419,31 +419,31 @@ public class analizadorSintactico {
     private String Term() {
         String resultadoDeFactor = "", resultadoDeTerm = "", operadorMultiplicativo = "";
         //Term -> Factor * Term | Factor / Term | Factor
-        System.out.println("Entro a ver si es un Term()");
+        //System.out.println("Entro a ver si es un Term()");
         if ((contadorLista + 2) < listaTokens.size()) {
             resultadoDeFactor = factor();
             if (!resultadoDeFactor.isEmpty()) {
-                System.out.println("Se espera una mul o div y se da: " + listaTokens.get(contadorLista).getToken() + " -> "
-                        + listaTokens.get(contadorLista).getValor());
+                //System.out.println("Se espera una mul o div y se da: " + listaTokens.get(contadorLista).getToken() + " -> "
+                //       + listaTokens.get(contadorLista).getValor());
                 if (listaTokens.get(contadorLista).getToken().equals("OperadorMultiplicacion")
                         || listaTokens.get(contadorLista).getToken().equals("OperadorDivision")) {
                     operadorMultiplicativo = listaTokens.get(contadorLista).getValor();
                     contadorLista++;
                     resultadoDeTerm = Term();
                     if (!resultadoDeTerm.isEmpty()) {
-                        listaSimbolos.add(new listaSimbolos("operacion", operadorMultiplicativo, resultadoDeFactor, resultadoDeTerm, "resultado" + valorIncremVariableTemp, listaTokens.get(contadorLista).getLinea()));
+                        listaSimbolos.add(new listaSimbolos("Operacion", operadorMultiplicativo, resultadoDeFactor, resultadoDeTerm, "resultado" + valorIncremVariableTemp, listaTokens.get(contadorLista).getLinea()));
                         valorIncremVariableTemp++;
                         return "resultado" + (valorIncremVariableTemp - 1);
                     }
                 }
-                System.out.println("Solo encontro un factor");
+                //System.out.println("Solo encontro un factor");
                 //contadorLista++;
                 return resultadoDeFactor;
             }
         } else if ((contadorLista + 1) < listaTokens.size()) {
             resultadoDeFactor = factor();
             if (!resultadoDeFactor.isEmpty()) {
-                System.out.println("Solo encontro un factor");
+                //System.out.println("Solo encontro un factor");
                 return resultadoDeFactor;
             }
         }
@@ -453,24 +453,24 @@ public class analizadorSintactico {
     //Por el momento solo identifica a un identifiador o un dígito
     private String factor() {
         //Factor -> digito | identificador | (Exp)
-        System.out.println("Entro a ver si es un factor()");
+        //System.out.println("Entro a ver si es un factor()");
 
         if ((contadorLista + 1) < listaTokens.size()) {
             String Identificador = "";
-            System.out.println("Se espera un identificador o numero y se da: " + listaTokens.get(contadorLista).getToken() + " -> " + listaTokens.get(contadorLista).getValor());
+            //System.out.println("Se espera un identificador o numero y se da: " + listaTokens.get(contadorLista).getToken() + " -> " + listaTokens.get(contadorLista).getValor());
             if (listaTokens.get(contadorLista).getToken().equals("Identificador")) {
                 Identificador = listaTokens.get(contadorLista).getValor();
                 contadorLista++;
-                System.out.println("identificador encontrado");
+                //System.out.println("identificador encontrado");
                 return Identificador;
             } else if (listaTokens.get(contadorLista).getToken().equals("NumeroDecimal") || listaTokens.get(contadorLista).getToken().equals("NumeroEntero")) {
                 Identificador = listaTokens.get(contadorLista).getValor();
                 contadorLista++;
-                System.out.println("Numero encontrado");
+                //System.out.println("Numero encontrado");
                 return Identificador;
             }
         }
-        System.out.println("Salio de factor por falta de tokens");
+        //System.out.println("Salio de factor por falta de tokens");
         return "";
     }
 
@@ -785,5 +785,3 @@ public class analizadorSintactico {
     }
 
 }
-
-
