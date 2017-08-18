@@ -13,6 +13,7 @@ public class GeneracionCodigoIntermedio {
     //Guarda el nombre de las variable que se guardan en la section.data
     ArrayList<String> listaDeImpresion;
     //Contador que lleva el apuntador de la lista de impresiones
+    ArrayList<String> listaDeIdentificadores;
     private int contadorListaImpresion;
     //Cadena de texto que guarda el código intermedio
     private String cadena = "";
@@ -22,6 +23,8 @@ public class GeneracionCodigoIntermedio {
         this.listaSimbolos = lista;
         //inicializa la lista donde se guardan las posibles impresiones
         listaDeImpresion = new ArrayList<>();
+        //
+        listaDeIdentificadores = new ArrayList<>();
         //Inicializa el contador de la lista de impresiones
         contadorListaImpresion = 0;
     }
@@ -69,7 +72,7 @@ public class GeneracionCodigoIntermedio {
         if ((LetraInicioTipoDato + "").equals("r")) {
             cadena = cadena + "\tmov \tecx, eax\n";
         } else {
-            cadena = cadena + "\tmov \tecx, " + listaSimbolos.get(indice).getTipoDeDato() + "\n";
+            cadena = cadena + "\tmov \teax, " + listaSimbolos.get(indice).getTipoDeDato() + "\n";
         }
 
         if ((LetraInicioValor + "").equals("r")) {
@@ -178,15 +181,18 @@ public class GeneracionCodigoIntermedio {
         contadorListaImpresion++;
     }
 
-    //
+    //Busca las impresiones para guardar en la Section.data, así como variables
     private void impresiones() {
 
-        cadena = "%include \'funciones.asm\'\n"
+        cadena = "%include \'functions.asm\'\n"
                 + "SECTION .data\n\n";
         for (int i = 0; i < listaSimbolos.size(); i++) {
             if (listaSimbolos.get(i).getClase().equals("Impresion")) {
                 cadena = cadena + ("impresion" + i + "      db      \'") + listaSimbolos.get(i).getValor() + " \', 0Ah, 0h\n";
                 listaDeImpresion.add("impresion" + i);
+            } else if (listaSimbolos.get(i).getClase().equals("Identificador")) {
+                cadena = cadena + (listaSimbolos.get(i).getNombreValor() + "\tdb \t") + listaSimbolos.get(i).getValor() + "h\n";
+                
             }
         }
 
