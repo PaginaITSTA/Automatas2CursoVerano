@@ -191,8 +191,11 @@ public class GeneracionCodigoIntermedio {
                 cadena = cadena + ("impresion" + i + "      db      \'") + listaSimbolos.get(i).getValor() + " \', 0Ah, 0h\n";
                 listaDeImpresion.add("impresion" + i);
             } else if (listaSimbolos.get(i).getClase().equals("Identificador")) {
-                cadena = cadena + (listaSimbolos.get(i).getNombreValor() + "\tdb \t") + listaSimbolos.get(i).getValor() + "h\n";
-                
+                if (listaSimbolos.get(i).getTipoDeDato().equals("Boolean")) {
+                    cadena = cadena + (listaSimbolos.get(i).getNombreValor() + "\tdb \t\'") + listaSimbolos.get(i).getValor() + "\'\n";
+                } else {
+                    cadena = cadena + (listaSimbolos.get(i).getNombreValor() + "\tdb \t") + listaSimbolos.get(i).getValor() + "h\n";
+                }
             }
         }
 
