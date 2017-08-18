@@ -1,10 +1,9 @@
 public class prueba{
 	Int a = 10$
 	Int b = 5$
-	Int c$
 
 	public ejemplo(){
-		if (c >= 10){
+		if (b >= 10){
 			Print("C Es Mayor")$
 		}
 	}

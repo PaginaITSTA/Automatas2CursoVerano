@@ -1,10 +1,9 @@
 public class prueba{
 	Int a = 10$
 	Int b = 5$
-	Int c$
 
 	public ejemplo(){
-		if (c + 2 * 3 >= ultimo + 10 * primero){
+		if (b + 2 * 3 >= a + 10 * b){
 			Print("C Es Mayor")$
 		}
 	}

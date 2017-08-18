@@ -3,7 +3,7 @@ public class prueba{
 	Int b = 5$
 	Int c$
 
-	float d = 3.1 $
+	float d = 3$
 	Boolean e = true $
 	Boolean f $
 }
